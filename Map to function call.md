@@ -1,0 +1,123 @@
+
+https://discourse.llvm.org/t/mlir-how-do-i-link-an-external-c-function-for-an-operation-in-an-mlir-file/1821/2
+
+```cpp
+LogicalResult mlir::linalg::LinalgOpToLibraryCallRewrite::matchAndRewrite(
+    LinalgOp op, PatternRewriter &rewriter) const {
+  auto libraryCallName = getLibraryCallSymbolRef(op, rewriter);
+  if (failed(libraryCallName))
+    return failure();
+
+  // TODO: Add support for more complex library call signatures that include
+  // indices or captured values.
+  rewriter.replaceOpWithNewOp<func::CallOp>(
+      op, libraryCallName->getValue(), TypeRange(),
+      createTypeCanonicalizedMemRefOperands(rewriter, op->getLoc(),
+                                            op->getOperands()));
+  return success();
+}
+```
+
+```cpp
+static FailureOr<FlatSymbolRefAttr>
+getLibraryCallSymbolRef(Operation *op, PatternRewriter &rewriter) {
+  auto linalgOp = cast<LinalgOp>(op);
+  auto fnName = linalgOp.getLibraryCallName();
+  if (fnName.empty())
+    return rewriter.notifyMatchFailure(op, "No library call defined for: ");
+
+  // fnName is a dynamic std::string, unique it via a SymbolRefAttr.
+  FlatSymbolRefAttr fnNameAttr =
+      SymbolRefAttr::get(rewriter.getContext(), fnName);
+  auto module = op->getParentOfType<ModuleOp>();
+  if (module.lookupSymbol(fnNameAttr.getAttr()))
+    return fnNameAttr;
+
+  SmallVector<Type, 4> inputTypes(extractOperandTypes(op));
+  if (op->getNumResults() != 0) {
+    return rewriter.notifyMatchFailure(
+        op,
+        "Library call for linalg operation can be generated only for ops that "
+        "have void return types");
+  }
+  auto libFnType = rewriter.getFunctionType(inputTypes, {});
+
+  OpBuilder::InsertionGuard guard(rewriter);
+  // Insert before module terminator.
+  rewriter.setInsertionPoint(module.getBody(),
+                             std::prev(module.getBody()->end()));
+  func::FuncOp funcOp = rewriter.create<func::FuncOp>(
+      op->getLoc(), fnNameAttr.getValue(), libFnType);
+  // Insert a function attribute that will trigger the emission of the
+  // corresponding `_mlir_ciface_xxx` interface so that external libraries see
+  // a normalized ABI. This interface is added during std to llvm conversion.
+  funcOp->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
+                  UnitAttr::get(op->getContext()));
+  funcOp.setPrivate();
+  return fnNameAttr;
+}
+```
+
+```cpp
+std::string mlir::linalg::generateLibraryCallName(Operation *op) {
+  assert(isa<LinalgOp>(op));
+  std::string name(op->getName().getStringRef().str());
+  std::string fun = "";
+  for (NamedAttribute kv : op->getAttrs()) {
+    if (UnaryFnAttr ufa = llvm::dyn_cast<UnaryFnAttr>(kv.getValue())) {
+      fun = stringifyEnum(ufa.getValue()).str() + "_";
+    } else if (BinaryFnAttr bfa = llvm::dyn_cast<BinaryFnAttr>(kv.getValue())) {
+      fun = stringifyEnum(bfa.getValue()).str() + "_";
+    }
+  }
+  name.reserve(128);
+  std::replace(name.begin(), name.end(), '.', '_');
+  llvm::raw_string_ostream ss(name);
+  ss << "_" << fun;
+  for (Type t : op->getOperandTypes()) {
+    if (failed(appendMangledType(ss, t)))
+      return std::string();
+    ss << "_";
+  }
+  std::string res = ss.str();
+  res.pop_back();
+  return res;
+}
+```
+
+Chat implementation
+```cpp
+#include "mlir/IR/Function.h"
+#include "mlir/IR/Types.h"
+#include "llvm/ADT/SmallString.h"
+#include "llvm/Support/raw_ostream.h"
+
+std::string mangleFunctionName(mlir::FunctionType funcType, llvm::StringRef funcName) {
+    llvm::SmallString<64> mangledName("_Z");
+    mangledName.append(std::to_string(funcName.size()));
+    mangledName.append(funcName);
+
+    for (auto inputType : funcType.getInputs()) {
+        if (inputType.isInteger(32)) {
+            mangledName.append("i");
+        } else if (inputType.isF32()) {
+            mangledName.append("f");
+        }
+        // Add more types as needed...
+    }
+
+    // Add return type encoding if necessary
+    auto returnType = funcType.getResult(0);
+    if (returnType.isVoid()) {
+        mangledName.append("v");
+    } else if (returnType.isInteger(32)) {
+        mangledName.append("i");
+    } else if (returnType.isF32()) {
+        mangledName.append("f");
+    }
+    // Add more types as needed...
+
+    return mangledName.str().str();
+}
+
+```
