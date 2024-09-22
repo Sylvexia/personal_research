@@ -11,15 +11,39 @@
             "id": "e3fcf5a52cfc9f34",
             "type": "leaf",
             "state": {
+              "type": "diff-view",
+              "state": {
+                "file": ".obsidian/workspace.json",
+                "staged": false
+              }
+            }
+          },
+          {
+            "id": "a1c216c25221677c",
+            "type": "leaf",
+            "state": {
               "type": "markdown",
               "state": {
-                "file": "9-23 Personal Research.md",
+                "file": "Adding Types in MLIR.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "f4b5b6d6eb6e5dac",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "conflict-files-obsidian-git.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -48,7 +72,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "name mang",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -81,7 +105,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 357.5
+    "width": 339.5026054382324
   },
   "right": {
     "id": "4575ce0ab9c3d90c",
@@ -97,7 +121,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "9-23 Personal Research.md",
+                "file": "conflict-files-obsidian-git.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +138,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "9-23 Personal Research.md",
+                "file": "conflict-files-obsidian-git.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "9-23 Personal Research.md"
+                "file": "conflict-files-obsidian-git.md"
               }
             }
           },
@@ -181,12 +205,15 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "e3fcf5a52cfc9f34",
+  "active": "f4b5b6d6eb6e5dac",
   "lastOpenFiles": [
+    "Adding Types in MLIR.md",
+    "conflict-files-obsidian-git.md",
+    "Compiling ONNX Neural Network Models Using MLIR.md",
+    "9-23 Personal Research.md",
     "Function Mapping.md",
     "Map to function call.md",
     "Posit Projects.md",
-    "9-23 Personal Research.md",
     "7-9  personal research.md",
     "ONNX spec.md",
     "9-17 Personal Research.md",
@@ -200,18 +227,15 @@
     "MLIR Attribute.md",
     "MLIR Tutorial.md",
     "C++ to Python Interfacer.md",
-    "Compiling ONNX Neural Network Models Using MLIR.md",
     "8-27 Personal Research.md",
     "8e4m3fn.md",
     "9-3 Personal Research.md",
-    "Adding Types in MLIR.md",
     "Posit Conversion.md",
     "Posit Spec.md",
     "Posit issue.md",
     "note image/Pasted image 20240903220907.png",
     "papers/QTorch.pdf",
     "LLVM_MLIR_TEST.md",
-    "Posit arithmetic implementation.md",
     "Untitled.canvas",
     "mnist_arith.txt",
     "Excalidraw/Posit_Architecture.excalidraw",
