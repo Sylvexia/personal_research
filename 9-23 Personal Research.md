@@ -1,7 +1,12 @@
+# Summary
+
+- A lot of Posit implementation rely on keeping negative raw data as two's complement, and do another 2's complement back when doing arithmetic.
+
 # Posit
 
 - For Universal library. The color print has extra 2's complement only at the fraction part, in posit terminal tool, which cause it deviate from the posit standard.
-- If it's negative, the whole raw bit would be real 2's complement. When `decode()` that for posit arithmetic, it would `extract_fields()` and extract the sign, exponent, fraction. The negative would do another 2's complement back to it should be. (what the fuck?)
+- If it's negative, the whole raw bit would be real 2's complement. When `decode()` that for posit arithmetic, it would `extract_fields()` and extract the sign, exponent, fraction. The negative would do another 2's complement back to it should be.
+- A lot of increase implementation does not consider when carry over the exponential. This also happened in rounding when convert from the floating point to the posit.
 
 ```cpp
 int main() {
