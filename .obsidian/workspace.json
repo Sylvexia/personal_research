@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Function Mapping.md",
+                "file": "9-23 Personal Research.md",
                 "mode": "source",
                 "source": false
               }
@@ -97,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Function Mapping.md",
+                "file": "9-23 Personal Research.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +114,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Function Mapping.md",
+                "file": "9-23 Personal Research.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Function Mapping.md"
+                "file": "9-23 Personal Research.md"
               }
             }
           },
@@ -152,13 +152,21 @@
                 "searchQuery": ""
               }
             }
+          },
+          {
+            "id": "f356353e877cca46",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -175,13 +183,13 @@
   },
   "active": "e3fcf5a52cfc9f34",
   "lastOpenFiles": [
+    "9-17 Personal Research.md",
+    "9-23 Personal Research.md",
+    "Function Mapping.md",
     "Map to function call.md",
     "Posit Projects.md",
-    "9-23 Personal Research.md",
     "7-9  personal research.md",
     "ONNX spec.md",
-    "9-17 Personal Research.md",
-    "Function Mapping.md",
     "Quantize.md",
     "Untitled",
     "9-10 Personal Research.md",
