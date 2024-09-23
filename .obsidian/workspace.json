@@ -55,7 +55,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -134,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Map to function call.md",
+                "file": "9-23 Personal Research.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -151,7 +151,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Map to function call.md",
+                "file": "9-23 Personal Research.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -174,7 +174,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Map to function call.md"
+                "file": "9-23 Personal Research.md"
               }
             }
           },
@@ -219,8 +219,9 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "44bc47b9acd323b8",
+  "active": "f4b5b6d6eb6e5dac",
   "lastOpenFiles": [
+    "Map to function call.md",
     "Compiler-RT.md",
     "git note.md",
     "MLIR Attribute.md",
@@ -233,7 +234,6 @@
     "conflict-files-obsidian-git.md",
     "Compiling ONNX Neural Network Models Using MLIR.md",
     "Function Mapping.md",
-    "Map to function call.md",
     "7-9  personal research.md",
     "ONNX spec.md",
     "9-17 Personal Research.md",

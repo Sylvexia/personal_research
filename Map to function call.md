@@ -1,9 +1,17 @@
 
 https://discourse.llvm.org/t/mlir-how-do-i-link-an-external-c-function-for-an-operation-in-an-mlir-file/1821/2
 
+```cpp
+func.func @exp_caller(%float: f32, %double: f64) -> (f32, f64) {
+  %float_result = math.exp %float : f32
+  %double_result = math.exp %double : f64
+  return %float_result, %double_result : f32, f64
+}
+```
+
 `./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/MathToLibM/test.mlir --convert-custom-math-to-llvm`
 
-```
+```cpp
 module {
   func.func private @exp(f64) -> f64 attributes {llvm.readnone}
   func.func private @expf(f32) -> f32 attributes {llvm.readnone}
