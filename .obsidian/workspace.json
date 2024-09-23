@@ -41,9 +41,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "da6483c9a1ecfb70",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Compiler-RT.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -105,8 +117,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 339.5026054382324,
-    "collapsed": true
+    "width": 339.5026054382324
   },
   "right": {
     "id": "4575ce0ab9c3d90c",
@@ -122,7 +133,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "9-23 Personal Research.md",
+                "file": "Compiler-RT.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +150,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "9-23 Personal Research.md",
+                "file": "Compiler-RT.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +173,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "9-23 Personal Research.md"
+                "file": "Compiler-RT.md"
               }
             }
           },
@@ -207,12 +218,13 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "f4b5b6d6eb6e5dac",
+  "active": "da6483c9a1ecfb70",
   "lastOpenFiles": [
+    "9-23 Personal Research.md",
+    "Compiler-RT.md",
     "Adding Types in MLIR.md",
     "conflict-files-obsidian-git.md",
     "Compiling ONNX Neural Network Models Using MLIR.md",
-    "9-23 Personal Research.md",
     "Function Mapping.md",
     "Map to function call.md",
     "Posit Projects.md",
@@ -237,7 +249,6 @@
     "Posit issue.md",
     "note image/Pasted image 20240903220907.png",
     "papers/QTorch.pdf",
-    "LLVM_MLIR_TEST.md",
     "Untitled.canvas",
     "mnist_arith.txt",
     "Excalidraw/Posit_Architecture.excalidraw",
