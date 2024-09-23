@@ -1,6 +1,8 @@
 
 https://discourse.llvm.org/t/mlir-how-do-i-link-an-external-c-function-for-an-operation-in-an-mlir-file/1821/2
 
+`./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/MathToLibM/test.mlir --convert-custom-math-to-llvm`
+
 # onnx-mlir
 
 ```cpp
