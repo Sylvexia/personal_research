@@ -16,7 +16,11 @@
 	- I have a hard time try to program the posit dialect operation interface last week.
 - Key Technology first, currently too much speculation.
 	- Key concept of the project:
-		- Based on the type, mapping it's operation to {library call/arith}
+		- Based on the type, mapping it's operation to {library call/equivalent dialect operation}
+		- Goal:
+			- Posit type, universal {function call/arith dialect}.
+		- Currently:
+			- Float type, lib
 # Posit Converter
 
 ## Value Conversion
@@ -171,4 +175,3 @@ def onnx_attr_type_to_mlir_attr_type(t):
     # TODO: tensor and sparse tensor.
     return mlir_attr_type
 ```
-
