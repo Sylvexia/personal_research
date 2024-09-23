@@ -19,8 +19,11 @@
 		- Based on the type, mapping it's operation to {library call/equivalent dialect operation}
 		- Goal:
 			- Posit type, universal {function call/arith dialect}.
+		- Mid Goal:
+			- Float32 type, universal {function call}
 		- Currently:
-			- Float type, lib
+			- Float type, `libm`
+				- Hopefully I can lower it such that make it executable.
 # Posit Converter
 
 ## Value Conversion
@@ -116,9 +119,11 @@ res posit0b1.10.01.11011001101
 
 # quantize
 
-- quantize_weight
-- quantize_activation
+In `onnxruntime`, it's separated as these 2.
+- `quantize_weight`
+- `quantize_activation`
 
+Expected code path
 `__quantize_inputs` -> `quantize_initializer` ->`quantize_initializer_impl` -> `quantize_data` -> `quantize_nparray`
 
 1. optional segment embedding: ??
@@ -126,6 +131,12 @@ res posit0b1.10.01.11011001101
 	1. per-channel, standard
 3. elif Check tensor and not `initializer`
 4. elif parent
+5. ...
+
+There's a lot of edge case for quantize, coding through it may not work.
+The simplest way is to see what model actually has.
+
+
 
 # Posit Converter
 
