@@ -9,12 +9,14 @@
 		- which requires to get `MLIR` attribute right. 
 		- Then bridge the tablegen generation tool to have appropriate interface. 
 		- Implement the operator manually.
-	- Convert the initializer 
+	- Convert the initializer Probably trivial:
+		- Not all weight and bias 
 - The above requires a lot of works to do
 	- I still don't have idea how to get the posit interface right.
-	- I have a hard time try to program the posit dialect operation interface.
+	- I have a hard time try to program the posit dialect operation interface last week.
 - Key Technology first, currently too much speculation.
-	- Key concept of the project.
+	- Key concept of the project:
+		- Based on the type, mapping it's operation to {library call/arith}
 # Posit Converter
 
 ## Value Conversion
@@ -62,7 +64,7 @@ converted posit int32: 31744
 converted posit binary: 0b111110000000000
 ====================================
 ```
-# Posit
+# Posit Implementation
 
 - For Universal library. The color print has extra 2's complement only at the fraction part, in posit terminal tool, which cause it deviate from the posit standard.
 - If it's negative, the whole raw bit would be real 2's complement. When `decode()` that for posit arithmetic, it would `extract_fields()` and extract the sign, exponent, fraction. The negative would do another 2's complement back to it should be.
@@ -139,7 +141,10 @@ res posit0b1.10.01.11011001101
 
 Summary:
 - Need to implement mlir Attr
-- Hard to get the posit attribute right at mlir side e.g. `P8E0Attr`
+- Hard to get the posit attribute right at mlir side e.g. `P8E0Attr
+
+The following is the onnx-mlir tablegen generation tool code snippet:
+
 ```python
 def onnx_attr_type_to_mlir_attr_type(t):
     onnx_attr_type = Text(t)
