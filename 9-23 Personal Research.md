@@ -1,7 +1,6 @@
 # Summary
 
 - Complete float32 to any Posit on Python
-	- 
 - A lot of Posit implementation rely on keeping negative raw data as two's complement, and do another 2's complement back when doing arithmetic.
 
 # Posit
