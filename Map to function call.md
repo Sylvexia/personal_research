@@ -3,6 +3,18 @@ https://discourse.llvm.org/t/mlir-how-do-i-link-an-external-c-function-for-an-op
 
 `./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/MathToLibM/test.mlir --convert-custom-math-to-llvm`
 
+```
+module {
+  func.func private @exp(f64) -> f64 attributes {llvm.readnone}
+  func.func private @expf(f32) -> f32 attributes {llvm.readnone}
+  func.func @exp_caller(%arg0: f32, %arg1: f64) -> (f32, f64) {
+    %0 = call @expf(%arg0) : (f32) -> f32
+    %1 = call @exp(%arg1) : (f64) -> f64
+    return %0, %1 : f32, f64
+  }
+}
+```
+
 # onnx-mlir
 
 ```cpp
