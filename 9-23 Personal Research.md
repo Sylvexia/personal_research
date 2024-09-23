@@ -1,13 +1,73 @@
 # Summary
 
-- Complete float32 to any Posit on Python
+- Complete float32 to any Posit on Python part.
 - A lot of Posit implementation rely on keeping negative raw data as two's complement, and do another 2's complement back when doing arithmetic.
+- Implementing ONNX Posit converter
+	- Requirement:
+		- not only required to handle initializer (weight & bias)
+		- need to handle the input argument and more.
+		- which requires to get `MLIR` attribute right. 
+		- Then bridge the tablegen generation tool to have appropriate interface. 
+		- Implement the operator manually.
+	- Convert the initializer 
+- The above requires a lot of works to do
+	- I still don't have idea how to get the posit interface right.
+	- I have a hard time try to program the posit dialect operation interface.
+- Key Technology first, currently too much speculation.
+	- Key concept of the project.
+# Posit Converter
 
+## Value Conversion
+
+Probably complete:
+
+`def float32_to_posit(nbits: int, es: int, fval: float, scale: float = 1.0, saturate: bool = True) -> int:`
+
+`python test_float32_to_posit.py`
+
+```cpp
+====================================
+current float: 0.5
+binary: 0b111111000000000000000000000000
+nbits: 8, es: 0, scale: 1.0, saturate: True
+converted posit int32: 32
+converted posit binary: 0b100000
+====================================
+====================================
+current float: -32.5
+binary: 0b11000010000000100000000000000000
+nbits: 16, es: 1, scale: 1.0, saturate: True
+converted posit int32: 62480
+converted posit binary: 0b1111010000010000
+====================================
+====================================
+current float: -31.415926
+binary: 0b11000001111110110101001111010001
+nbits: 32, es: 2, scale: 1.0, saturate: True
+converted posit int32: 3822755464
+converted posit binary: 0b11100011110110101001111010001000
+====================================
+====================================
+current float: 69.42069
+binary: 0b1000010100010101101011101100101
+nbits: 32, es: 2, scale: 1.0, saturate: True
+converted posit int32: 1750514469
+converted posit binary: 0b1101000010101101011101100100101
+====================================
+====================================
+current float: 65535
+binary: 0b1000111011111111111111100000000
+nbits: 16, es: 2, scale: 1.0, saturate: True
+converted posit int32: 31744
+converted posit binary: 0b111110000000000
+====================================
+```
 # Posit
 
 - For Universal library. The color print has extra 2's complement only at the fraction part, in posit terminal tool, which cause it deviate from the posit standard.
 - If it's negative, the whole raw bit would be real 2's complement. When `decode()` that for posit arithmetic, it would `extract_fields()` and extract the sign, exponent, fraction. The negative would do another 2's complement back to it should be.
 - A lot of increase implementation does not consider when carry over the exponential. This also happened in rounding when convert from the floating point to the posit.
+	- say 10011111 -> 10001000
 
 ```cpp
 int main() {
@@ -78,7 +138,8 @@ res posit0b1.10.01.11011001101
 # ONNX-MLIR Frontend (Type Injection)
 
 Summary:
-Need to implement
+- Need to implement mlir Attr
+- Hard to get the posit attribute right at mlir side e.g. `P8E0Attr`
 ```python
 def onnx_attr_type_to_mlir_attr_type(t):
     onnx_attr_type = Text(t)
