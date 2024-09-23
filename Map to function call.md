@@ -1,6 +1,30 @@
 
 https://discourse.llvm.org/t/mlir-how-do-i-link-an-external-c-function-for-an-operation-in-an-mlir-file/1821/2
 
+# onnx-mlir
+
+```cpp
+  FlatSymbolRefAttr getOrInsertUnaryMathFunction(PatternRewriter &rewriter,
+      ModuleOp module, std::string mathFuncName, mlir::Type llvmInType,
+      mlir::Type llvmOutType) const {
+    auto *context = module.getContext();
+    if (module.lookupSymbol<LLVM::LLVMFuncOp>(mathFuncName))
+      return SymbolRefAttr::get(context, mathFuncName);
+
+    // Create function declaration.
+    // auto llvmF32Ty = FloatType::get(context);
+    auto llvmFnType = LLVM::LLVMFunctionType::get(
+        llvmOutType, ArrayRef<mlir::Type>({llvmInType}));
+
+    // Insert the unary math function into the body of the parent module.
+    PatternRewriter::InsertionGuard insertGuard(rewriter);
+    rewriter.setInsertionPointToStart(module.getBody());
+    rewriter.create<LLVM::LLVMFuncOp>(
+        module.getLoc(), mathFuncName, llvmFnType);
+    return SymbolRefAttr::get(context, mathFuncName);
+  }
+```
+# Linalg
 ```cpp
 LogicalResult mlir::linalg::LinalgOpToLibraryCallRewrite::matchAndRewrite(
     LinalgOp op, PatternRewriter &rewriter) const {

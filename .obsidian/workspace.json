@@ -117,7 +117,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 339.5026054382324
+    "width": 339.5026054382324,
+    "collapsed": true
   },
   "right": {
     "id": "4575ce0ab9c3d90c",
@@ -218,7 +219,7 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "da6483c9a1ecfb70",
+  "active": "44bc47b9acd323b8",
   "lastOpenFiles": [
     "Compiler-RT.md",
     "git note.md",
