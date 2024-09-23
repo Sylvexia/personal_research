@@ -1,3 +1,4 @@
+洪祐鈞
 # Summary
 
 - Complete float32 to any Posit on Python part.
@@ -10,7 +11,7 @@
 		- Then bridge the tablegen generation tool to have appropriate interface. 
 		- Implement the operator manually.
 	- Convert the initializer Probably trivial:
-		- Not all weight and bias 
+		- Not all float stored initializer, we need to adapt.
 - The above requires a lot of works to do
 	- I still don't have idea how to get the posit interface right.
 	- I have a hard time try to program the posit dialect operation interface last week.
@@ -33,6 +34,8 @@ Probably complete:
 `def float32_to_posit(nbits: int, es: int, fval: float, scale: float = 1.0, saturate: bool = True) -> int:`
 
 `python test_float32_to_posit.py`
+
+Output:
 
 ```cpp
 ====================================
@@ -133,11 +136,82 @@ Expected code path
 4. elif parent
 5. ...
 
-There's a lot of edge case for quantize, coding through it may not work.
-The simplest way is to see what model actually has.
+It's hard to solve the problem directly, so we trace from the solution.
+- There's a lot of edge case for quantize, coding through it may not work.
+- The simplest way is to see what model actually has.
 
+```json
+graph.initialzer
 
+{
+	"dims": [
+	  "32"
+	],
+	"dataType": 1,
+	"name": "conv1.bias",
+	"rawData": "1GqCvIwZtz77Jnc584ttvZG4dL2FD02+Noe7PhHiGD4tgAY/wQMDPmyZlT5RZqa+21uxvQHWr73Sca89hJ3yPseEjbyWVDG+y1dIvmkzSb6vwVY+LgtRPbEfh73r3Jw+IRYlPt00W74uQbY9NV2avaOIUr4POqU+QuyEvhzIf7o="
+}
+```
 
+```json
+graph.node:
+
+{
+	"input": [
+	  "/Reshape_output_0",
+	  "fc1.weight",
+	  "fc1.bias"
+	],
+	"output": [
+	  "/fc1/Gemm_output_0"
+	],
+	"name": "/fc1/Gemm",
+	"opType": "Gemm",
+	"attribute": [
+	  {
+		"name": "alpha",
+		"f": 1.0,
+		"type": "FLOAT"
+	  },
+	  {
+		"name": "beta",
+		"f": 1.0,
+		"type": "FLOAT"
+	  },
+	  {
+		"name": "transB",
+		"i": "1",
+		"type": "INT"
+	  }
+	],
+}
+```
+
+```json
+
+graph.node
+
+{
+	"output": [
+	  "/Constant_output_0"
+	],
+	"name": "/Constant",
+	"opType": "Constant",
+	"attribute": [
+	  {
+		"name": "value",
+		"t": {
+		  "dims": [
+			"2"
+		  ],
+		  "dataType": 7,
+		  "rawData": "//////////9ADAAAAAAAAA=="
+		},
+		"type": "TENSOR"
+	  }
+	],
+}
+```
 # Posit Converter
 
 - Original plan: modify `graph.initializer`  
@@ -150,7 +224,8 @@ The simplest way is to see what model actually has.
 				- alpha, beta
 					- scalar multiplier for `A*B`, C
 - Summary:
-	- Initializer is basically model weight and bias
+	- Initializer is basically model weight and bias.
+	- Not all float data stored in the initializer.
 
 # ONNX-MLIR Frontend (Type Injection)
 
@@ -186,3 +261,40 @@ def onnx_attr_type_to_mlir_attr_type(t):
     # TODO: tensor and sparse tensor.
     return mlir_attr_type
 ```
+
+# Map the libm
+
+- Summary:
+	- Kind of can lower math dialect to func dialect.
+		- Which may further lower to llvm.
+	- By doing this, it would make me learn how to do mlir conversion pass.
+		- register, match and rewrite, get the operation...
+	- Trying to make it runnable.
+		- If I can compile with -lm and get the output.
+		- Then if I have a posit wrapper:
+			- uint32 posit32_add(uint8 es, uint32 a, uint32 b)
+			- Map @posit32_add symbol and run it.
+
+```cpp
+func.func @exp_caller(%float: f32, %double: f64) -> (f32, f64) {
+  %float_result = math.exp %float : f32
+  %double_result = math.exp %double : f64
+  return %float_result, %double_result : f32, f64
+}
+```
+
+`./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/MathToLibM/test.mlir --convert-custom-math-to-llvm`
+
+```cpp
+module {
+  func.func private @exp(f64) -> f64 attributes {llvm.readnone}
+  func.func private @expf(f32) -> f32 attributes {llvm.readnone}
+  func.func @exp_caller(%arg0: f32, %arg1: f64) -> (f32, f64) {
+    %0 = call @expf(%arg0) : (f32) -> f32
+    %1 = call @exp(%arg1) : (f64) -> f64
+    return %0, %1 : f32, f64
+  }
+}
+```
+
+I don't know if this would actually works or...
