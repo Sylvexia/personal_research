@@ -23,6 +23,13 @@ module {
 }
 ```
 
+`./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/MathToLibM/test.mlir --convert-custom-math-to-func > func.mlir`
+
+`/home/sylvex/onnx_llvm/llvm-project/build/bin/mlir-opt func.mlir --convert-func-to-llvm > llvm.mlir`
+
+```cpp
+
+```
 # onnx-mlir
 
 ```cpp
