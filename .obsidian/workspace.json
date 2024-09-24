@@ -203,7 +203,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -220,8 +221,9 @@
   },
   "active": "f4b5b6d6eb6e5dac",
   "lastOpenFiles": [
-    "Map to function call.md",
+    "9-10 Personal Research.md",
     "9-23 Personal Research.md",
+    "Map to function call.md",
     "Compiler-RT.md",
     "git note.md",
     "MLIR Attribute.md",
@@ -238,7 +240,6 @@
     "9-17 Personal Research.md",
     "Quantize.md",
     "Untitled",
-    "9-10 Personal Research.md",
     "ONNX-nuance.md",
     "ONNX-MLIR.md",
     "C++ to Python Interfacer.md",
