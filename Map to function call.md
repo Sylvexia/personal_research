@@ -154,3 +154,5 @@ std::string mlir::linalg::generateLibraryCallName(Operation *op) {
 [Call native c function from MLIR](https://gist.github.com/dmitriykovalev/c9100bd12a986b50bb404cd1086814d6)
 
 [Polygeist Issue](https://github.com/llvm/Polygeist/issues/285)
+
+[Get symbol name](https://github.com/llvm/Polygeist/issues/235)
