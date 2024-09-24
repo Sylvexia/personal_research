@@ -25,6 +25,10 @@
 		- Currently:
 			- Float type, `libm`
 				- Hopefully I can lower it such that make it executable.
+		- Note: 
+			- This means there would not be posit model here. We only convert float one by one to posit arithmetic.
+- Million Dollar Question
+	- If I have a symbol in LLVM/MLIR, how do I link to the external library?
 # Posit Converter
 
 ## Value Conversion
