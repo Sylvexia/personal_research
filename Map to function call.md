@@ -28,8 +28,21 @@ module {
 `/home/sylvex/onnx_llvm/llvm-project/build/bin/mlir-opt func.mlir --convert-func-to-llvm > llvm.mlir`
 
 ```cpp
-
+module {
+  llvm.func @exp(f64) -> f64 attributes {memory = #llvm.memory_effects<other = none, argMem = none, inaccessibleMem = none>, sym_visibility = "private"}
+  llvm.func @expf(f32) -> f32 attributes {memory = #llvm.memory_effects<other = none, argMem = none, inaccessibleMem = none>, sym_visibility = "private"}
+  llvm.func @exp_caller(%arg0: f32, %arg1: f64) -> !llvm.struct<(f32, f64)> {
+    %0 = llvm.call @expf(%arg0) : (f32) -> f32
+    %1 = llvm.call @exp(%arg1) : (f64) -> f64
+    %2 = llvm.mlir.undef : !llvm.struct<(f32, f64)>
+    %3 = llvm.insertvalue %0, %2[0] : !llvm.struct<(f32, f64)>
+    %4 = llvm.insertvalue %1, %3[1] : !llvm.struct<(f32, f64)>
+    llvm.return %4 : !llvm.struct<(f32, f64)>
+  }
+}
 ```
+
+
 # onnx-mlir
 
 ```cpp
