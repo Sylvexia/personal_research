@@ -287,7 +287,7 @@ func.func @exp_caller(%float: f32, %double: f64) -> (f32, f64) {
 }
 ```
 
-`./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/MathToLibM/test.mlir --convert-custom-math-to-llvm`
+`./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/MathToLibM/test.mlir --convert-custom-math-to-func`
 
 ```cpp
 module {
