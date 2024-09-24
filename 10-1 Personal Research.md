@@ -5,4 +5,4 @@ Task:
 3. What is extern C? or how to create a c wrapper around C++?
 4. How to get the symbol string of a library?
 
-1. How to implement a pass? For tablegen, 
+1. How to implement a pass? For tablegen, how do i know what to implement.
