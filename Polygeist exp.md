@@ -167,3 +167,12 @@ attributes #0 = { nocallback nofree nosync nounwind speculatable willreturn memo
 !0 = !{i32 2, !"Debug Info Version", i32 3}
 
 ```
+
+`llc --filetype=obj --relocation-model=pic test.ll -o test.o`
+`bin/clang -lm test.o -o test.exe`
+`./test`
+
+output: `204.383882`
+
+
+
