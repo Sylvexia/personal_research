@@ -217,3 +217,12 @@ if no declare `llvm.func @exp(%arg0: f64) -> f64`
 test_mod.mlir:9:10: error: 'llvm.call' op 'exp' does not reference a symbol in the current scope
     %4 = llvm.call @exp(%0) : (f64) -> f64
 ```
+
+# Conclusion
+
+if in mlir, there's 
+`llvm.func @exp(%arg0: f64) -> f64` declaration
+and then
+`%4 = llvm.call @exp(%0) : (f64) -> f64`
+with the -lm
+you can invoke the exp function in libm
