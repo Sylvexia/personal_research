@@ -8,7 +8,6 @@ Task:
 	1. See universal library
 4. How to get the symbol string of a library?
 	1. c should be the same
-		1. need verify
 
 6. How to implement a pass? For tablegen, how do i know what to implement.
 	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
