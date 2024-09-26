@@ -126,7 +126,7 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
 
 ```
 
-
+`bin/mlir-translate -mlir-to-llvmir test.mlir -o test.ll`
 
 ```
 ; ModuleID = 'LLVMDialectModule'
