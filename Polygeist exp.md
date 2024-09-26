@@ -40,3 +40,26 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<f16, dense<16> : 
   }
 }
 ```
+
+
+input:
+
+```cpp
+#include <math.h>
+#include <stdio.h>
+
+double cal_exp(double x)
+{
+    return exp(x);
+}
+
+int main()
+{
+    printf("%lf", cal_exp(5.32));
+}
+
+```
+
+command:
+
+`bin/cgeist -v -S -g -O0 -memref-abi=0 -lm ../test/test.c > test.mlir`
