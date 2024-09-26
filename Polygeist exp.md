@@ -177,6 +177,4 @@ output: `204.383882`
 
 ## exp: modify llvm dialect directly
 
-
-
-
+`bin/mlir-translate -mlir-to-llvmir test_mod.mlir -o test_mod.ll`
