@@ -22,6 +22,8 @@ double cal_exp(double x)
 
 command:
 
+`bin/cgeist -v -S -g -O0 -memref-abi=0 -lm ../test/test.c > test.mlir`
+
 output:
 
 ```cpp
