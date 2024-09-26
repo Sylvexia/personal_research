@@ -93,3 +93,77 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<f80, dense<128> :
 
 ```
 
+emit llvm-dialect:
+
+command:
+
+`bin/cgeist -v -S -g -O0 -memref-abi=0 -lm -emit-llvm-dialect ../test/test.c > test.mlir`
+
+```cpp
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>, #dlti.dl_entry<"dlti.endianness", "little">>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  llvm.mlir.global internal constant @str0("%lf\00") {addr_space = 0 : i32}
+  llvm.func @printf(!llvm.ptr, ...) -> i32
+  llvm.func @cal_exp(%arg0: f64) -> f64 {
+    %0 = llvm.mlir.constant(1 : i64) : i64
+    %1 = llvm.alloca %0 x f64 : (i64) -> !llvm.ptr
+    %2 = llvm.mlir.undef : f64
+    llvm.store %2, %1 : f64, !llvm.ptr
+    llvm.store %arg0, %1 : f64, !llvm.ptr
+    %3 = llvm.load %1 : !llvm.ptr -> f64
+    %4 = llvm.intr.exp(%3)  : (f64) -> f64
+    llvm.return %4 : f64
+  }
+  llvm.func @main() -> i32 {
+    %0 = llvm.mlir.constant(5.320000e+00 : f64) : f64
+    %1 = llvm.mlir.undef : i32
+    %2 = llvm.mlir.addressof @str0 : !llvm.ptr
+    %3 = llvm.getelementptr %2[0, 0] : (!llvm.ptr) -> !llvm.ptr, !llvm.array<4 x i8>
+    %4 = llvm.call @cal_exp(%0) : (f64) -> f64
+    %5 = llvm.call @printf(%3, %4) vararg(!llvm.func<i32 (ptr, ...)>) : (!llvm.ptr, f64) -> i32
+    llvm.return %1 : i32
+  }
+}
+
+```
+
+
+
+```
+; ModuleID = 'LLVMDialectModule'
+source_filename = "LLVMDialectModule"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+@str0 = internal constant [4 x i8] c"%lf\00"
+
+declare ptr @malloc(i64)
+
+declare void @free(ptr)
+
+declare i32 @printf(ptr, ...)
+
+define double @cal_exp(double %0) {
+  %2 = alloca double, i64 1, align 8
+  store double undef, ptr %2, align 8
+  store double %0, ptr %2, align 8
+  %3 = load double, ptr %2, align 8
+  %4 = call double @llvm.exp.f64(double %3)
+  ret double %4
+}
+
+define i32 @main() {
+  %1 = call double @cal_exp(double 5.320000e+00)
+  %2 = call i32 (ptr, ...) @printf(ptr @str0, double %1)
+  ret i32 undef
+}
+
+; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
+declare double @llvm.exp.f64(double) #0
+
+attributes #0 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+
+!llvm.module.flags = !{!0}
+
+!0 = !{i32 2, !"Debug Info Version", i32 3}
+
+```
