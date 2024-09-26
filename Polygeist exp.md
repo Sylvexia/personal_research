@@ -203,6 +203,9 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
 `bin/clang -lm test_mod.o -o test_mod.exe`
 `./test_mod.exe`
 
+output:
+`204.383882`
+
 if no -lm, clang compiler would 
 ```bash
 /usr/bin/ld: test_mod.o: in function `main':
