@@ -65,3 +65,14 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
 
 output: 992.274716
 
+# MLIR func mapping
+
+Declaration:
+
+```cpp
+auto opFunctionTy = FunctionType::get(
+	rewriter.getContext(), op->getOperandTypes(), op->getResultTypes());
+opFunc = rewriter.create<func::FuncOp>(
+	rewriter.getUnknownLoc(), name, opFunctionTy);
+```
+
