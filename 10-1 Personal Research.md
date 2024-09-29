@@ -76,3 +76,16 @@ opFunc = rewriter.create<func::FuncOp>(
 	rewriter.getUnknownLoc(), name, opFunctionTy);
 ```
 
+Oh no, errors!
+
+`./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir --convert-arith-to-posit-func`
+
+```bash
+/home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir:2:8: error: failed to materialize conversion for result #0 of operation 'arith.addf' that remained live after conversion
+  %0 = arith.addf %arg0, %arg1 : f32
+       ^
+/home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir:2:8: note: see current operation: %1 = "arith.addf"(%arg0, %arg1) <{fastmath = #arith.fastmath<none>}> : (f32, f32) -> f32
+/home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir:3:3: note: see existing live user here: func.return %1 : f32
+  return %0 : f32
+  ^
+```
