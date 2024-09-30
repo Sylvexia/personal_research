@@ -22,10 +22,12 @@ Task:
 			- `bin/mlir-translate -mlir-to-llvmir test_mod.mlir -o test_mod.ll`
 			- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
 			- `bin/clang -lm test_mod.o -o test_mod.exe`
-		- We can ./test_mode.exe and get the output
+		- We can ./test_mode.exe and get the output, the experiment is as below.
 - For symbol name
 	- In C it's the same as function call.
-	- In C++ if there's class, namespace... 
+	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class.
+		- Unless you specify extern "C"
+	- In Universal number library.
 - For converting the 
 
 # Polygeist experiment to get lower c to link libm
