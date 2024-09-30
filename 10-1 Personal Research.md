@@ -38,7 +38,11 @@ Task:
 		- Now we can write a pass from `math` to `func`, and then use existing pass and tools, then we can goes from `math` dialect to `func`.
 			- How the pass works?
 				- Steps:
-					- 
+					- Create a pass class, 
+						- override the runOnOperation
+							- Create a lowering class and populate the 
+								- 
+							- Add legal and illegal
 - For symbol name
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
