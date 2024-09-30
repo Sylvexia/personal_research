@@ -25,7 +25,7 @@ Task:
 		- We can ./test_mode.exe and get the output, the experiment is as below.
 - For symbol name
 	- In C it's the same as function call.
-	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class.
+	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
 		- Unless you specify extern "C"
 	- In Universal number library.
 - For converting the 
