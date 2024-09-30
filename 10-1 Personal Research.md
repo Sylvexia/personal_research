@@ -20,7 +20,9 @@ Task:
 		- to `llvm` `IR`
 		- to executable and execute it.
 	- For `math` to `func` creation
-		- We need to know how to create `func` at `llvm` dialect. Then backtrack to `func` dialect.
+		- We need to know how to create `func` at `llvm` dialect. 
+			- Then backtrack to `func` dialect.
+		- We verify this in `Polygeist`, which convert C to `llvm` dialect.
 		- `llvm` `func` creation:
 			- If we can create the declaration, invoke and proper linking:
 				- Declaration: `llvm.func @exp(%arg0: f64) -> f64`
@@ -34,9 +36,12 @@ Task:
 - For symbol name
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
-		- Unless you specify extern "C"
+		- Unless you specify `extern "C"`
 - In Universal number library, it's mainly C++.
-	- There's C wrapper, but it's mostly macro and hard to get the 
+	- There's C wrapper, but it's mostly macro generated c function name, and hard to get the es value settings. (nbits and es is preset like (8, 0), (16, 1), (32, 2))
+	- We probably need to implement ourselves, I failed to see a way to modify the macro.
+	- Rough prototype:
+		- 
 - For converting the 
 - We need to convert
 
