@@ -37,8 +37,8 @@ Task:
 			- We can `./test_mode.exe` and get the output, the full experiment is as below.
 		- Now we can write a pass from `math` to `func`, and then use existing pass and tools, then we can goes from `math` dialect to `func`.
 			- How the pass works?
-			- Steps:
-				- 
+				- Steps:
+					- 
 - For symbol name
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
