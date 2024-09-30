@@ -1,9 +1,4 @@
 Task:
-3. What is extern C? or how to create a c wrapper around C++?
-	1. See universal library
-4. How to get the symbol string of a library?
-	1. c should be the same
-	2. nm
 5. How to implement a pass? For tablegen, how do i know what to implement.
 	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
 
@@ -30,6 +25,9 @@ Task:
 				- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
 				- `bin/clang -lm test_mod.o -o test_mod.exe`
 			- We can `./test_mode.exe` and get the output, the experiment is as below.
+		- Now we write a pass from math to func, and then use existing pass and tools 
+			- How the pass works?
+			- Steps:
 - For symbol name
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
@@ -38,7 +36,9 @@ Task:
 	- There's C wrapper, but it's mostly macro generated c function name, and hard to get the es value settings. (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2))
 	- We probably need to implement ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
-		- 
+		- asfkl
+		- use command nm to get the symbol name:
+- If the Posit Wrapper complete, our new goal is map floating 
 - For converting the 
 - We need to convert
 
