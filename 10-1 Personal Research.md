@@ -15,8 +15,8 @@ Task:
 		- The creation of `func` dialect
 		- How a conversion is written?
 - For `llvm` dialect, take invoking `exp` for example, 
-	- we can now:
-		- lower from math dialect 
+	- We can now:
+		- lower from `math` dialect 
 		- to `func` dialect 
 		- to `llvm` dialect 
 		- to `llvm` `IR`
