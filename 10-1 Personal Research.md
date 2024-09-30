@@ -34,11 +34,11 @@ Task:
 		- Unless you specify `extern "C"`
 - In Universal number library, it's mainly C++.
 	- There's C wrapper, but it's mostly macro generated c function name, and hard to get the es value settings. (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2))
-	- We probably need to implement ourselves, I failed to see a way to modify the macro.
+	- We probably need to implement wrapper ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
 		- asfkl
 		- use command nm to get the symbol name:
-- If the Posit Wrapper complete, our new goal is map floating 
+- If the Posit Wrapper complete, our new goal is map floating point operation to ffffffff
 - For converting the 
 - We need to convert
 
