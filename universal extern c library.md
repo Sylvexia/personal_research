@@ -68,6 +68,7 @@ OPERATION11(op_log, { return sw::universal::log<nbits, es>(a); });
 sqrt exp log is not implemented in posit, currently it cast to double in universal library.
 
 
+`nm libposit_c_api_custom.a`
 
 ```bash
 posit_c_api_custom.cpp.o:
