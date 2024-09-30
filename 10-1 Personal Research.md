@@ -12,17 +12,25 @@ Task:
 
 # Summary
 
-- For llvm dialect, take invoking `exp` for example, we can now lower from math dialect to func dialect to llvm dialect to llvm ir to executable.
-	- func dialect creation:
-		- If we can create the declaration, invoke and proper linking:
-			- Declaration: `llvm.func @exp(%arg0: f64) -> f64`
-			- Invoke: `%4 = llvm.call @exp(%0) : (f64) -> f64`
-			- Linking: Link the math for example.
-		- With: mlir-translate, llc and clang, we can convert to executable:
-			- `bin/mlir-translate -mlir-to-llvmir test_mod.mlir -o test_mod.ll`
-			- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
-			- `bin/clang -lm test_mod.o -o test_mod.exe`
-		- We can ./test_mode.exe and get the output, the experiment is as below.
+- For `llvm` dialect, take invoking `exp` for example, 
+	- we can now:
+		- lower from math dialect 
+		- to `func` dialect 
+		- to `llvm` dialect 
+		- to `llvm` `IR`
+		- to executable and execute it.
+	- For `math` to `func` creation
+		- We need to know how to create `func` at `llvm` dialect. Then backtrack to `func` dialect.
+		- `llvm` `func` creation:
+			- If we can create the declaration, invoke and proper linking:
+				- Declaration: `llvm.func @exp(%arg0: f64) -> f64`
+				- Invoke: `%4 = llvm.call @exp(%0) : (f64) -> f64`
+				- Linking: Link the math for example.
+			- With: `mlir-translate`, `llc` and `clang`, we can convert to executable:
+				- `bin/mlir-translate -mlir-to-llvmir test_mod.mlir -o test_mod.ll`
+				- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
+				- `bin/clang -lm test_mod.o -o test_mod.exe`
+			- We can `./test_mode.exe` and get the output, the experiment is as below.
 - For symbol name
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
@@ -30,6 +38,7 @@ Task:
 - In Universal number library, it's mainly C++.
 	- There's C wrapper, but it's mostly macro and hard to get the 
 - For converting the 
+- We need to convert
 
 # Polygeist experiment to get lower c to link libm
 
