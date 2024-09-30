@@ -9,7 +9,6 @@ Task:
 	2. nm
 5. How to implement a pass? For tablegen, how do i know what to implement.
 	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
-6. onnx @run_main_graph
 
 # Summary
 
@@ -21,6 +20,7 @@ Task:
 		- `bin/mlir-translate -mlir-to-llvmir test_mod.mlir -o test_mod.ll`
 		- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
 		- `bin/clang -lm test_mod.o -o test_mod.exe`
+- For converting the 
 
 # Polygeist experiment to get lower c to link libm
 
