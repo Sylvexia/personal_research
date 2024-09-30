@@ -27,7 +27,7 @@ Task:
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
 		- Unless you specify extern "C"
-	- In Universal number library.
+	- In Universal number library. It's 
 - For converting the 
 
 # Polygeist experiment to get lower c to link libm
