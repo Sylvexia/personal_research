@@ -1,14 +1,11 @@
 洪祐鈞/Sylvex Hung
-Task:
-5. How to implement a pass? For tablegen, how do i know what to implement.
-	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
 
 # Summary
 
 - What this week does, is basically
 	- We simulating process of existing math dialect to `func` dialect, simplify to our custom  implementation.
 	- Take existing c to lower to `llvm` dialect, to `llvm IR`, then link math library and get the executable. Which is able to execute.
-	- Then we combine the two to lower from `math` to `func` dialect, 
+	- Then we combine the two ideas above to lower from `math` to `func` dialect, then to executable.
 	- Take those as inspiration, we can see
 		- The rough end to end process. (linking, lowering...)
 		- The function symbol.
@@ -39,7 +36,7 @@ Task:
 			- How the pass works?
 				- Steps:
 					- Create a pass class, 
-						- override the runOnOperation
+						- override the `runOnOperation`
 							- Create a lowering class and populate the 
 								- 
 							- Add legal and illegal
@@ -89,6 +86,8 @@ Task:
 
 # Polygeist experiment to get lower c to link libm
 
+See the attached file:
+
 [[Polygeist exp]]
 
 For c lowering to mlir to llvm to executable.
@@ -96,6 +95,8 @@ For c lowering to mlir to llvm to executable.
 # From Math dialect to Func Dialect to LLVM dialect to LLVMIR to executable.
 
 `func_to_llvm.mlir`:
+
+How the following file get is just modify the previous executable LLVM Dialect, substitute exp function call back to math dialect, and remove the function declaration.
 
 ```cpp
 module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>, #dlti.dl_entry<"dlti.endianness", "little">>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
@@ -114,17 +115,22 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
 ```
 
 `/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir-opt /home/sylvex/onnx-mlir/src/math_to_llvm.mlir --convert-custom-math-to-func -o func_to_llvm.mlir -allow-unregistered-dialect`
-	Allow the unregistered dialect.
+	Allow the unregistered dialect. This is our pass `convert-custom-math-to-func` we implement.
 
 `/home/sylvex/Polygeist/build/bin/mlir-opt --convert-func-to-llvm func_to_llvm.mlir -o lowered.mlir`
+	 Existing tool `mlir-opt` in mlir project 
 
 `/home/sylvex/Polygeist/build/bin/mlir-translate -mlir-to-llvmir lowered.mlir -o lowered.ll`
+	Existing tool `mlir-translate` in mlir project
 
 `/home/sylvex/Polygeist/build/bin/llc --filetype=obj --relocation-model=pic lowered.ll -o lowered.o`
+	Existing tool `llc` in LLVM project
 
 `/home/sylvex/Polygeist/build/bin/clang -lm lowered.o -o lowered.exe`
+	Link the math library, compiled to single executable.
 
 `./lowered.exe`
+	Run the executable, we can now get the output
 
 output: 992.274716
 
