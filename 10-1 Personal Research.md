@@ -37,17 +37,18 @@ Task:
 		- (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2)) in the current wrapper.
 	- We probably need to implement wrapper ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
-		- use command nm to get the symbol name:
+		- Have created a function
+		- Use command nm to get the symbol name:
 			- `nm libposit_c_api_custom.a`
-				```bash
-				posit_c_api_custom.cpp.o:
+			    ```bash
+			    posit_c_api_custom.cpp.o:
 				...
 				0000000000000020 T posit8es0_add
 				...
 				0000000000000000 T sylv_test
 				...
-				```
-- If the Posit Wrapper complete, our new goal is map floating point operation to ffffffff
+			    ```
+- If the Posit Wrapper complete, our new goal is map floating point operation to functioncall
 - For converting the 
 - We need to convert
 
