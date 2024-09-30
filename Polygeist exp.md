@@ -1,11 +1,3 @@
-
-https://polygeist.llvm.org/getting_started/Use_Polygeist/
-
-compile with program
-https://github.com/llvm/Polygeist/issues/285
-
-note: I cannot get the main output the correct result.
-
 ## LLVM Dialect
 
 input:

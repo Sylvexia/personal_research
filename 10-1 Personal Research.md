@@ -95,8 +95,6 @@ For c lowering to mlir to llvm to executable.
 
 # From Math dialect to Func Dialect to LLVM dialect to LLVMIR to executable.
 
-Command
-
 `func_to_llvm.mlir`:
 
 ```cpp
