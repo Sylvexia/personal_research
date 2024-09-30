@@ -165,8 +165,6 @@ attributes #0 = { nocallback nofree nosync nounwind speculatable willreturn memo
 `./test`
 
 output: `204.383882`
-
-
 ## exp: modify llvm dialect directly
 
 add exp declare, remove custom exp_call
@@ -189,9 +187,9 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
 ```
 
 
-
 `bin/mlir-translate -mlir-to-llvmir test_mod.mlir -o test_mod.ll`
 `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
+
 `bin/clang -lm test_mod.o -o test_mod.exe`
 `./test_mod.exe`
 
@@ -212,9 +210,9 @@ test_mod.mlir:9:10: error: 'llvm.call' op 'exp' does not reference a symbol in t
 
 # Conclusion
 
-if in mlir, there's 
+if in `mlir`, there's 
 `llvm.func @exp(%arg0: f64) -> f64` declaration
 and then
 `%4 = llvm.call @exp(%0) : (f64) -> f64`
-with the -lm
-you can invoke the exp function in libm
+with the `-lm`
+you can invoke the exp function in `libm`

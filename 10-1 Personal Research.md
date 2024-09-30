@@ -88,8 +88,8 @@
 - If the Posit Wrapper complete
 	- Our current goal is map `f32` floating point operation to function call
 	- The next the next goal is to substitute the `f32` part as posit interface we will implement in the future.
-- For converting the 
-- We need to convert
+- For converting the `arith` to `func` dialect. Now is currently ongoing, failure is as below.
+	- We need to convert all the type touch by the `arith` operand and result, which is graph traversal.
 
 # Polygeist experiment 
 
@@ -97,11 +97,11 @@ Summary:
 - Utilize `Polygeist` project to get the `mlir` that can map to runnable executable.
 - End to end process to get symbol name, and how to link.
 
-See the attached file [[Polygeist exp]]
+See the attached file [[Polygeist experiment]]
 
 For c lowering to mlir to llvm to executable.
 
-# From Math dialect to Func Dialect to LLVM dialect to LLVMIR to executable.
+# From `Math` dialect to `Func` Dialect to `LLVM` dialect to `LLVMIR` to executable.
 
 `func_to_llvm.mlir`:
 
@@ -143,7 +143,7 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
 
 output: 992.274716
 
-# Map arith to Func dialect (failed)
+# Map `arith` to `func` dialect (failed)
 
 ```cpp
 func.func @test_arith(%arg0 : f32, %arg1 : f32) -> f32 {
@@ -172,4 +172,4 @@ Summary:
 	- It's a graph traversal problem.
 	- Potential workaround:
 		- Create a pass that traverse all the constant and make type conversion.
-		- Then
+		- Then map to the `func` dialect.
