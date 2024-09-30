@@ -33,7 +33,8 @@ Task:
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
 		- Unless you specify `extern "C"`
 - In Universal number library, it's mainly C++.
-	- There's C wrapper, but it's mostly macro generated c function name, and hard to get the es value settings. (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2))
+	- There's C wrapper, but it's mostly macro generated c function name, and hard modify the macro to set the es value settings. 
+		- (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2)) in the current wrapper.
 	- We probably need to implement wrapper ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
 		- asfkl
