@@ -37,9 +37,13 @@
 				- Steps:
 					- Create a pass class, 
 						- override the `runOnOperation`
-							- Create a lowering class and populate the 
-								- 
-							- Add legal and illegal
+							- Create a lowering class
+								- override matchandrewrite
+									- 
+							- Populate the operation.
+								- arith.exp...
+							- Add legal and illegal target dialect.
+							- Apply Conversion rule
 - For symbol name
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
