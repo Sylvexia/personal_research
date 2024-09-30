@@ -1,3 +1,4 @@
+洪祐鈞/Sylvex Hung
 Task:
 5. How to implement a pass? For tablegen, how do i know what to implement.
 	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
@@ -37,7 +38,11 @@ Task:
 		- (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2)) in the current wrapper.
 	- We probably need to implement wrapper ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
-		- Have created a function
+		- Have created a library, to see the mapped symbol, and test the result.
+			- Positive result is probably correct
+				- Negative result does not comply with posit standard since the negative input raw bits are 2's complement with the standard.
+				- We should 2's complement back to get the result correctly.
+					- WHY ALL POSIT LIBRARY I SEE IS LIKE THIS???? AHHHHHHH!
 		- Use command nm to get the symbol name:
 			- `nm libposit_c_api_custom.a`
 			    ```bash
@@ -48,7 +53,9 @@ Task:
 				0000000000000000 T sylv_test
 				...
 			    ```
-- If the Posit Wrapper complete, our new goal is map floating point operation to functioncall
+- If the Posit Wrapper complete
+	- Our current goal is map f32 floating point operation to function call
+	- The next the next goal is to substitute
 - For converting the 
 - We need to convert
 
