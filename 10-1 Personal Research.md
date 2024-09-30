@@ -45,13 +45,25 @@ Task:
 		- Unless you specify `extern "C"`
 - In Universal number library, it's mainly C++.
 	- There's C wrapper, but it's mostly macro generated c function name, and hard modify the macro to set the es value settings. 
-		- (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2)) in the current wrapper.
+		- (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2)) in the existing wrapper.
 	- We probably need to implement wrapper ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
 		- Have created a library, to see the mapped symbol, and test the result.
 			- Only implement add:
-				- 
-			- Positive result is probably correct
+				- Spec:
+					- `uint8_t posit8es0_add(uint8_t a, uint8_t b)`
+						- wrap the input unsigned type to `bitblock`
+						- `bitblock` to posit class
+						- do the operation and get the posit result
+						- get `bitblock` from posit class
+						- unwrap the `bitblock` to return unsigned type.
+				- Then MLIR side is trivial, we basically generate
+					- Symbol String:
+						- "posit" + `n_bits` + es + `es_val` + "__" + `OpString`
+					- And proper creation bit width unsigned type.
+					- Function mapping creation should be fine.
+						- Spoiler: create is not hard, but float `arith` to `func` is VERY DIFFICULT.
+			- Testing: Positive result is probably correct
 				- Negative result does not comply with posit standard since the negative input raw bits are 2's complement with the standard.
 				- We should 2's complement back to get the result correctly.
 					- WHY ALL POSIT LIBRARY I SEE IS LIKE THIS???? AHHHHHHH!
