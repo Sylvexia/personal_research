@@ -13,3 +13,7 @@ quant::UniformQuantizedType getUniformQuantizedType(Value v) {
       .cast<quant::UniformQuantizedType>();
 }
 ```
+
+AddLowering::LoweringINT8
+
+for operator respectively?
