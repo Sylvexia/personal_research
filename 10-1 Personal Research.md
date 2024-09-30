@@ -35,9 +35,10 @@ Task:
 				- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
 				- `bin/clang -lm test_mod.o -o test_mod.exe`
 			- We can `./test_mode.exe` and get the output, the full experiment is as below.
-		- Now we can write a pass from math to `func`, and then use existing pass and tools, then we can goes from math dialect to `func`.
+		- Now we can write a pass from `math` to `func`, and then use existing pass and tools, then we can goes from `math` dialect to `func`.
 			- How the pass works?
 			- Steps:
+				- 
 - For symbol name
 	- In C it's the same as function call.
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
@@ -48,6 +49,8 @@ Task:
 	- We probably need to implement wrapper ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
 		- Have created a library, to see the mapped symbol, and test the result.
+			- Only implement add:
+				- 
 			- Positive result is probably correct
 				- Negative result does not comply with posit standard since the negative input raw bits are 2's complement with the standard.
 				- We should 2's complement back to get the result correctly.
