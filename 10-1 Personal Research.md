@@ -80,15 +80,17 @@
 			    ```
 - If the Posit Wrapper complete
 	- Our current goal is map f32 floating point operation to function call
-	- The next the next goal is to substitute the f32 part as
+	- The next the next goal is to substitute the f32 part as posit interface we will implement in the future.
 - For converting the 
 - We need to convert
 
-# Polygeist experiment to get lower c to link libm
+# Polygeist experiment 
 
-See the attached file:
+Summary: 
+- Utilize `Polygeist` project to get the `mlir` that can map to runnable executable.
+- End to end process to get symbol name, and how to link.
 
-[[Polygeist exp]]
+See the attached file [[Polygeist exp]]
 
 For c lowering to mlir to llvm to executable.
 
@@ -134,15 +136,13 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
 
 output: 992.274716
 
-# MLIR func mapping
-
-Declaration:
+# Map arith to Func dialect (failed)
 
 ```cpp
-auto opFunctionTy = FunctionType::get(
-	rewriter.getContext(), op->getOperandTypes(), op->getResultTypes());
-opFunc = rewriter.create<func::FuncOp>(
-	rewriter.getUnknownLoc(), name, opFunctionTy);
+func.func @test_arith(%arg0 : f32, %arg1 : f32) -> f32 {
+  %0 = arith.addf %arg0, %arg1 : f32
+  return %0 : f32
+}
 ```
 
 Oh no, errors!
@@ -158,3 +158,11 @@ Oh no, errors!
   return %0 : f32
   ^
 ```
+
+Summary: 
+- The error occurred is because I only deal with `addf` operation itself
+- We need to also modify all result and operands that touch by `addf` operand.
+	- It's a graph traversal problem.
+	- Potential workaround:
+		- Create a pass that traverse all the constant and make type conversion.
+		- Then
