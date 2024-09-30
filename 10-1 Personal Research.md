@@ -1,7 +1,4 @@
 Task:
-1. func to llvm dialect to llvm ir and make it executable with libm
-	1. onnx-mlir-opt --convert-xxx-pass
-		1. Need to see the real mlir conversion
 3. What is extern C? or how to create a c wrapper around C++?
 	1. See universal library
 4. How to get the symbol string of a library?
@@ -38,7 +35,7 @@ Task:
 	- In C++ there's will have name mangling inevitably, since it must support function overloading, namespace, class...
 		- Unless you specify `extern "C"`
 - In Universal number library, it's mainly C++.
-	- There's C wrapper, but it's mostly macro generated c function name, and hard to get the es value settings. (nbits and es is preset like (8, 0), (16, 1), (32, 2))
+	- There's C wrapper, but it's mostly macro generated c function name, and hard to get the es value settings. (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2))
 	- We probably need to implement ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
 		- 
