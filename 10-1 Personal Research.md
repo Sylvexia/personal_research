@@ -38,10 +38,13 @@
 					- Create a pass class, 
 						- override the `runOnOperation`
 							- Create a lowering class
-								- override matchandrewrite
-									- 
+								- override `matchandrewrite`
+									- get symbol table
+									- look up symbol from symbol table
+									- if no declaration than create `func::funcop`
+									- replace op as `func::callop`
 							- Populate the operation.
-								- arith.exp...
+								- `arith.exp`...
 							- Add legal and illegal target dialect.
 							- Apply Conversion rule
 - For symbol name
