@@ -86,8 +86,8 @@
 				...
 			    ```
 - If the Posit Wrapper complete
-	- Our current goal is map f32 floating point operation to function call
-	- The next the next goal is to substitute the f32 part as posit interface we will implement in the future.
+	- Our current goal is map `f32` floating point operation to function call
+	- The next the next goal is to substitute the `f32` part as posit interface we will implement in the future.
 - For converting the 
 - We need to convert
 
