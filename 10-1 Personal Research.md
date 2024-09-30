@@ -24,7 +24,7 @@ Task:
 				- `bin/mlir-translate -mlir-to-llvmir test_mod.mlir -o test_mod.ll`
 				- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
 				- `bin/clang -lm test_mod.o -o test_mod.exe`
-			- We can `./test_mode.exe` and get the output, the experiment is as below.
+			- We can `./test_mode.exe` and get the output, the full experiment is as below.
 		- Now we write a pass from math to func, and then use existing pass and tools 
 			- How the pass works?
 			- Steps:
