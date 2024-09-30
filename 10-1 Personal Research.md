@@ -62,7 +62,7 @@ Task:
 						- "posit" + `n_bits` + es + `es_val` + "__" + `OpString`
 					- And proper creation bit width unsigned type.
 					- Function mapping creation should be fine.
-						- Spoiler: create is not hard, but float `arith` to `func` is VERY DIFFICULT.
+						- Spoiler: creation is not hard, but float `arith` to `func` conversion is VERY DIFFICULT.
 			- Testing: Positive result is probably correct
 				- Negative result does not comply with posit standard since the negative input raw bits are 2's complement with the standard.
 				- We should 2's complement back to get the result correctly.
