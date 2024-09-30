@@ -37,8 +37,8 @@ Task:
 		- (`nbits` and `es` is preset like (8, 0), (16, 1), (32, 2)) in the current wrapper.
 	- We probably need to implement wrapper ourselves, I failed to see a way to modify the macro.
 	- Rough prototype:
-		- asfkl
 		- use command nm to get the symbol name:
+			- 
 - If the Posit Wrapper complete, our new goal is map floating point operation to ffffffff
 - For converting the 
 - We need to convert
