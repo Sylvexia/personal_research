@@ -5,6 +5,15 @@ Task:
 
 # Summary
 
+- What this week does, is basically
+	- We simulating process of existing math dialect to `func` dialect, simplify to our custom  implementation.
+	- Take existing c to lower to `llvm` dialect, to `llvm IR`, then to link library and get the executable. Which is able to execute.
+	- Then we combine the two to lower from `math` to `func` dialect, 
+	- Take those as inspiration, we can see
+		- The rough end to end process. (linking, lowering...)
+		- The function symbol.
+		- The creation of `func` dialect
+		- How a conversion is written?
 - For `llvm` dialect, take invoking `exp` for example, 
 	- we can now:
 		- lower from math dialect 
@@ -26,7 +35,7 @@ Task:
 				- `llc --filetype=obj --relocation-model=pic test_mod.ll -o test_mod.o`
 				- `bin/clang -lm test_mod.o -o test_mod.exe`
 			- We can `./test_mode.exe` and get the output, the full experiment is as below.
-		- Now we write a pass from math to func, and then use existing pass and tools 
+		- Now we can write a pass from math to func, and then use existing pass and tools, then we can goes from math dialect to func.
 			- How the pass works?
 			- Steps:
 - For symbol name
