@@ -4,7 +4,11 @@ Task:
 5. How to implement a pass? For tablegen, how do i know what to implement.
 	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
 
-what is casting in mlir?
+what is casting in `mlir`?
+- When getting the operation
+	- For example, `AddOp` is derived from operation
+	- We cast the operation to decide if it's `AddOp`
+		- cast<>
 
 onnx @run_main_graph
 
