@@ -31,3 +31,5 @@ for operator respectively?
 
 get values from dense element
 https://discourse.llvm.org/t/using-mlir-getvalues-with-f16/3953/5
+
+Exp:
