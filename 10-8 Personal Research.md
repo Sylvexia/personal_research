@@ -22,3 +22,5 @@ quant::UniformQuantizedType getUniformQuantizedType(Value v) {
 AddLowering::LoweringINT8
 
 for operator respectively?
+
+get values from dense element
