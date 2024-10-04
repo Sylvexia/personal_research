@@ -68,5 +68,7 @@ struct ConvertAddFOpPattern : public OpConversionPattern<AddFOp> {
   }
 };
 ```
-# Convert all Arith::Const F32 to UINT32 (Failure)
+# Convert all Arith::Const F32 to UINT32
+
+https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite-patterns/
 
