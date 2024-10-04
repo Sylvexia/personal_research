@@ -72,3 +72,5 @@ struct ConvertAddFOpPattern : public OpConversionPattern<AddFOp> {
 
 https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite-patterns/
 
+-debug to list the pattern convert
+
