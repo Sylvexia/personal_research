@@ -39,10 +39,15 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 
 https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 
-# `Arith` to Posit Function Call experiment:
+# `Arith` to Posit Function Call lowering experiment:
 
-- Goal: Map `arith` Dialect to Posit Function Call
+- Goal: Lowering `arith` Dialect to Posit Function Call
 - Currently we only "proof of concept" the add and const operator for prototype
+	- Insight:
+		- Convert f32 to i32 for all `arith` operation.
+		- For Binary Operation
+		- For Constant
+			- Only 
 	- For Const Operation, we only implement proof of concept:
 		- We can extract raw bit of float from `APFloat` Class
 		- We simply Shift the raw bit to left for proof of concept
@@ -56,8 +61,9 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 			int64_t intValue = static_cast<int64_t>(floatBits >> 1);
 			```
 	- For Add Operation:
-		- Utilizing TypeConverter
-		- Api
+		- Generating the symbol name by `opName`, `nbits`, `es_val`
+		- API: Just register the following to pass to add Add operation lowering.
+			`populateConvertArithAddToPositFuncPattern(patterns, typeConverter, "add", 8, 0);`
 	- If we were to implement, Other operations should be like wise.
 	- Experiment result:
 		- Test Case:
