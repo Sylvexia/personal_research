@@ -138,8 +138,12 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 			- If both add input argument is constant, it would calculate for you and reduce the result as constant, hence there's no posit function call.
 				- Would this cause the result be incorrect for our use case?
 			- Multiple calls to a same function would have only one function declaration.
-	- Mistakes:
-		- When converting the 
+	- Mistakes and tips:
+		- When converting the operation, always remember of convert based on its operand and result instead of creating new.
+			- Or if might
+		- Remember to register the legal/illegal ops/dialect
+			- If has no materialization error but it still not converting, chances are you forget it.
+		- add `-debug` helps with log out the conversion process.
 - Future Works:
 	- Refactor the current implementation.
 	- Implement other operations in `mlir` for `MNIST` model
@@ -148,6 +152,19 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
 				- Like ternary operator, if true or false is float we need to convert it.
 	- Proof of correctness?
+		- `mlir-cpu-runner` testcase?
+			- reference command for pass pipeline:
+				```cpp
+				// RUN: mlir-opt %s \
+				// RUN:   -pass-pipeline="builtin.module( \
+				// RUN:      convert-math-to-funcs{convert-ctlz}, \
+				// RUN:      func.func(convert-scf-to-cf,convert-arith-to-llvm), \
+				// RUN:      convert-func-to-llvm, \
+				// RUN:      convert-cf-to-llvm, \
+				// RUN:      reconcile-unrealized-casts)" \
+				// RUN: | mlir-cpu-runner -e test_7i32_to_29 -entry-point-result=i32 > %t
+				// RUN: FileCheck %s --check-prefix=CHECK_TEST_7i32_TO_29 < %t
+				```
 	- Continue the works of universal library wrapper
 	- See how the quantize going in `tensorflow`.
 		- By seeing this we can be sure of the real implementation of type conversion and value mapping.
