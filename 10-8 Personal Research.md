@@ -148,7 +148,16 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 			  }
 			}
 			```
-- Currently we only support the add and const operator for prototype
-	- Other operator should be like wise.
+		- Observation & Insights
+			- If both add input argument is constant, it would calculate for you and reduce the result as constant, hence there's no posit function call.
+				- Would this cause the result be incorrect for our use case?
+			- Multiple calls to a same function would have only one fu
+- Currently we only partially support the add and const operator for prototype
+	- For Const Operation, we only have:
+		- We simply Shift the 
+	- 
+	- Other operations should be like wise.
+- Future Works:
+	- Implement operations
 # MLIR Conversion Concepts
 
