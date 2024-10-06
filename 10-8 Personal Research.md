@@ -2,12 +2,6 @@ Task:
 5. How to implement a pass? For tablegen, how do i know what to implement.
 	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
 
-what is casting in `mlir`?
-- When getting the operation
-	- For example, `AddOp` is derived from operation
-	- We cast the operation to decide if it's `AddOp`
-		- cast<>
-
 onnx @run_main_graph
 
 llvm
@@ -44,7 +38,7 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 - Goal: Lowering `arith` Dialect to Posit Function Call
 - Currently we only "proof of concept" the add and const operator for prototype
 	- Insight:
-		- Convert f32 to i32 for all `arith` float operation.
+		- Convert `f32` to `i32` for all `arith` float operation.
 		- For binary operation like `addf`, `mulf`, ...
 			- Map it to function symbol. e.g. `posit8es0_add`
 			- Need the declaration and call.
@@ -65,8 +59,10 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 	- For Add Operation:
 		- Generating the symbol name by `opName`, `nbits`, `es_val`
 		- API: Just register the following to pass to add Add operation lowering.
-			`populateConvertArithAddToPositFuncPattern(patterns, typeConverter, "add", 8, 0);`
-	- If we were to implement, Other operations should be like wise.
+			- `populateConvertArithAddToPositFuncPattern(patterns, typeConverter, "add", 8, 0);`
+			- Which would create `posit8es0_add` declaration and call.
+	- If we were to implement operations should be like wise.
+	- For return type issue like 
 	- Experiment result:
 		- Test Case:
 			```cpp
@@ -142,12 +138,10 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 			- If both add input argument is constant, it would calculate for you and reduce the result as constant, hence there's no posit function call.
 				- Would this cause the result be incorrect for our use case?
 			- Multiple calls to a same function would have only one function declaration
-
 - Future Works:
-	- Implement operations for `MNIST` model and make it runnable
+	- Implement other operations in `mlir` for `MNIST` model and make it runnable
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
 			- `select`: 
 				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
 				- Like ternary operator, if true or false is float we need to convert it.
-# MLIR Conversion Concepts
 
