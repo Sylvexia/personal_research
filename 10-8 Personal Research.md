@@ -1,26 +1,3 @@
-Task:
-5. How to implement a pass? For tablegen, how do i know what to implement.
-	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
-
-llvm
-quantizeFloatToInt
-
-tpu-mlir
-```cpp
-quant::UniformQuantizedType getUniformQuantizedType(Value v) {
-  return v.getType()
-      .cast<RankedTensorType>()
-      .getElementType()
-      .cast<quant::UniformQuantizedType>();
-}
-```
-
-# Convert all Arith::Const F32 to UINT32
-
-https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite-patterns/
-
--debug to list the pattern convert
-
 # `Arith` to Posit Function Call lowering experiment:
 
 - Goal: Lowering `arith` Dialect to Posit Function Call
