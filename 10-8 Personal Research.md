@@ -116,13 +116,13 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 		- Observation & Insights
 			- If both add input argument is constant, it would calculate for you and reduce the result as constant, hence there's no posit function call.
 				- Would this cause the result be incorrect for our use case?
-			- Multiple calls to a same function would have only one fu
-- Currently we only partially support the add and const operator for prototype
+			- Multiple calls to a same function would have only one function declaration
+- Currently we only "proof of concept" the add and const operator for prototype
 	- For Const Operation, we only implement proof of concept:
-		- We can extract
+		- We can extract raw bit of float from `APFloat` Class
 		- We simply Shift the raw bit to left 
 			- indicate that we can modify the number without issue.
-			- 
+			- in short term
 	- 
 	- Other operations should be like wise.
 - Future Works:
