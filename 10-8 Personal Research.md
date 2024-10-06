@@ -149,7 +149,7 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 - Future Works:
 	- Refactor the current implementation.
 	- Model constant is not all in `arith` const, mostly on `krnl.global`:
-		- This is assume
+		- This is assume that we lower before the `llvm-mlir`
 		- We need to lower custom `krnl.global` ourself.
 		- Example:
 			- `%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
