@@ -73,3 +73,11 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 -debug to list the pattern convert
 
 https://mlir.llvm.org/docs/DialectConversion/#type-conversion
+
+
+# Arith to Posit Function Call experiment:
+
+- Goal: Map Arith Dialect to Posit Function Call
+- Currently we only support the add and const operator, other operator should be like wise.
+# MLIR Conversion Concepts
+
