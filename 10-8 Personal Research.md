@@ -141,6 +141,7 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 				- Would this cause the result be incorrect for our use case?
 			- Multiple calls to a same function would have only one function declaration
 - Future Works:
+	- Refactor the current implementation.
 	- Implement other operations in `mlir` for `MNIST` model and make it runnable
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
 			- `select`: 
