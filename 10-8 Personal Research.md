@@ -46,9 +46,10 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 	- Insight:
 		- Convert f32 to i32 for all `arith` float operation.
 		- For binary operation like `addf`, `mulf`, ...
-			- 
+			- Map it to function symbol. e.g.
+			- Need the declaration and call.
 		- For Constant
-			- 
+			- Extract raw bit and make the raw bit fit into posit format.
 	- For Const Operation, we only implement proof of concept:
 		- We can extract raw bit of float from `APFloat` Class
 		- We simply Shift the raw bit to left for proof of concept
