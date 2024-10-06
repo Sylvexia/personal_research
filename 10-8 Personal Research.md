@@ -120,11 +120,17 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 - Currently we only "proof of concept" the add and const operator for prototype
 	- For Const Operation, we only implement proof of concept:
 		- We can extract raw bit of float from `APFloat` Class
+			- In short term goal, we would like to extract float raw bit and convert such that comply with "posit standard"
+				- Actually still nee
 		- We simply Shift the raw bit to left 
-			- indicate that we can modify the number without issue.
-			- in short term
-	- 
-	- Other operations should be like wise.
+			- Indicate that we can modify the number without issue.
+		- code:
+			```cpp
+			APFloat apFloat = floatAttr.getValue();
+			uint64_t floatBits = apFloat.bitcastToAPInt().getZExtValue();
+			int64_t intValue = static_cast<int64_t>(floatBits >> 1);
+			```
+	- If we were to implement, Other operations should be like wise.
 - Future Works:
 	- Implement operations for `MNIST` model and make it runnable
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
