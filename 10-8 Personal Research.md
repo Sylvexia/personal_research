@@ -74,3 +74,4 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 
 -debug to list the pattern convert
 
+https://mlir.llvm.org/docs/DialectConversion/#type-conversion
