@@ -31,41 +31,6 @@ get values from dense element
 https://discourse.llvm.org/t/using-mlir-getvalues-with-f16/3953/5
 
 opRewritePattern v.s opConversionPattern
-
-```cpp
-struct SimplifyAddFOpPattern : public OpRewritePattern<AddFOp> {
-  using OpRewritePattern::OpRewritePattern;
-
-  LogicalResult matchAndRewrite(AddFOp op, PatternRewriter &rewriter) const override {
-    // Assume we match some pattern and want to replace the operation.
-    Value lhs = op.getOperand(0);
-    Value rhs = op.getOperand(1);
-    Value newOp = rewriter.create<SomeOtherOp>(op.getLoc(), lhs, rhs);
-    rewriter.replaceOp(op, newOp.getResult());
-    return success();
-  }
-};
-```
-
-```cpp
-struct ConvertAddFOpPattern : public OpConversionPattern<AddFOp> {
-  using OpConversionPattern::OpConversionPattern;
-
-  LogicalResult matchAndRewrite(
-    AddFOp op, OpAdaptor adaptor, ConversionPatternRewriter &rewriter) const override {
-    
-    // Assume we're converting from floating-point to integer.
-    auto newType = rewriter.getIntegerType(32); // target type
-    Value lhs = adaptor.getOperands()[0]; // Converted operands
-    Value rhs = adaptor.getOperands()[1];
-
-    // Create a new integer add operation with the converted types.
-    Value newAdd = rewriter.create<SomeIntegerAddOp>(op.getLoc(), newType, lhs, rhs);
-    rewriter.replaceOp(op, newAdd);
-    return success();
-  }
-};
-```
 # Convert all Arith::Const F32 to UINT32
 
 https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite-patterns/
@@ -75,9 +40,9 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 
 
-# Arith to Posit Function Call experiment:
+# `Arith` to Posit Function Call experiment:
 
-- Goal: Map Arith Dialect to Posit Function Call
+- Goal: Map `arith` Dialect to Posit Function Call
 	- Example:
 		- Test Case:
 			```cpp
@@ -114,7 +79,8 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 			  return %0, %1 : f32, f32
 			}
 			```
-		- Command: `./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir --convert-arith-to-posit-func`
+		- Command: 
+			- `./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir --convert-arith-to-posit-func`
 		- Result:
 			```cpp
 			module {
@@ -153,11 +119,11 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 				- Would this cause the result be incorrect for our use case?
 			- Multiple calls to a same function would have only one fu
 - Currently we only partially support the add and const operator for prototype
-	- For Const Operation, we only have:
-		- We simply Shift the 
+	- For Const Operation, we only implement proof of concept:
+		- We simply Shift the raw bit to left to indicate that we can modify the number without issue.
 	- 
 	- Other operations should be like wise.
 - Future Works:
-	- Implement operations
+	- Implement operations for `MNIST` model and make it runnable
 # MLIR Conversion Concepts
 
