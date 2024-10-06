@@ -60,9 +60,11 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 			- `populateConvertArithAddToPositFuncPattern(patterns, typeConverter, "add", 8, 0);`
 			- Which would create `posit8es0_add` declaration and call.
 	- If we were to implement operations should be like wise.
-	- For return type materialization issue, currently it's a workaround I found in this tutorial:
-		- https://www.jeremykun.com/2023/10/23/mlir-dialect-conversion/
-		- Good tutorial by the way.
+	- For return type materialization issue from last report
+		- Currently it's a workaround I found in this tutorial:
+			- https://www.jeremykun.com/2023/10/23/mlir-dialect-conversion/
+			- Good tutorial by the way.
+		- I should see other's real codebase for reference.
 	- Experiment result:
 		- Test Case:
 			```cpp
@@ -144,4 +146,6 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 			- `select`: 
 				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
 				- Like ternary operator, if true or false is float we need to convert it.
+	- Continue the works of universal library wrapper
+	- See how the quantize going in `tensorflow`.
 
