@@ -2,8 +2,6 @@ Task:
 5. How to implement a pass? For tablegen, how do i know what to implement.
 	1. https://www.youtube.com/watch?v=UP-LBRbvI_U
 
-onnx @run_main_graph
-
 llvm
 quantizeFloatToInt
 
@@ -139,14 +137,19 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 		- Observation
 			- If both add input argument is constant, it would calculate for you and reduce the result as constant, hence there's no posit function call.
 				- Would this cause the result be incorrect for our use case?
-			- Multiple calls to a same function would have only one function declaration
+			- Multiple calls to a same function would have only one function declaration.
+	- Mistakes:
+		- When converting the 
 - Future Works:
 	- Refactor the current implementation.
-	- Implement other operations in `mlir` for `MNIST` model and make it runnable
+	- Implement other operations in `mlir` for `MNIST` model
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
 			- `select`: 
 				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
 				- Like ternary operator, if true or false is float we need to convert it.
+	- Proof of correctness?
 	- Continue the works of universal library wrapper
 	- See how the quantize going in `tensorflow`.
+		- By seeing this we can be sure of the real implementation of type conversion and value mapping.
+	- See how the `@run_main_graph` for entry point of a model get implemented.
 
