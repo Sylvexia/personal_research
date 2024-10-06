@@ -61,7 +61,8 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 			- Which would create `posit8es0_add` declaration and call.
 	- If we were to implement operations should be like wise.
 	- For return type materialization issue, currently it's a workaround I found in this tutorial:
-		- 
+		- https://www.jeremykun.com/2023/10/23/mlir-dialect-conversion/
+		- Good tutorial by the way.
 	- Experiment result:
 		- Test Case:
 			```cpp
