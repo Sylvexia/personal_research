@@ -31,8 +31,6 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 
 -debug to list the pattern convert
 
-https://mlir.llvm.org/docs/DialectConversion/#type-conversion
-
 # `Arith` to Posit Function Call lowering experiment:
 
 - Goal: Lowering `arith` Dialect to Posit Function Call
@@ -62,7 +60,8 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 			- `populateConvertArithAddToPositFuncPattern(patterns, typeConverter, "add", 8, 0);`
 			- Which would create `posit8es0_add` declaration and call.
 	- If we were to implement operations should be like wise.
-	- For return type issue like 
+	- For return type materialization issue, currently it's a workaround I found in this tutorial:
+		- 
 	- Experiment result:
 		- Test Case:
 			```cpp
