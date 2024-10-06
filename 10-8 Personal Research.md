@@ -15,14 +15,6 @@ quant::UniformQuantizedType getUniformQuantizedType(Value v) {
 }
 ```
 
-AddLowering::LoweringINT8
-
-for operator respectively?
-
-get values from dense element
-https://discourse.llvm.org/t/using-mlir-getvalues-with-f16/3953/5
-
-opRewritePattern v.s opConversionPattern
 # Convert all Arith::Const F32 to UINT32
 
 https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite-patterns/
@@ -142,7 +134,7 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 			- Multiple calls to a same function would have only one function declaration.
 	- Mistakes and tips:
 		- When converting the operation, always remember of convert based on its operand and result instead of creating new.
-			- Or if might
+			- with debug, it might shows the operand link breaks
 		- Remember to register the legal/illegal ops/dialect
 			- If has no materialization error but it still not converting, chances are you forget it.
 		- add `-debug` helps with log out the conversion process.
@@ -150,9 +142,12 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 	- Refactor the current implementation.
 	- Model constant is not all in `arith` const, mostly on `krnl.global`:
 		- This is assume that we lower before the `llvm-mlir`
+			- LLVM MLIR dialect does not have `arith` dialect.
 		- We need to lower custom `krnl.global` ourself.
 		- Example:
 			- `%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
+			- Command:
+				- `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
 	- Implement other operations in `mlir` for `MNIST` model
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
 			- `select`: 
