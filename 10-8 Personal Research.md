@@ -148,6 +148,7 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 		- add `-debug` helps with log out the conversion process.
 - Future Works:
 	- Refactor the current implementation.
+	- Model constant is not all in arith const, mostly on 
 	- Implement other operations in `mlir` for `MNIST` model
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
 			- `select`: 
