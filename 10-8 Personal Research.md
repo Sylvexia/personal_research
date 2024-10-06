@@ -125,5 +125,6 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 	- Other operations should be like wise.
 - Future Works:
 	- Implement operations for `MNIST` model and make it runnable
+		- addf, cmpf, constant, mulf, select
 # MLIR Conversion Concepts
 
