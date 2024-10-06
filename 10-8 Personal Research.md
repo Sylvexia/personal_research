@@ -78,6 +78,77 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 # Arith to Posit Function Call experiment:
 
 - Goal: Map Arith Dialect to Posit Function Call
-- Currently we only support the add and const operator, other operator should be like wise.
+	- Example:
+		- Test Case:
+			```cpp
+			func.func @test_arith(%arg0 : f32, %arg1 : f32) {
+			  %0 = arith.constant 1.0 : f32
+			  %1 = arith.constant 2.0 : f32
+			  %2 = arith.addf %arg0, %arg1 : f32
+			  return
+			}
+			
+			func.func @test_arith_prop(%arg0 : f32, %arg1 : f32) {
+			  %0 = arith.constant 1.0 : f32
+			  %1 = arith.constant 2.0 : f32
+			  %2 = arith.addf %0, %1 : f32
+			  return
+			}
+			
+			func.func @test_arith_const(%arg0 : f32, %arg1 : f32) {
+			  %0 = arith.constant 1.0 : f32
+			  %1 = arith.constant 2.0 : f32
+			  %2 = arith.addf %arg0, %1 : f32
+			  return
+			}
+			
+			func.func @test_const(%float1: f32, %float2: f32) {
+			  %0 = arith.constant 1.69 : f32
+			  %1 = arith.constant 3.14 : f32
+			  return
+			}
+			
+			func.func @test_const_return(%float1: f32, %float2: f32) -> (f32, f32) {
+			  %0 = arith.constant 2.68 : f32
+			  %1 = arith.constant 6.9 : f32
+			  return %0, %1 : f32, f32
+			}
+			```
+		- Command: `./onnx-mlir-opt /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir --convert-arith-to-posit-func`
+		- Result:
+			```cpp
+			module {
+			  func.func private @posit8es0_add(i32, i32) -> i32 attributes {llvm.readnone}
+			  func.func @test_arith(%arg0: i32, %arg1: i32) {
+			    %c532676608_i32 = arith.constant 532676608 : i32
+			    %c536870912_i32 = arith.constant 536870912 : i32
+			    %0 = call @posit8es0_add(%arg0, %arg1) : (i32, i32) -> i32                  return
+			  }
+			  func.func @test_arith_prop(%arg0: i32, %arg1: i32) {
+			    %c532676608_i32 = arith.constant 532676608 : i32
+			    %c536870912_i32 = arith.constant 536870912 : i32
+			    %c538968064_i32 = arith.constant 538968064 : i32
+			    return
+			  }
+			  func.func @test_arith_const(%arg0: i32, %arg1: i32) {
+			    %c532676608_i32 = arith.constant 532676608 : i32
+			    %c536870912_i32 = arith.constant 536870912 : i32
+			    %0 = call @posit8es0_add(%arg0, %c536870912_i32) : (i32, i32) -> i32
+			    return
+			  }
+			  func.func @test_const(%arg0: i32, %arg1: i32) {
+			    %c535570678_i32 = arith.constant 535570678 : i32
+			    %c539261665_i32 = arith.constant 539261665 : i32
+			    return
+			  }
+			  func.func @test_const_return(%arg0: i32, %arg1: i32) -> (i32, i32) {
+			    %c538296975_i32 = arith.constant 538296975 : i32
+			    %c544106086_i32 = arith.constant 544106086 : i32
+			    return %c538296975_i32, %c544106086_i32 : i32, i32
+			  }
+			}
+			```
+- Currently we only support the add and const operator for prototype
+	- Other operator should be like wise.
 # MLIR Conversion Concepts
 
