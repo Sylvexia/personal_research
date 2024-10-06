@@ -44,10 +44,11 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 - Goal: Lowering `arith` Dialect to Posit Function Call
 - Currently we only "proof of concept" the add and const operator for prototype
 	- Insight:
-		- Convert f32 to i32 for all `arith` operation.
-		- For Binary Operation
+		- Convert f32 to i32 for all `arith` float operation.
+		- For binary operation like `addf`, `mulf`, ...
+			- 
 		- For Constant
-			- Only 
+			- 
 	- For Const Operation, we only implement proof of concept:
 		- We can extract raw bit of float from `APFloat` Class
 		- We simply Shift the raw bit to left for proof of concept
