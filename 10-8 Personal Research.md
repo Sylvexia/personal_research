@@ -39,7 +39,6 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 
 https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 
-
 # `Arith` to Posit Function Call experiment:
 
 - Goal: Map `arith` Dialect to Posit Function Call
@@ -120,11 +119,17 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 			- Multiple calls to a same function would have only one fu
 - Currently we only partially support the add and const operator for prototype
 	- For Const Operation, we only implement proof of concept:
-		- We simply Shift the raw bit to left to indicate that we can modify the number without issue.
+		- We can extract
+		- We simply Shift the raw bit to left 
+			- indicate that we can modify the number without issue.
+			- 
 	- 
 	- Other operations should be like wise.
 - Future Works:
 	- Implement operations for `MNIST` model and make it runnable
-		- addf, cmpf, constant, mulf, select
+		- `addf`, `cmpf`, `constant`, `mulf`, `select`
+			- `select`: 
+				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
+				- Like ternary operator, if true or false is float we need to convert it.
 # MLIR Conversion Concepts
 
