@@ -60,8 +60,10 @@ https://www.jeremykun.com/2023/09/20/mlir-canonicalizers-and-declarative-rewrite
 	- If we were to implement operations should be like wise.
 	- For return type materialization issue from last report
 		- Currently it's a workaround I found in this tutorial:
+			- Using existing conversion pattern to do the conversion.
 			- https://www.jeremykun.com/2023/10/23/mlir-dialect-conversion/
 			- Good tutorial by the way.
+		- There's other tutorial doing the `returnOp` lowering.
 		- I should see other's real codebase for reference.
 	- Experiment result:
 		- Test Case:
