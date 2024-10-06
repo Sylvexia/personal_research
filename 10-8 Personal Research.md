@@ -42,7 +42,24 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 # `Arith` to Posit Function Call experiment:
 
 - Goal: Map `arith` Dialect to Posit Function Call
-	- Example:
+- Currently we only "proof of concept" the add and const operator for prototype
+	- For Const Operation, we only implement proof of concept:
+		- We can extract raw bit of float from `APFloat` Class
+		- We simply Shift the raw bit to left for proof of concept
+			- Indicate that we can modify the number without issue.
+			- In short term goal, we would like to extract float raw bit and convert such that comply with "posit standard"
+				- Actually when interfacing the universal library, need to apply 2's complement to raw bit when negative.
+		- code:
+			```cpp
+			APFloat apFloat = floatAttr.getValue();
+			uint64_t floatBits = apFloat.bitcastToAPInt().getZExtValue();
+			int64_t intValue = static_cast<int64_t>(floatBits >> 1);
+			```
+	- For Add Operation:
+		- Utilizing TypeConverter
+		- Api
+	- If we were to implement, Other operations should be like wise.
+	- Experiment result:
 		- Test Case:
 			```cpp
 			func.func @test_arith(%arg0 : f32, %arg1 : f32) {
@@ -113,24 +130,11 @@ https://mlir.llvm.org/docs/DialectConversion/#type-conversion
 			  }
 			}
 			```
-		- Observation & Insights
+		- Observation
 			- If both add input argument is constant, it would calculate for you and reduce the result as constant, hence there's no posit function call.
 				- Would this cause the result be incorrect for our use case?
 			- Multiple calls to a same function would have only one function declaration
-- Currently we only "proof of concept" the add and const operator for prototype
-	- For Const Operation, we only implement proof of concept:
-		- We can extract raw bit of float from `APFloat` Class
-			- In short term goal, we would like to extract float raw bit and convert such that comply with "posit standard"
-				- Actually still nee
-		- We simply Shift the raw bit to left 
-			- Indicate that we can modify the number without issue.
-		- code:
-			```cpp
-			APFloat apFloat = floatAttr.getValue();
-			uint64_t floatBits = apFloat.bitcastToAPInt().getZExtValue();
-			int64_t intValue = static_cast<int64_t>(floatBits >> 1);
-			```
-	- If we were to implement, Other operations should be like wise.
+
 - Future Works:
 	- Implement operations for `MNIST` model and make it runnable
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
