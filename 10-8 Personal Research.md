@@ -1,20 +1,21 @@
 # `Arith` to Posit Function Call lowering experiment:
 
 - Goal: Lowering `arith` Dialect to Posit Function Call
-- Currently we only "proof of concept" the add and const operator for prototype
+- Currently we only "proof of concept" the add and const operator for prototype.
 	- Insight:
 		- Convert `f32` to `i32` for all `arith` float operation.
-		- For binary operation like `addf`, `mulf`, ...
-			- Map it to function symbol. e.g. `posit8es0_add`
-			- Need the declaration and call.
-		- For Constant
-			- Extract raw bit and make the raw bit fit into posit format.
+			- For binary operation like `addf`, `mulf`, ...
+				- Map it to function symbol. e.g. `posit8es0_add`
+					- Need the declaration and call.
+			- For Constant
+				- Extract raw bit and make the raw bit fit into posit format.
 	- For Const Operation, we only implement proof of concept:
 		- We can extract raw bit of float from `APFloat` Class
 		- We simply Shift the raw bit to left for proof of concept
 			- Indicate that we can modify the number without issue.
-			- In short term goal, we would like to extract float raw bit and convert such that comply with "posit standard"
+			- In short term goal, we would like to extract float raw bit and convert such that comply with posit standard.
 				- Actually when interfacing the universal library, need to apply 2's complement to raw bit when negative.
+					- We might need to implement the conversion at posit wrapper.
 		- code:
 			```cpp
 			APFloat apFloat = floatAttr.getValue();
@@ -134,7 +135,7 @@
 			- `select`: 
 				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
 				- Like ternary operator, if true or false is float we need to convert it.
-		- we might also need to touch affine
+		- we might also need to convert type affine and other operation that touching it.
 	- Proof of correctness?
 		- `mlir-cpu-runner` testcase?
 			- reference command for pass pipeline:
@@ -150,8 +151,8 @@
 				// RUN: FileCheck %s --check-prefix=CHECK_TEST_7i32_TO_29 < %t
 				```
 			- No such things in `onnx-mlir`, it does exist in `llvm/mlir` code base.
-		- Put them into the runnable `mlir` as we did 
-	- Continue the works of universal library wrapper
+		- Put them into the runnable `mlir` as we did in `polygeist` experiment
+	- Continue the works of universal library wrapper.
 	- See how the quantize going in `tensorflow`.
 		- By seeing this we can be sure of the real implementation of type conversion and value mapping.
 	- See how the `@run_main_graph` for entry point of a model get implemented.
