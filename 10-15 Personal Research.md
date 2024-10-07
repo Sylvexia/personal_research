@@ -96,7 +96,7 @@ The following MLIR is before lower to `llvm dialect`
 		  }
 		}
 		```
-- TestCase:
+- Test Case:
 	- code snippet:
 		```cpp
 		uint8_t a = 0b11001000;//-1.25
