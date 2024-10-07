@@ -1,3 +1,6 @@
+# Task
+
+
 # Quantize inspiration
 - `Tensorflow` inspiration:
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
@@ -95,6 +98,6 @@ The following MLIR is before lower to `llvm dialect`
 
 		```
 - Reference for implementing 2's complement:
-	- https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c
+	- [casted with unsigned type, not used](https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c)
 
 https://www.youtube.com/watch?v=UP-LBRbvI_U
