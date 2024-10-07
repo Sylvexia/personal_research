@@ -148,6 +148,7 @@
 				// RUN: | mlir-cpu-runner -e test_7i32_to_29 -entry-point-result=i32 > %t
 				// RUN: FileCheck %s --check-prefix=CHECK_TEST_7i32_TO_29 < %t
 				```
+		- No such things in `onnx-mlir`
 	- Continue the works of universal library wrapper
 	- See how the quantize going in `tensorflow`.
 		- By seeing this we can be sure of the real implementation of type conversion and value mapping.
