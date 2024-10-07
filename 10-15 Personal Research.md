@@ -34,6 +34,8 @@
 		- scalar/dense attribute
 	- offset
 		- memory offset from the base address of the global buffer
+		- `memref.reinterprete_cast`:
+			- https://discourse.llvm.org/t/question-about-memref-reinterpret-casts-offset/76082
 	- alignment
 		- memory address of the data should be a multiple of 8 bytes
 		- `memref.global`
