@@ -134,6 +134,7 @@
 			- `select`: 
 				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
 				- Like ternary operator, if true or false is float we need to convert it.
+		- we might also need to touch affine
 	- Proof of correctness?
 		- `mlir-cpu-runner` testcase?
 			- reference command for pass pipeline:
@@ -148,7 +149,8 @@
 				// RUN: | mlir-cpu-runner -e test_7i32_to_29 -entry-point-result=i32 > %t
 				// RUN: FileCheck %s --check-prefix=CHECK_TEST_7i32_TO_29 < %t
 				```
-		- No such things in `onnx-mlir`
+			- No such things in `onnx-mlir`, it does exist in `llvm/mlir` code base.
+		- Put them into the runnable `mlir` as we did 
 	- Continue the works of universal library wrapper
 	- See how the quantize going in `tensorflow`.
 		- By seeing this we can be sure of the real implementation of type conversion and value mapping.
