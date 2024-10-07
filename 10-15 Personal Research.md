@@ -43,9 +43,9 @@ The following MLIR is before lower to `llvm dialect`
       }
     }
 ```
-# KrnlGlobalOp
+# `KrnlGlobalOp`
 
-- Tablegen declaration:
+- `Tablegen` declaration:
 	```cpp
 	def KrnlGlobalOp : Op<Krnl_Dialect, "global", [Pure, MemRefsNormalizable]> {
 	  let arguments = (ins AnyAttr:$shape,
@@ -70,6 +70,31 @@ The following MLIR is before lower to `llvm dialect`
 	- Probably we don't need to touch offset and alignment.
 
 # Two's complement
-- https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c
+- In universal library, the negative is 2's complement for bit except the sign bit compare to standard
+	- We must comply with posit standard at MLIR side, hence we need to deal with the issue in the posit wrapper.
+	- Code snippet:
+		```cpp
+		template <size_t nbits, typename uType>
+		void wrap(uType a, sw::universal::bitblock<nbits> &raw) {
+		  for (size_t i = 0; i < nbits; i++) {
+		    raw[i] = a & 1;
+		    a >>= 1;
+		  }
+		  // if negative, two's complement except the sign bit
+		  if (raw[nbits - 1]) {
+		    sw::universal::bitblock<nbits - 1> remain;
+		    for (size_t i = 0; i < nbits - 1; i++) {
+		      remain[i] = raw[i];
+		    }
+		    remain = sw::universal::internal::twos_complement(remain);
+		    for (size_t i = 0; i < nbits - 1; i++) {
+		      raw[i] = remain[i];
+		    }
+		  }
+		}
+
+		```
+- Reference for implementing 2's complement:
+	- https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c
 
 https://www.youtube.com/watch?v=UP-LBRbvI_U
