@@ -36,6 +36,8 @@
 		- memory offset from the base address of the global buffer
 	- alignment
 		- memory address of the data should be a multiple of 8 bytes
+		- `memref.global`
+			- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
 
 # Two's complement
 - https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c
