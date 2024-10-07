@@ -4,22 +4,45 @@
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/quantization/stablehlo/BUILD
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/quantization/tensorflow/tests/add_quantization_unit_loc.mlir
 - Keywords
-- llvm
-	- quantizeFloatToInt
-- tpu-mlir
-	```cpp
-	quant::UniformQuantizedType getUniformQuantizedType(Value v) {
-	  return v.getType()
-	      .cast<RankedTensorType>()
-	      .getElementType()
-	      .cast<quant::UniformQuantizedType>();
-	}
-	```
+	- `llvm`
+		- quantizeFloatToInt
+	- `tpu-mlir`
+		```cpp
+		quant::UniformQuantizedType getUniformQuantizedType(Value v) {
+		  return v.getType()
+		      .cast<RankedTensorType>()
+		      .getElementType()
+		      .cast<quant::UniformQuantizedType>();
+		}
+		```
 
 # MLIR structure
 
 The following MLIR is before lower to `llvm dialect`
 - `--EmitMLIR - Lower the input to MLIR built-in transformation dialect.`
+
+```cpp
+%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>
+    %alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>
+    affine.for %arg1 = 0 to 1 {
+      affine.for %arg2 = 0 to 128 {
+        %alloca_10 = memref.alloca() : memref<f32>
+        affine.store %cst_0, %alloca_10[] : memref<f32>
+        affine.for %arg3 = 0 to 3136 {
+          %11 = affine.load %reinterpret_cast[%arg1, %arg3] : memref<1x3136xf32>
+          %12 = affine.load %5[%arg2, %arg3] : memref<128x3136xf32>
+          %13 = arith.mulf %11, %12 : f32
+          %14 = affine.load %alloca_10[] : memref<f32>
+          %15 = arith.addf %13, %14 : f32
+          affine.store %15, %alloca_10[] : memref<f32>
+        }
+        %8 = affine.load %alloca_10[] : memref<f32>
+        %9 = affine.load %4[%arg2] : memref<128xf32>
+        %10 = arith.addf %8, %9 : f32
+        affine.store %10, %alloc_7[%arg1, %arg2] : memref<1x128xf32>
+      }
+    }
+```
 # KrnlGlobalOp
 
 - Tablegen declaration:
@@ -33,7 +56,7 @@ The following MLIR is before lower to `llvm dialect`
 	```
 - MLIR Example:
 	`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
-- For our lowering, we might need to care the following attribute
+- For our `krnl.global` lowering, we might need to care the following attribute
 	- value
 		- scalar/dense attribute
 	- offset
