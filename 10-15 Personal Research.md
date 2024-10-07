@@ -28,6 +28,16 @@
 	```
 - MLIR Example:
 	`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
-- For our lowering, we might need to 
+- For our lowering, we might need to care the following attribute
+	- value
+		- constant/dense attribute
+	- offset
+		- **memory offset** from the base address of the global buffer
+	- alignment
+		- **memory alignment** of the global memory buffer.
+		- memory address of the data should be a multiple of 8 bytes
+
+# Two's complement
+- https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c
 
 https://www.youtube.com/watch?v=UP-LBRbvI_U
