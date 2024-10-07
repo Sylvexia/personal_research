@@ -32,7 +32,6 @@
 - For our lowering, we might need to care the following attribute
 	- value
 		- scalar/dense attribute
-		- 
 	- offset
 		- memory offset from the base address of the global buffer
 	- alignment
