@@ -15,4 +15,15 @@
 	}
 	```
 
+# Krnl Ops
+
+```cpp
+def KrnlGlobalOp : Op<Krnl_Dialect, "global", [Pure, MemRefsNormalizable]> {
+  let arguments = (ins AnyAttr:$shape,
+    StrAttr:$name, OptionalAttr<AnyAttr>:$value, OptionalAttr<I64Attr>:$offset,
+    OptionalAttr<I64Attr>:$alignment);
+  let results = (outs AnyTypeOf<[AnyMemRef]>:$output);
+}
+```
+
 https://www.youtube.com/watch?v=UP-LBRbvI_U
