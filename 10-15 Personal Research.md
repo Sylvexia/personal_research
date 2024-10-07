@@ -17,14 +17,17 @@
 
 # KrnlGlobalOp
 
-```cpp
-def KrnlGlobalOp : Op<Krnl_Dialect, "global", [Pure, MemRefsNormalizable]> {
-  let arguments = (ins AnyAttr:$shape,
-    StrAttr:$name, OptionalAttr<AnyAttr>:$value, OptionalAttr<I64Attr>:$offset,
-    OptionalAttr<I64Attr>:$alignment);
-  let results = (outs AnyTypeOf<[AnyMemRef]>:$output);
-}
-```
-`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
+- Tablegen declaration:
+	```cpp
+	def KrnlGlobalOp : Op<Krnl_Dialect, "global", [Pure, MemRefsNormalizable]> {
+	  let arguments = (ins AnyAttr:$shape,
+	    StrAttr:$name, OptionalAttr<AnyAttr>:$value, OptionalAttr<I64Attr>:$offset,
+	    OptionalAttr<I64Attr>:$alignment);
+	  let results = (outs AnyTypeOf<[AnyMemRef]>:$output);
+	}
+	```
+- MLIR Example:
+	`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
+- For our lowering, we might need to 
 
 https://www.youtube.com/watch?v=UP-LBRbvI_U
