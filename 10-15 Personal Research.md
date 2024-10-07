@@ -16,6 +16,10 @@
 	}
 	```
 
+# MLIR structure
+
+The following MLIR is before lower to `llvm dialect`
+- `--EmitMLIR - Lower the input to MLIR built-in transformation dialect.`
 # KrnlGlobalOp
 
 - Tablegen declaration:
