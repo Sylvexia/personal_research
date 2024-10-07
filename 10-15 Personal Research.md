@@ -95,7 +95,13 @@ The following MLIR is before lower to `llvm dialect`
 		    }
 		  }
 		}
-
+		```
+- TestCase:
+	- code snippet:
+		```cpp
+		uint8_t a = 0b11001000;//-1.25
+	    uint8_t b = 0b01110101;//6.5
+	    uint8_t c = posit8es0_add(a, b);
 		```
 - Reference for implementing 2's complement:
 	- [casted with unsigned type, not used](https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c)
