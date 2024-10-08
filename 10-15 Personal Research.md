@@ -1,11 +1,12 @@
 # Task
+- Validate the posit conversion
+	- Round
 - `MLIR`
-	- Validate the posit conversion
-	- Lower the 
-- Revise the posit converter implementation.
+	- Modify the `KrnlGlobalOp` 
+	- Writing a pass that Convert all `f32` data type to say, `uint8`
 - Universal Wrapper
 	- Test Case to this report
-	- Nar handling
+	- `NaR` handling
 
 # Quantize inspiration
 - `Tensorflow` inspiration:

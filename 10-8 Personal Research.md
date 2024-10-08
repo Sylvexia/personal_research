@@ -11,7 +11,7 @@
 				- Extract raw bit and make the raw bit fit into posit format.
 	- For Const Operation, we only implement proof of concept:
 		- We can extract raw bit of float from `APFloat` Class
-		- We simply Shift the raw bit to left for proof of concept
+		- We simply shift the raw bit to left for proof of concept
 			- Indicate that we can modify the number without issue.
 			- In short term goal, we would like to extract float raw bit and convert such that comply with posit standard.
 				- Actually when interfacing the universal library, need to apply 2's complement to raw bit when negative.
