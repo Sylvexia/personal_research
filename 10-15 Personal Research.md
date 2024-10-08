@@ -61,6 +61,7 @@ The following MLIR is before lower to `llvm dialect`
 - `alloc`
 	- allocate at heap (?), compared to stack allocated `alloca` (verify)
 	- `%alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>`
+		- `alignment = 128` might infer `SIMD` or similar memory alignment requirements for performance
 # `KrnlGlobalOp`
 
 - `Tablegen` declaration:
