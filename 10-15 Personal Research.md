@@ -60,9 +60,16 @@ The following MLIR is before lower to `llvm dialect`
 - `reinterpret_cast`: takes an allocated memory of type `memref<1x64x7x7xf32>` and "views" it as a `memref<1x3136xf32>`
 - `alloc`/`alloca`
 	- `alloc` allocate memory on heap (verify)
+		- `%alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>`
+			- `alignment = 128` might infer `SIMD` or similar memory alignment requirements for performance.
 	- `alloca` allocate memory on stack.
-	- `%alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>`
-		- `alignment = 128` might infer `SIMD` or similar memory alignment requirements for performance
+- `load`: 
+	- `%9 = affine.load %4[%arg2] : memref<128xf32>`
+		- means `reg%9` = `arr%4[arg2]`
+		- `arr%4` might be something like `tensor_4[128]`
+- `store`: 
+	- `affine.store %10, %alloc_7[%arg1, %arg2] : memref<1x128xf32>` 
+		- means array `alloc_7[arg1][arg2]` = `reg%10`
 # `KrnlGlobalOp`
 
 - `Tablegen` declaration:
