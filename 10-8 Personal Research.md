@@ -3,7 +3,7 @@
 - Goal: Lowering `arith` Dialect to Posit Function Call
 - Currently we only "proof of concept" the add and const operator for prototype.
 	- Insight:
-		- Convert `f32` to `i32` for all `arith` float operation.
+		- Convert `f32` to `i?` for all `arith` float operation.
 			- For binary operation like `addf`, `mulf`, ...
 				- Map it to function symbol. e.g. `posit8es0_add`
 					- Need the declaration and call.
