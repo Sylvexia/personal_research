@@ -92,6 +92,7 @@ The following MLIR is before lower to `llvm dialect`
 			- https://discourse.llvm.org/t/question-about-memref-reinterpret-casts-offset/76082
 	- alignment
 		- memory address of the data should be a multiple of 8 bytes
+		- SIMD support?
 		- `memref.global`
 			- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
 	- Probably we don't need to touch offset and alignment.

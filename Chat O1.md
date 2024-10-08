@@ -1,3 +1,8 @@
+# Question:
+
+for memref dialect, list the operation that has alignment or offset, and give insight on what are them, and give insight on how to interpret the value (e.g. by address, by data type bit width...), also how it compares to llvm dialect global operator, Also list some good reference site so i can verify.
+# Answer:
+
 In the **MLIR (Multi-Level Intermediate Representation)** framework, the **MemRef dialect** is pivotal for representing memory buffers with explicit shapes, layouts, and alignment attributes. Understanding operations that involve **alignment** and **offsets** is crucial for optimizing memory access patterns and ensuring compatibility with hardware constraints.
 
 ### **Operations with Alignment and Offset in the MemRef Dialect**
