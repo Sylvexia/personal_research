@@ -1,6 +1,6 @@
 # Task
 - Validate the posit conversion
-	- Round
+	- Round, Sticky, 
 - `MLIR`
 	- Modify the `KrnlGlobalOp` 
 	- Writing a pass that Convert all `f32` data type to say, `uint8`
