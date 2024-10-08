@@ -133,7 +133,7 @@
 	- Implement other operations in `mlir` for `MNIST` model
 		- `addf`, `cmpf`, `constant`, `mulf`, `select`
 			- `select`: 
-				- `%x = "arith.select"(%cond, %true, %false) : (i1, i32, i32) -> i32`
+				- `%x = "arith.select"(%cond, %true, %false) : (i1, f32, f32) -> i32`
 				- Like ternary operator, if true or false is float we need to convert it.
 		- we might also need to convert type affine and other operation that touching it.
 	- Proof of correctness?
