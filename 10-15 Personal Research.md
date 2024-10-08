@@ -97,6 +97,7 @@ The following MLIR is before lower to `llvm dialect`
 	- Probably we don't need to touch offset and alignment.
 
 # Two's complement
+
 - In universal library, the negative is 2's complement for bit except the sign bit compare to standard
 	- We must comply with posit standard at MLIR side, hence we need to deal with the issue in the posit wrapper.
 	- Code snippet:
