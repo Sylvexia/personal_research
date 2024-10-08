@@ -124,7 +124,19 @@ The following MLIR is before lower to `llvm dialect`
 		```
 - Test Case:
 	- How do I test it?
-		- 
+		- code snippet:
+			```cpp
+			uint8_t a = rand() % 256;
+	        uint8_t b = rand() % 256;
+			uint8_t c = posit8es0_add(a, b);
+	
+			// convert a, b to Posit, then do the following
+			double da = static_cast<double>(pa);
+	        double db = static_cast<double>(pb);
+	        double dc = da + db;
+	        // convert the dc to posit then back to the uint8 c_ref
+	        
+			```
 	- code snippet:
 		```cpp
 		uint8_t a = 0b11001000;//-1.25
