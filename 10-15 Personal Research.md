@@ -7,6 +7,7 @@
 	- Dispatch the type.
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
+	- alignment is for SIMD?
 	- `@run_main_graph`
 - Universal Wrapper
 	- `NaR` handling.
@@ -130,19 +131,22 @@ The following MLIR is before lower to `llvm dialect`
 			// calculate with posit
 	        uint8_t a = rand() % 256;
 	        uint8_t b = rand() % 256;
-	        uint8_t c = posit8es0_add(a, b);
-			// converted to posit 
+	        uint8_t c = posit8es0_add(a, b); // our wrapper!
+			// convert to posit to get double floating point
+			// and calculate based on 
 	        auto pa = get_posit<8, 0>(a);
 	        auto pb = get_posit<8, 0>(b);
 	        double da = static_cast<double>(pa);
 	        double db = static_cast<double>(pb);
 	        double dc = da + db;
-	
+			// convert to back to posit to get uint8_t
 	        sw::universal::posit<8, 0> pc(dc);
 	        uint8_t c_ref = get_uType<8, 0, uint8_t>(pc);
+	        // compare c_ref and c
 			```
 	- output log:
 		```bash
+		//...
 		PASS: a = 186 b = 1 c = 185 c_ref = 185
 		PASS: a = 128 b = 87 c = 128 c_ref = 128
 		Passed 255 tests
