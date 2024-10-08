@@ -5,7 +5,8 @@
 - `MLIR`
 	- Modify the `KrnlGlobalOp` value attribute.
 	- Writing a pass that convert all `f32` data type to say, `uint8`
-	- Dispatch the type
+	- Dispatch the type.
+	- 
 - Universal Wrapper
 	- Test Case to this report
 	- `NaR` handling
