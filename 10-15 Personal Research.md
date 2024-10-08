@@ -135,18 +135,14 @@ The following MLIR is before lower to `llvm dialect`
 	        double db = static_cast<double>(pb);
 	        double dc = da + db;
 	        // convert the dc to posit then back to the uint8 c_ref
-	        
+	        sw::universal::posit<8, 0> pc(dc);
+	        b_c = pc.get();
+	        uint8_t c_ref;
+	        unwrap<8>(b_c, c_ref);
+	        // compare the c_ref and c and output the log
 			```
-	- code snippet:
-		```cpp
-		uint8_t a = 0b11001000;//-1.25
-	    uint8_t b = 0b01110101;//6.5
-	    uint8_t c = posit8es0_add(a, b); //01110010
-	    // 01110010 : 5
-		```
-	- 0b11101010;//-3.25
-	- 0b01010000;//1.5
-	- 11011000 : -1.75
+	- output log:
+		- 
 - Reference for implementing 2's complement:
 	- [casted with unsigned type, not used](https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c)
 
