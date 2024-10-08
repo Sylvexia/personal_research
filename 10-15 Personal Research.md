@@ -151,6 +151,15 @@ The following MLIR is before lower to `llvm dialect`
 		PASS: a = 128 b = 87 c = 128 c_ref = 128
 		Passed 255 tests
 		```
+- Verify the library name
+	```bash
+	$ nm libposit_c_api_custom.a | grep posit8
+	0000000000000000 t _GLOBAL__sub_I_posit8es0_add
+	0000000000000590 T posit8es0_add
+	0000000000000990 T posit8es0_div
+	0000000000001820 T posit8es0_mul
+	0000000000001320 T posit8es0_sub
+	```
 - Reference for implementing 2's complement:
 	- [casted with unsigned type, not used](https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c)
 
