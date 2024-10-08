@@ -4,8 +4,9 @@
 	- 01011111 : 1.96875 approach to 2
 - `MLIR`
 	- Modify the `KrnlGlobalOp` value attribute.
-	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Dispatch the type.
+	- Writing a pass that convert all `f32` data type to say, `uint8`
+	- Get to know the `private` and `readonly` attribute.
 - Universal Wrapper
 	- Test case to this report
 	- `NaR` handling.
@@ -16,7 +17,7 @@
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/quantization/tensorflow/tests/add_quantization_unit_loc.mlir
 - Keywords
 	- `llvm`
-		- quantizeFloatToInt
+		- `quantizeFloatToInt`
 	- `tpu-mlir`
 		```cpp
 		quant::UniformQuantizedType getUniformQuantizedType(Value v) {
@@ -54,6 +55,11 @@ The following MLIR is before lower to `llvm dialect`
       }
     }
 ```
+- [`memref` reference](https://mlir.llvm.org/docs/Dialects/MemRef/)
+- `reinterpret_cast`: takes an allocated memory of type `memref<1x64x7x7xf32>` and "views" it as a `memref<1x3136xf32>`
+- `alloc`
+	- allocate at 
+	- `%alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>`
 # `KrnlGlobalOp`
 
 - `Tablegen` declaration:
