@@ -1,10 +1,11 @@
 # Task
-- MLIR
-	- Validate the posit conversion at `mlir` side.
-	- Convert 
+- `MLIR`
+	- Validate the posit conversion
+	- Lower the 
 - Revise the posit converter implementation.
-- Nar handling in universal
-
+- Universal Wrapper
+	- Test Case to this report
+	- Nar handling
 
 # Quantize inspiration
 - `Tensorflow` inspiration:
