@@ -1,7 +1,9 @@
 # Task
-- Validate the posit conversion at `mlir` side.
+- MLIR
+	- Validate the posit conversion at `mlir` side.
+	- Convert 
 - Revise the posit converter implementation.
-- Nar handling in universal 
+- Nar handling in universal
 
 
 # Quantize inspiration
