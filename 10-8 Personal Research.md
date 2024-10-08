@@ -24,7 +24,7 @@
 			```
 	- For Add Operation:
 		- Generating the symbol name by `opName`, `nbits`, `es_val`
-		- API: Just register the following to pass to add Add operation lowering.
+		- custom API: Just register the following to pass to add Add operation lowering.
 			- `populateConvertArithAddToPositFuncPattern(patterns, typeConverter, "add", 8, 0);`
 			- Which would create `posit8es0_add` declaration and call.
 	- If we were to implement operations should be like wise.
