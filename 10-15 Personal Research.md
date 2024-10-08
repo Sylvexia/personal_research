@@ -127,20 +127,19 @@ The following MLIR is before lower to `llvm dialect`
 	- How do I test it?
 		- code snippet:
 			```cpp
-			uint8_t a = rand() % 256;
+			// calculate with posit
+	        uint8_t a = rand() % 256;
 	        uint8_t b = rand() % 256;
-			uint8_t c = posit8es0_add(a, b);
-	
-			// convert a, b to Posit, then do the following
-			double da = static_cast<double>(pa);
+	        uint8_t c = posit8es0_add(a, b);
+			// converted to posit 
+	        auto pa = get_posit<8, 0>(a);
+	        auto pb = get_posit<8, 0>(b);
+	        double da = static_cast<double>(pa);
 	        double db = static_cast<double>(pb);
 	        double dc = da + db;
-	        // convert the dc to posit then back to the uint8 c_ref
+	
 	        sw::universal::posit<8, 0> pc(dc);
-	        b_c = pc.get();
-	        uint8_t c_ref;
-	        unwrap<8>(b_c, c_ref);
-	        // compare the c_ref and c and output the log
+	        uint8_t c_ref = get_uType<8, 0, uint8_t>(pc);
 			```
 	- output log:
 		```bash
