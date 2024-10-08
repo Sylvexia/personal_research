@@ -2,8 +2,9 @@
 - Validate the posit conversion
 	- Round, Sticky, guard bit implementation
 - `MLIR`
-	- Modify the `KrnlGlobalOp` 
-	- Writing a pass that Convert all `f32` data type to say, `uint8`
+	- Modify the `KrnlGlobalOp` value attribute.
+	- Writing a pass that convert all `f32` data type to say, `uint8`
+	- Why the fuck it's only i32
 - Universal Wrapper
 	- Test Case to this report
 	- `NaR` handling
