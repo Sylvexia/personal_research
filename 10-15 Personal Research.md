@@ -6,11 +6,9 @@
 	- Modify the `KrnlGlobalOp` value attribute.
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Dispatch the type.
-	- 
 - Universal Wrapper
-	- Test Case to this report
-	- `NaR` handling
-
+	- Test case to this report
+	- `NaR` handling.
 # Quantize inspiration
 - `Tensorflow` inspiration:
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
