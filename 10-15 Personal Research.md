@@ -7,7 +7,7 @@
 	- Dispatch the type.
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
-	- memref report
+	- `memref` report
 - Universal Wrapper
 	- Test case to this report
 	- `NaR` handling.
