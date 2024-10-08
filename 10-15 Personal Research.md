@@ -7,7 +7,6 @@
 	- Dispatch the type.
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
-	- `memref` report
 - Universal Wrapper
 	- `NaR` handling.
 # Quantize inspiration
@@ -33,8 +32,9 @@
 The following MLIR is before lower to `llvm dialect`
 - `--EmitMLIR - Lower the input to MLIR built-in transformation dialect.`
 	- command:
-		- 
+		- `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
 ```cpp
+// part of the code
 %reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>
     %alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>
     affine.for %arg1 = 0 to 1 {
