@@ -123,6 +123,8 @@ The following MLIR is before lower to `llvm dialect`
 		}
 		```
 - Test Case:
+	- How do I test it?
+		- 
 	- code snippet:
 		```cpp
 		uint8_t a = 0b11001000;//-1.25
