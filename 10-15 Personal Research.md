@@ -142,7 +142,11 @@ The following MLIR is before lower to `llvm dialect`
 	        // compare the c_ref and c and output the log
 			```
 	- output log:
-		
+		```bash
+		PASS: a = 186 b = 1 c = 185 c_ref = 185
+		PASS: a = 128 b = 87 c = 128 c_ref = 128
+		Passed 255 tests
+		```
 - Reference for implementing 2's complement:
 	- [casted with unsigned type, not used](https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c)
 
