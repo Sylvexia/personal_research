@@ -59,7 +59,7 @@ The following MLIR is before lower to `llvm dialect`
 - [`memref` reference](https://mlir.llvm.org/docs/Dialects/MemRef/)
 - `reinterpret_cast`: takes an allocated memory of type `memref<1x64x7x7xf32>` and "views" it as a `memref<1x3136xf32>`
 - `alloc`
-	- allocate at heap, compared to stack allocated `alloca`
+	- allocate at heap (?), compared to stack allocated `alloca` (verify)
 	- `%alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>`
 # `KrnlGlobalOp`
 
