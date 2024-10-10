@@ -3,6 +3,8 @@
 	- Modify the `KrnlGlobalOp` value attribute.
 	- Dispatch the type.
 		- struct `FrontendToKrnlLoweringPass` can be referred
+		- Option issue:
+			- refer to `emit-intermediate-ir`
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
 		- [ref](https://llvm.org/docs/LangRef.html)
