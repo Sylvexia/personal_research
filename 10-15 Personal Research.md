@@ -5,6 +5,11 @@
 		- struct `FrontendToKrnlLoweringPass` can be referred
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
+		- `private`
+			- Global values with “`private`” linkage are only directly accessible by objects in the current module. In particular, linking code into a module with a private global value may cause the private to be renamed as necessary to avoid collisions. Because the symbol is private to the module, all references can be updated. This doesn’t show up in any symbol table in the object file.
+		- `readonly`
+			- This attribute indicates that the function does not write through this pointer argument, even though it may write to the memory that the pointer points to.
+			- If a function writes to a `readonly` pointer argument, the behavior is undefined.
 	- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
 	- alignment is for SIMD?
 	- `@run_main_graph`
