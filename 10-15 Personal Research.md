@@ -5,6 +5,7 @@
 		- struct `FrontendToKrnlLoweringPass` can be referred
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
+	- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
 	- alignment is for SIMD?
 	- `@run_main_graph`
 - Universal Wrapper
