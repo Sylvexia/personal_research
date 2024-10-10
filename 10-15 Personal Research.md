@@ -2,6 +2,7 @@
 - `MLIR`
 	- Modify the `KrnlGlobalOp` value attribute.
 	- Dispatch the type.
+		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
 		- struct `FrontendToKrnlLoweringPass` can be referred
 		- Option issue:
 			- refer to `emit-intermediate-ir`
