@@ -14,6 +14,7 @@
 	- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
 	- alignment is for SIMD?
 	- `@run_main_graph`
+		- `KrnlEntryPointOpLowering`
 - Universal Wrapper
 	- `NaR` handling.
 # Quantize inspiration
