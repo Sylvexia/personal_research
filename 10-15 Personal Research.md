@@ -5,6 +5,7 @@
 		- struct `FrontendToKrnlLoweringPass` can be referred
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
+		- [ref](https://llvm.org/docs/LangRef.html)
 		- `private`
 			- Global values with “`private`” linkage are only directly accessible by objects in the current module. In particular, linking code into a module with a private global value may cause the private to be renamed as necessary to avoid collisions. Because the symbol is private to the module, all references can be updated. This doesn’t show up in any symbol table in the object file.
 		- `readonly`
