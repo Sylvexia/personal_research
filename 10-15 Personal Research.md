@@ -2,7 +2,7 @@
 - `MLIR`
 	- Modify the `KrnlGlobalOp` value attribute.
 	- Dispatch the type.
-		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
+		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=2' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
 			- Posit value constant break
 		- struct `FrontendToKrnlLoweringPass` can be referred
 	- Writing a pass that convert all `f32` data type to say, `uint8`
