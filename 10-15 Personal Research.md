@@ -27,6 +27,7 @@
 - Keywords
 	- `llvm`
 		- `quantizeFloatToInt`
+		- quant-convert-const
 	- `tpu-mlir`
 		```cpp
 		quant::UniformQuantizedType getUniformQuantizedType(Value v) {
