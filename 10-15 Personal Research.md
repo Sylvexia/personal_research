@@ -47,6 +47,15 @@
 	- [RFC](https://discourse.llvm.org/t/rfc-improvements-in-the-quant-dialect/79942)
 		- Lowering `qcast`, `scast`, `dcast`
 		- https://github.com/llvm/llvm-project/pull/100667
+		- example: (Pass `--lower-quant-ops`)
+			```cpp
+			!qalias = !quant.uniform<i8<-8:7>:f32, 2.0:10>
+			func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
+			  %0 = quant.qcast %arg0 : tensor<3x5xf32> to tensor<3x5x!qalias>
+			  return %0 : tensor<3x5x!qalias>
+			}
+			```
+		- 
 - Keywords
 	- `llvm`
 		- `quantizeFloatToInt`
