@@ -1,4 +1,5 @@
 # Task
+
 - `MLIR`
 	- Modify the `KrnlGlobalOp` value attribute.
 	- Dispatch the type.
@@ -21,6 +22,7 @@
 - Universal Wrapper
 	- `NaR` handling.
 # Quantize inspiration
+
 - `Tensorflow` inspiration:
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 		- quantize bias:
@@ -110,6 +112,9 @@
 		      .cast<quant::UniformQuantizedType>();
 		}
 		```
+
+# MLIR Type Dispatcher
+
 
 # MLIR structure
 
