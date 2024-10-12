@@ -51,11 +51,51 @@
 			```cpp
 			!qalias = !quant.uniform<i8<-8:7>:f32, 2.0:10>
 			func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
-			  %0 = quant.qcast %arg0 : tensor<3x5xf32> to tensor<3x5x!qalias>
-			  return %0 : tensor<3x5x!qalias>
+				%0 = quant.qcast %arg0 : tensor<3x5xf32> to tensor<3x5x!qalias>
+				return %0 : tensor<3x5x!qalias>
 			}
 			```
-		- 
+			- types: `!qalias`
+			- map to: i8
+				- range: -8 ~ 7
+			- original: f32
+			- scaling factor: 2.0, zero point: 10
+		- output:
+			```cpp
+			func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
+			    // Create scale tensor.
+				// NOTE: All 'arith.constant' + 'tensor.splat' ops will be canonicalized into
+				// a single 'arith.constant' for statically shaped tensors.
+				%cst = arith.constant 2.000000e+00 : f32
+				%splat = tensor.splat %cst : tensor<3x5xf32>
+				
+				// Divide by scale
+				%0 = arith.divf %arg0, %splat : tensor<3x5xf32>
+				
+				// Create zero point float tensor
+				%c10_i8 = arith.constant 10 : i8
+				%splat_0 = tensor.splat %c10_i8 : tensor<3x5xi8>
+				%1 = arith.sitofp %splat_0 : tensor<3x5xi8> to tensor<3x5xf32>
+				
+				// Add zero point
+				%2 = arith.addf %0, %1 : tensor<3x5xf32>
+				
+				// Convert stored value to integer
+				%3 = arith.fptosi %2 : tensor<3x5xf32> to tensor<3x5xi8>
+				
+				// Clamp stored value
+				%c-8_i8 = arith.constant -8 : i8
+				%c7_i8 = arith.constant 7 : i8
+				%splat_1 = tensor.splat %c-8_i8 : tensor<3x5xi8>
+				%splat_2 = tensor.splat %c7_i8 : tensor<3x5xi8>
+				%4 = arith.maxsi %3, %splat_1 : tensor<3x5xi8>
+				%5 = arith.minsi %4, %splat_2 : tensor<3x5xi8>
+				
+				// Cast stored value to quantized type
+				%6 = quant.scast %5 : tensor<3x5xi8> to tensor<3x5x!qalias>
+				return %6 : tensor<3x5x!qalias>
+				}
+			```
 - Keywords
 	- `llvm`
 		- `quantizeFloatToInt`
