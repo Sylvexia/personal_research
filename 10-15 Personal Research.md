@@ -44,6 +44,7 @@
 			}
 			```
 	- Note: Currently `tensorflow` seems like it does not do the quantization using MLIR. (?)
+	- [RFC](https://discourse.llvm.org/t/rfc-improvements-in-the-quant-dialect/79942)
 - Keywords
 	- `llvm`
 		- `quantizeFloatToInt`
