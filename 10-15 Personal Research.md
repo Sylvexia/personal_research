@@ -43,12 +43,11 @@
 			  return %2 : tensor<300x5xf32>
 			}
 			```
-	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/quantization/tensorflow/tests/add_quantization_unit_loc.mlir
 	- Note: Currently `tensorflow` seems like it does not do the quantization using MLIR. (?)
 - Keywords
 	- `llvm`
 		- `quantizeFloatToInt`
-		- quant-convert-const
+		- `quant-convert-const`
 	- `tpu-mlir`
 		```cpp
 		quant::UniformQuantizedType getUniformQuantizedType(Value v) {
@@ -65,6 +64,7 @@ The following MLIR is before lower to `llvm dialect`
 - `--EmitMLIR - Lower the input to MLIR built-in transformation dialect.`
 	- command:
 		- `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+	- output:
 ```cpp
 // part of the code
 %reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>
