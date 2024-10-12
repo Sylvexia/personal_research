@@ -45,7 +45,7 @@
 		```
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/quantization/stablehlo/BUILD
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/quantization/tensorflow/tests/add_quantization_unit_loc.mlir
-	- Note: Currently `tensorflow` seems like it does not do the quantization using MLIR.
+	- Note: Currently `tensorflow` seems like it does not do the quantization using MLIR. (?)
 - Keywords
 	- `llvm`
 		- `quantizeFloatToInt`
