@@ -15,6 +15,7 @@
 			- If a function writes to a `readonly` pointer argument, the behavior is undefined.
 	- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
 	- alignment is for SIMD?
+	- Turn off the constant propagation in posit.
 	- `@run_main_graph`
 		- `KrnlEntryPointOpLowering`
 - Universal Wrapper
