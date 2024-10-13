@@ -181,7 +181,7 @@ The following MLIR is before lower to `llvm dialect`
 - For our `krnl.global` lowering, we might need to care the following attribute
 	- Attributes:
 		- value
-			- scalar/dense attribute
+			- 
 		- offset
 			- memory offset from the base address of the global buffer
 			- `memref.reinterprete_cast`:
