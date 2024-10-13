@@ -115,7 +115,7 @@
 # POSIT Value Conversion
 
 - API spec: 
-	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {`
+	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)`
 - 
 
 # MLIR Type Dispatcher
