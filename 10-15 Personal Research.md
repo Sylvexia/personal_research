@@ -186,7 +186,8 @@ The following MLIR is before lower to `llvm dialect`
 		- `memref.reinterprete_cast`:
 			- https://discourse.llvm.org/t/question-about-memref-reinterpret-casts-offset/76082
 	- alignment
-		- Memory address of the data should be a multiple of 8 bytes
+		- https://hackmd.io/@sysprog/c-memory#data-alignment
+		- Memory address of the data should be a multiple of 8 bytes (?)
 		- SIMD support?
 		- `memref.global`
 			- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
