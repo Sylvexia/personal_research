@@ -197,7 +197,7 @@ The following MLIR is before lower to `llvm dialect`
 					- so ONNX-MLIR creates a custom one?
 	- Probably we don't need to touch offset and alignment.
 - `KrnlGlobalOp` creation
-	- created by `KrnlBuilder::constant`
+	- Only created by `KrnlBuilder::constant`
 	- code snippet:
 		```cpp
 		Value KrnlBuilder::constant(MemRefType type, StringRef name,
