@@ -128,29 +128,29 @@ The following MLIR is before lower to `llvm dialect`
 	- command:
 		- `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
 	- output:
-```cpp
-// part of the code
-%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>
-    %alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>
-    affine.for %arg1 = 0 to 1 {
-      affine.for %arg2 = 0 to 128 {
-        %alloca_10 = memref.alloca() : memref<f32>
-        affine.store %cst_0, %alloca_10[] : memref<f32>
-        affine.for %arg3 = 0 to 3136 {
-          %11 = affine.load %reinterpret_cast[%arg1, %arg3] : memref<1x3136xf32>
-          %12 = affine.load %5[%arg2, %arg3] : memref<128x3136xf32>
-          %13 = arith.mulf %11, %12 : f32
-          %14 = affine.load %alloca_10[] : memref<f32>
-          %15 = arith.addf %13, %14 : f32
-          affine.store %15, %alloca_10[] : memref<f32>
-        }
-        %8 = affine.load %alloca_10[] : memref<f32>
-        %9 = affine.load %4[%arg2] : memref<128xf32>
-        %10 = arith.addf %8, %9 : f32
-        affine.store %10, %alloc_7[%arg1, %arg2] : memref<1x128xf32>
-      }
-    }
-```
+		```cpp
+		// part of the code
+		%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>
+		    %alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>
+		    affine.for %arg1 = 0 to 1 {
+		      affine.for %arg2 = 0 to 128 {
+		        %alloca_10 = memref.alloca() : memref<f32>
+		        affine.store %cst_0, %alloca_10[] : memref<f32>
+		        affine.for %arg3 = 0 to 3136 {
+		          %11 = affine.load %reinterpret_cast[%arg1, %arg3] : memref<1x3136xf32>
+		          %12 = affine.load %5[%arg2, %arg3] : memref<128x3136xf32>
+		          %13 = arith.mulf %11, %12 : f32
+		          %14 = affine.load %alloca_10[] : memref<f32>
+		          %15 = arith.addf %13, %14 : f32
+		          affine.store %15, %alloca_10[] : memref<f32>
+		        }
+		        %8 = affine.load %alloca_10[] : memref<f32>
+		        %9 = affine.load %4[%arg2] : memref<128xf32>
+		        %10 = arith.addf %8, %9 : f32
+		        affine.store %10, %alloc_7[%arg1, %arg2] : memref<1x128xf32>
+		      }
+		    }
+		```
 - [`memref` reference](https://mlir.llvm.org/docs/Dialects/MemRef/)
 - `reinterpret_cast`: takes an allocated memory of type `memref<1x64x7x7xf32>` and "views" it as a `memref<1x3136xf32>`
 - `alloc`/`alloca`
@@ -186,7 +186,7 @@ The following MLIR is before lower to `llvm dialect`
 		- `memref.reinterprete_cast`:
 			- https://discourse.llvm.org/t/question-about-memref-reinterpret-casts-offset/76082
 	- alignment
-		- memory address of the data should be a multiple of 8 bytes
+		- Memory address of the data should be a multiple of 8 bytes
 		- SIMD support?
 		- `memref.global`
 			- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
