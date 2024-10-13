@@ -207,7 +207,7 @@ The following MLIR is before lower to `llvm dialect`
 		  return b().create<KrnlGlobalOp>(loc(), type,
 		      b().getI64ArrayAttr(type.getShape()),
 		      b().getStringAttr(name + std::to_string(constantID++)),
-		      value.value_or(nullptr), offset.value_or(nullptr),
+		      value.value_or(nullptr), offset.value_or(nullptr),S
 		      alignment.value_or(nullptr));
 		}
 		```
@@ -225,8 +225,14 @@ The following MLIR is before lower to `llvm dialect`
 			  return nullptr;
 			}
 			```
-- 
-
+- `DenseElementsAttr` creation:
+	- code snippet:
+		```cpp
+		DenseElementsAttr cats_int64s = mlir::DenseElementsAttr::get(
+        RankedTensorType::get(
+            cats_int64sAttr.size(), rewriter.getIntegerType(64)),
+        cats_int64sAttr.getValue());
+		```
 # Posit Wrapper verification and 2's complement issue
 
 - In universal library, the negative is 2's complement for bit except the sign bit compare to standard
