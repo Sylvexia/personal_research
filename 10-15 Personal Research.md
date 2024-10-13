@@ -211,7 +211,20 @@ The following MLIR is before lower to `llvm dialect`
 		      alignment.value_or(nullptr));
 		}
 		```
-	- 
+	- get `DenseElementAttribute` from value:
+		- code snippet:
+			```cpp
+			DenseElementsAttr getDenseElementAttributeFromKrnlValue(Value value) {
+			  KrnlGlobalOp globalOp =
+			      dyn_cast_or_null<mlir::KrnlGlobalOp>(value.getDefiningOp());
+			  if (globalOp)
+			    if (globalOp.getValue().has_value())
+			      return mlir::dyn_cast<DenseElementsAttr>
+				      (globalOp.getValueAttr());
+			
+			  return nullptr;
+			}
+			```
 
 # Posit Wrapper verification and 2's complement issue
 
