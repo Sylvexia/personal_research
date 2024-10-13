@@ -182,7 +182,10 @@ The following MLIR is before lower to `llvm dialect`
 	- Attributes:
 		- value
 			- Not stored in external files:
+				- DenseResourceElementsAttr
+				- DenseElementsAttr
 			- Stored in external files
+				- If were
 		- offset
 			- memory offset from the base address of the global buffer
 			- `memref.reinterprete_cast`:
