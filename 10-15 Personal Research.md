@@ -179,18 +179,18 @@ The following MLIR is before lower to `llvm dialect`
 - MLIR Example:
 	`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
 - For our `krnl.global` lowering, we might need to care the following attribute
-	- value
-		- scalar/dense attribute
-	- offset
-		- memory offset from the base address of the global buffer
-		- `memref.reinterprete_cast`:
-			- https://discourse.llvm.org/t/question-about-memref-reinterpret-casts-offset/76082
-	- alignment
-		- https://hackmd.io/@sysprog/c-memory#data-alignment
-		- Memory address of the data should be a multiple of 8 bytes (?)
-		- SIMD support?
-		- `memref.global`
-			- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
+	- Attributes:
+		- value
+			- scalar/dense attribute
+		- offset
+			- memory offset from the base address of the global buffer
+			- `memref.reinterprete_cast`:
+				- https://discourse.llvm.org/t/question-about-memref-reinterpret-casts-offset/76082
+		- alignment
+			- https://hackmd.io/@sysprog/c-memory#data-alignment
+			- `memref.global`
+				- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
+					- so ONNX-MLIR creates a custom one?
 	- Probably we don't need to touch offset and alignment.
 
 # Two's complement
@@ -256,5 +256,3 @@ The following MLIR is before lower to `llvm dialect`
 	```
 - Reference for implementing 2's complement:
 	- [casted with unsigned type, not used](https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c)
-
-https://www.youtube.com/watch?v=UP-LBRbvI_U
