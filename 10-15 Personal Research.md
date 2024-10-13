@@ -198,7 +198,7 @@ The following MLIR is before lower to `llvm dialect`
 	- Probably we don't need to touch offset and alignment.
 - `KrnlGlobalOp` creation
 	- Only created by `KrnlBuilder::constant`
-	- code snippet:
+		- code snippet:
 		```cpp
 		Value KrnlBuilder::constant(MemRefType type, StringRef name,
 		    std::optional<Attribute> value, std::optional<IntegerAttr> offset,
