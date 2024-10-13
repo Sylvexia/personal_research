@@ -4,7 +4,6 @@
 	- Modify the `KrnlGlobalOp` value attribute.
 	- Dispatch the type.
 		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=2' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
-			- Posit value constant break
 		- struct `FrontendToKrnlLoweringPass` can be referred
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the `private` and `readonly` attribute.
@@ -112,6 +111,12 @@
 		      .cast<quant::UniformQuantizedType>();
 		}
 		```
+
+# POSIT Value Conversion
+
+- API spec: 
+	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {`
+- 
 
 # MLIR Type Dispatcher
 
