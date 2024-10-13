@@ -197,6 +197,21 @@ The following MLIR is before lower to `llvm dialect`
 					- so ONNX-MLIR creates a custom one?
 	- Probably we don't need to touch offset and alignment.
 - `KrnlGlobalOp` creation
+	- created by `KrnlBuilder::constant`
+	- code snippet:
+		```cpp
+		Value KrnlBuilder::constant(MemRefType type, StringRef name,
+		    std::optional<Attribute> value, std::optional<IntegerAttr> offset,
+		    std::optional<IntegerAttr> alignment) const {
+		  static int32_t constantID = 0;
+		  return b().create<KrnlGlobalOp>(loc(), type,
+		      b().getI64ArrayAttr(type.getShape()),
+		      b().getStringAttr(name + std::to_string(constantID++)),
+		      value.value_or(nullptr), offset.value_or(nullptr),
+		      alignment.value_or(nullptr));
+		}
+		```
+	- 
 
 # Posit Wrapper verification and 2's complement issue
 
