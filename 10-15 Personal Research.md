@@ -196,8 +196,9 @@ The following MLIR is before lower to `llvm dialect`
 				- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
 					- so ONNX-MLIR creates a custom one?
 	- Probably we don't need to touch offset and alignment.
+- `KrnlGlobalOp` creation
 
-# Two's complement
+# Posit Wrapper verification and 2's complement issue
 
 - In universal library, the negative is 2's complement for bit except the sign bit compare to standard
 	- We must comply with posit standard at MLIR side, hence we need to deal with the issue in the posit wrapper.
