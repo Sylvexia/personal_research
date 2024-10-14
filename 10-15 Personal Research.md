@@ -2,7 +2,8 @@
 
 # Summary
 
-
+- Integrated the raw bit posit conversion to MLIR part.
+	- In the future it would be substitute by ONNX 
 # POSIT Value Conversion in MLIR
 
 - API spec: 
@@ -280,10 +281,9 @@ The following MLIR is before lower to `llvm dialect`
 		- Means cannot access by other module
 		- Same name different module name would adjust accordingly.
 	- `readonly`
-		- This attribute indicates that the function does not write through this pointer argument, even though it may write to the memory that the pointer points to.
-		- If a function writes to a `readonly` pointer argument, the behavior is undefined.
+		- The pointer itself can be used or modified (e.g., reassigned), but the memory it references must remain unchanged
 - what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
-	- useful when
+	- Useful when
 		- You are defining new types of operations, attributes, or custom data structures that interact with MLIR.
-		- You need a **TypeID** system to manage these custom types across the IR safely.
+		- You need a TypeID system to manage these custom types across the IR safely.
 		- Inline linkage is required for header-defined components.
