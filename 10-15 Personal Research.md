@@ -287,7 +287,7 @@ The following MLIR is before lower to `llvm dialect`
 		- Means cannot access by other module
 		- Same name different module name would adjust accordingly.
 	- `readonly`
-		- The pointer itself can be used or modified (e.g., reassigned), but the memory it references must remain unchanged
+		- The pointer itself can be used or modified, but the memory it references must remain unchanged
 - what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
 	- Useful when
 		- You are defining new types of operations, attributes, or custom data structures that interact with MLIR.
