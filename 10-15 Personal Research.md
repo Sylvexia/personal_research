@@ -37,7 +37,13 @@
 		- dispatch the type based on `n-bits`
 - Methodology:
 	- Add the following to your pass initialization:
-		- 
+		- code snippet
+			```cpp
+			  Option<int> _n_bits{*this, "n-bits",
+		      llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
+		  Option<int> _es_val{*this, "es-val",
+		      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
+			```
 - Example output:
 	- 
 # MLIR structure
