@@ -191,7 +191,7 @@ The following MLIR is before lower to `llvm dialect`
 					- The creation seems no 
 				- DenseElementsAttr
 			- Stored in external files
-				- If were
+				- --store-c
 		- offset
 			- memory offset from the base address of the global buffer
 			- `memref.reinterprete_cast`:
