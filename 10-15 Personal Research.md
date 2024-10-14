@@ -66,7 +66,9 @@
 			...
 			```
 - Example output:
-	- 
+```cpp
+  func.func @test_arith_const(%arg0: i16, %arg1: i16) {                         %c16384_i16 = arith.constant 16384 : i16                                    %c18432_i16 = arith.constant 18432 : i16                                    %0 = call @posit16es2_add(%arg0, %c18432_i16) : (i16, i16) -> i16           return                                                                    } 
+```
 # MLIR structure
 
 The following MLIR is before lower to `llvm dialect`
