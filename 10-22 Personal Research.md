@@ -1,6 +1,7 @@
 
 # Task
 
+- Modify the `KrnlGlobalOp` value attribute.
 # Quantize inspiration
 
 - `Tensorflow` inspiration:

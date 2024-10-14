@@ -2,10 +2,6 @@
 # Task
 
 - `MLIR`
-	- Modify the `KrnlGlobalOp` value attribute.
-	- Dispatch the type.
-		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=2' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
-		- struct `FrontendToKrnlLoweringPass` can be referred
 	- Writing a pass that convert all `f32` data type to say, `uint8`
 	- Get to know the function `private` and `readonly` attribute.
 		- [ref](https://llvm.org/docs/LangRef.html)
@@ -51,6 +47,7 @@
 		      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
 			```
 	- Dispatch the type:
+		- Referring the `FrontendToKrnlLoweringPass`
 		- Utilize `TypeConverter` and lambda function.
 			- If we substitute the f32 to posit, just substitute the f32 part and all will apply
 		- code snippet:
