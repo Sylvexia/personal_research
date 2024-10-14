@@ -219,6 +219,7 @@ The following MLIR is before lower to `llvm dialect`
 	`auto apFloat : denseAttr.getValues<llvm::APFloat>()` ???
 - How to create array?
 	```cpp
+	std::vector<int8_t> i8Values;
 	auto i8TensorType = mlir::RankedTensorType::get(shape, mlir::IntegerType::get(context, 8));
 	
 	    // Create a new DenseElementsAttr with the i8 values.
