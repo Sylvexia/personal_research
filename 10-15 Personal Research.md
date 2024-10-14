@@ -110,11 +110,12 @@ The following MLIR is before lower to `llvm dialect`
 				- `DenseResourceElementsAttr`
 					- For large binary object (blob)
 					- Only created when NNPA accelerator.
+					- Example: 
 				- `DenseElementsAttr`
 					- Our main goal, more of the information can be found below.
 			- Stored in external files
 				- `store-constants-to-file`
-					- Constants will be stored on a binary file instead of be embedded into the model.so when compiling a big model
+					- Constants will be stored on a binary file instead of be embedded into the model.so when compiling a big model.
 		- offset
 			- memory offset from the base address of the global buffer
 			- `memref.reinterprete_cast`:
