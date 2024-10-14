@@ -1,22 +1,4 @@
 洪祐鈞
-# Task
-
-- `MLIR`
-	- Writing a pass that convert all `f32` data type to say, `uint8`
-	- Get to know the function `private` and `readonly` attribute.
-		- [ref](https://llvm.org/docs/LangRef.html)
-		- `private`
-			- Global values with “`private`” linkage are only directly accessible by objects in the current module. In particular, linking code into a module with a private global value may cause the private to be renamed as necessary to avoid collisions. Because the symbol is private to the module, all references can be updated. This doesn’t show up in any symbol table in the object file.
-		- `readonly`
-			- This attribute indicates that the function does not write through this pointer argument, even though it may write to the memory that the pointer points to.
-			- If a function writes to a `readonly` pointer argument, the behavior is undefined.
-	- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
-		- useful when
-			- You are defining new types of operations, attributes, or custom data structures that interact with MLIR.
-			- You need a **TypeID** system to manage these custom types across the IR safely.
-			- Inline linkage is required for header-defined components.
-
-
 # POSIT Value Conversion in MLIR
 
 - API spec: 
@@ -285,3 +267,18 @@ The following MLIR is before lower to `llvm dialect`
 	```
 - Reference for implementing 2's complement:
 	- [casted with unsigned type, not used](https://stackoverflow.com/questions/25754082/how-to-take-twos-complement-of-a-byte-in-c)
+
+# MISC
+
+- Get to know the function `private` and `readonly` attribute.
+	- [ref](https://llvm.org/docs/LangRef.html)
+	- `private`
+		- Global values with “`private`” linkage are only directly accessible by objects in the current module. In particular, linking code into a module with a private global value may cause the private to be renamed as necessary to avoid collisions. Because the symbol is private to the module, all references can be updated. This doesn’t show up in any symbol table in the object file.
+	- `readonly`
+		- This attribute indicates that the function does not write through this pointer argument, even though it may write to the memory that the pointer points to.
+		- If a function writes to a `readonly` pointer argument, the behavior is undefined.
+- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
+	- useful when
+		- You are defining new types of operations, attributes, or custom data structures that interact with MLIR.
+		- You need a **TypeID** system to manage these custom types across the IR safely.
+		- Inline linkage is required for header-defined components.
