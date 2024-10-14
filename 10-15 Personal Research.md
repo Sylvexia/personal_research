@@ -187,7 +187,7 @@ The following MLIR is before lower to `llvm dialect`
 		- value
 			- Not stored in external files:
 				- DenseResourceElementsAttr
-					- 
+					- For large binary object
 				- DenseElementsAttr
 			- Stored in external files
 				- If were
