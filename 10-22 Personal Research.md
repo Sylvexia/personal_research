@@ -104,6 +104,7 @@
 # `KrnlGlobalOp`
 
 1. Modify the `memref` return type.
+	1. RankedTensorType::get(xShape, builder.getF32Type())
 2. From multiple attribute, cast to value attribute, then modify the `denseElementAttr`.
 3. For each element, modify the type by type converter and its value.
 4. Goal: Mapped to `build(::mlir::OpBuilder &odsBuilder, ::mlir::OperationState &odsState, ::mlir::TypeRange resultTypes, ::mlir::Attribute shape, ::llvm::StringRef name, /*optional*/::mlir::Attribute value, /*optional*/::mlir::IntegerAttr offset, /*optional*/::mlir::IntegerAttr alignment);`
