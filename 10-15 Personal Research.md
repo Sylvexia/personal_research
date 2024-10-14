@@ -1,11 +1,11 @@
-洪祐鈞
+洪祐鈞/Sylvex Hung
 # Summary
 
 - Integrated the raw bit posit conversion to MLIR part.
 	- In the future it would be substituted by ONNX model converter.
 	- It's for evaluate `arith` operation substitution in the near future.
 - Type Dispatcher
-	- Generating symbol and type conversion with command line config.
+	- Generating symbol and type conversion with command line `n_bit`, `es_val` config.
 - Posit Wrapper
 	- Unit test and rough API is complete.
 	- Specifically handling 2's complement issue.
