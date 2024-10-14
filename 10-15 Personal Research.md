@@ -109,9 +109,9 @@ The following MLIR is before lower to `llvm dialect`
 			- Not stored in external files:
 				- `DenseResourceElementsAttr`
 					- For large binary object (blob)
-					-  
+					- Only created when NNPA accelerator.
 				- `DenseElementsAttr`
-					- Our main goal.
+					- Our main goal, more of the information can be found below.
 			- Stored in external files
 				- `store-constants-to-file`
 					- Constants will be stored on a binary file instead of be embedded into the model.so when compiling a big model
