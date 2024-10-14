@@ -67,8 +67,25 @@
 			```
 - Example output:
 ```cpp
-  func.func @test_arith_const(%arg0: i16, %arg1: i16) {                         %c16384_i16 = arith.constant 16384 : i16                                    %c18432_i16 = arith.constant 18432 : i16                                    %0 = call @posit16es2_add(%arg0, %c18432_i16) : (i16, i16) -> i16           return                                                                    } 
+// --convert-arith-to-posit-func='n-bits=16 es-val=2'
+func.func @test_arith_const(%arg0: i16, %arg1: i16) {                         
+  %c16384_i16 = arith.constant 16384 : i16                                    
+  %c18432_i16 = arith.constant 18432 : i16                                    
+  %0 = call @posit16es2_add(%arg0, %c18432_i16) : (i16, i16) -> i16           
+  return                                                                    
+} 
 ```
+
+```cpp
+// --convert-arith-to-posit-func='n-bits=32 es-val=1'
+func.func @test_arith_const(%arg0: i32, %arg1: i32) {
+  %c1073741824_i32 = arith.constant 1073741824 : i32
+  %c1342177280_i32 = arith.constant 1342177280 : i32
+  %0 = call @posit32es1_add(%arg0, %c1342177280_i32) : (i32, i32) -> i32
+  return
+} 
+```
+
 # MLIR structure
 
 The following MLIR is before lower to `llvm dialect`
