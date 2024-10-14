@@ -14,7 +14,6 @@
 			- This attribute indicates that the function does not write through this pointer argument, even though it may write to the memory that the pointer points to.
 			- If a function writes to a `readonly` pointer argument, the behavior is undefined.
 	- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
-	- alignment is for SIMD?
 	- Turn off the constant propagation in posit.
 	- `@run_main_graph`
 		- `KrnlEntryPointOpLowering`
@@ -118,13 +117,14 @@
 	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)`
 - 
 
-# MLIR Type Dispatcher
+# MLIR Posit Config Type Dispatcher
 
 - Summary:
 	- We can config the `nbits` and `es_val` with command line!
 		- Command:
 			- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=2' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
-	- It would generate 
+	- It would generate the function call symbol and 
+- Methodology
 # MLIR structure
 
 The following MLIR is before lower to `llvm dialect`
@@ -237,7 +237,7 @@ The following MLIR is before lower to `llvm dialect`
             cats_int64sAttr.size(), rewriter.getIntegerType(64)),
         cats_int64sAttr.getValue());
 		```
-# Posit Wrapper verification and 2's complement issue
+# Universal Posit Wrapper verification and 2's complement issue
 
 - In universal library, the negative is 2's complement for bit except the sign bit compare to standard
 	- We must comply with posit standard at MLIR side, hence we need to deal with the issue in the posit wrapper.
