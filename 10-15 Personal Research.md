@@ -104,6 +104,8 @@ The following MLIR is before lower to `llvm dialect`
 - MLIR Example:
 	`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
 - For our `krnl.global` lowering, we might need to care the following attribute
+	- TLDR:
+		- 
 	- Attributes:
 		- value
 			- Not stored in external files:
@@ -111,11 +113,30 @@ The following MLIR is before lower to `llvm dialect`
 					- For large binary object (blob)
 					- Only created when NNPA accelerator.
 					- Example: 
+						```cpp
+							func.func @constant_dense_resource() { dense<[0.203224242, -0.254296064, -0.365104556, -0.469196141, 0.466041982]> : tensor<5xf32> : !spirv.array<5 x f32>
+							  %0 = arith.constant dense_resource<dense_resource_test_5xf32> : tensor<5xf32>  
+							  %1 = arith.constant dense_resource<dense_resource_test_2xi32> : vector<2xi32>  
+							  %2 = arith.constant dense_resource<dense_resource_test_2x2xf32> : tensor<1x2x2xf32>  
+							  return
+							  }
+							}
+							
+							{-#
+							  dialect_resources: {
+							    builtin: {
+							      dense_resource_test_2xi32: "0x400000000100000002000000",
+							      dense_resource_test_5xf32: "0x08000000041A503E183382BEFCEEBABE7A3AF0BE0E9DEE3E",
+							      dense_resource_test_2x2xf32: "0x0800000054A3B53ED6C0B33E55D1A2BDE5D2BB3E"
+							    }
+							  }
+							#-}
+						```
 				- `DenseElementsAttr`
 					- Our main goal, more of the information can be found below.
 			- Stored in external files
 				- `store-constants-to-file`
-					- Constants will be stored on a binary file instead of be embedded into the model.so when compiling a big model.
+					- Constants will be stored on a binary file instead of be embedded into the `model.so` when compiling a big model.
 		- offset
 			- memory offset from the base address of the global buffer
 			- `memref.reinterprete_cast`:
