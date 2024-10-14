@@ -186,12 +186,14 @@ The following MLIR is before lower to `llvm dialect`
 	- Attributes:
 		- value
 			- Not stored in external files:
-				- DenseResourceElementsAttr
+				- `DenseResourceElementsAttr`
 					- For large binary object (blob)
-					- The creation seems no 
-				- DenseElementsAttr
+					-  
+				- `DenseElementsAttr`
+					- Our main goal.
 			- Stored in external files
-				- --store-c
+				- `store-constants-to-file`
+					- Constants will be stored on a binary file instead of be embedded into the model.so when compiling a big model
 		- offset
 			- memory offset from the base address of the global buffer
 			- `memref.reinterprete_cast`:
