@@ -24,26 +24,44 @@
 
 - API spec: 
 	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)`
-		- `raw_bit` input is 64-bit correspond with `APFloat` export datatype, however the `hsb` 32-bit is all zero.
-		- output is also 64-bit is because to bridge the 
+		- `raw_bit` input is 64-bit correspond with `apFloat.bitcastToAPInt().getZExtValue()` export datatype, however the `hsb` 32-bit is all zero.
+		- output is also 64-bit is because to bridge the `mlir` `rewriter.getIntegerAttr(IntType, uintValue)`
+	- Bug Resolved:
+		- Notice that the raw data from `apfloat` is interpreted with f32 instead of f64, takes half a day to debug.
 
 # MLIR Posit Config Type Dispatcher
 
 - Summary:
 	- We can config the `nbits` and `es_val` with command line!
 		- Command:
+			- pass the argument `n-bits` and `es-val` to the pass argument.
 			- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=2' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
 	- It would
-		- generate the function call symbol based on `n-bits`, `es-val`
-		- dispatch the type based on `n-bits`
+		- Generate the function call symbol based on `n-bits`, `es-val`
+		- Dispatch the type based on `n-bits`
 - Methodology:
-	- Add the following to your pass initialization:
+	- Accept the command line argument:
+		- Add the following to your pass initialization:
 		- code snippet
 			```cpp
 			  Option<int> _n_bits{*this, "n-bits",
 		      llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
 		  Option<int> _es_val{*this, "es-val",
 		      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
+			```
+	- Dispatch the type:
+		- Utilize `TypeConverter` and lambda function.
+			- If we substitute the f32 to posit, just substitute the f32 part and all will apply
+		- code snippet:
+			```cpp
+			  explicit FloatToIntTypeConverter(uint8_t bitWidth) {
+    addConversion([bitWidth](Type type) -> Type {
+		      if (isa<Float32Type>(type)) {
+		        return IntegerType::get(
+		            type.getContext(), bitWidth, IntegerType::Signless);
+		      }
+		      return type;
+		    });
 			```
 - Example output:
 	- 
