@@ -1,5 +1,4 @@
 洪祐鈞
-
 # Summary
 
 - Integrated the raw bit posit conversion to MLIR part.
@@ -136,6 +135,7 @@ The following MLIR is before lower to `llvm dialect`
 	`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
 - For our `krnl.global` lowering, we might need to care the following attribute
 	- TLDR:
+		- Modify the `memref` `f32` to integer.
 		- Convert value attribute `denseElementAttr` should just be fine.
 	- Attributes:
 		- value
