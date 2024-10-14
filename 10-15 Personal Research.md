@@ -105,7 +105,7 @@ The following MLIR is before lower to `llvm dialect`
 	`%1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C9F...> : tensor<32x1x3x3xf32>} : () -> memref<32x1x3x3xf32>`
 - For our `krnl.global` lowering, we might need to care the following attribute
 	- TLDR:
-		- 
+		- Convert value attribute `denseElementAttr` should just be fine.
 	- Attributes:
 		- value
 			- Not stored in external files:
@@ -138,7 +138,7 @@ The following MLIR is before lower to `llvm dialect`
 				- `store-constants-to-file`
 					- Constants will be stored on a binary file instead of be embedded into the `model.so` when compiling a big model.
 		- offset
-			- memory offset from the base address of the global buffer
+			- memory offset from the base address of the global buffer?
 			- `memref.reinterprete_cast`:
 				- https://discourse.llvm.org/t/question-about-memref-reinterpret-casts-offset/76082
 		- alignment
