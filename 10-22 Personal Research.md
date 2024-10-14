@@ -103,6 +103,6 @@
 
 # `KrnlGlobalOp`
 
-1. Modify the return type.
+1. Modify the memref return type.
 2. From multiple attribute, cast to value attribute, then modify the denseAttr.
 3. For each element, modify the type by type converter and its value.
