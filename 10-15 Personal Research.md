@@ -112,7 +112,7 @@
 		}
 		```
 
-# POSIT Value Conversion
+# POSIT Value Conversion in MLIR
 
 - API spec: 
 	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)`
@@ -120,7 +120,11 @@
 
 # MLIR Type Dispatcher
 
-
+- Summary:
+	- We can config the `nbits` and `es_val` with command line!
+		- Command:
+			- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=2' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
+	- It would generate 
 # MLIR structure
 
 The following MLIR is before lower to `llvm dialect`
