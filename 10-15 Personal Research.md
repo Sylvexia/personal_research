@@ -106,6 +106,11 @@ The following MLIR is before lower to `llvm dialect`
 		      }
 		    }
 		```
+	- According Operator:
+		```cpp
+		    %15 = "onnx.Reshape"(%14, %0) {allowzero = 0 : si64, onnx_node_name = "/Reshape"} : (tensor<1x64x7x7xf32>, tensor<2xi64>) -> tensor<1x3136xf32>
+		    %16 = "onnx.Gemm"(%15, %6, %5) {alpha = 1.000000e+00 : f32, beta = 1.000000e+00 : f32, onnx_node_name = "/fc1/Gemm", transA = 0 : si64, transB = 1 : si64} : (tensor<1x3136xf32>, tensor<128x3136xf32>, tensor<128xf32>) -> tensor<1x128xf32>
+		```
 - [`memref` reference](https://mlir.llvm.org/docs/Dialects/MemRef/)
 - `reinterpret_cast`: takes an allocated memory of type `memref<1x64x7x7xf32>` and "views" it as a `memref<1x3136xf32>`
 - `alloc`/`alloca`
