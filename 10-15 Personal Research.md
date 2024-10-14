@@ -219,11 +219,10 @@ The following MLIR is before lower to `llvm dialect`
 	`auto apFloat : denseAttr.getValues<llvm::APFloat>()` ???
 - How to create array?
 	```cpp
-	std::vector<int8_t> i8Values;
-	auto i8TensorType = mlir::RankedTensorType::get(shape, mlir::IntegerType::get(context, 8));
-	
-	    // Create a new DenseElementsAttr with the i8 values.
-	    return mlir::DenseElementsAttr::get(i8TensorType, llvm::makeArrayRef(i8Values));
+	llvm::SmallVector<uint8_t, 1> values;
+	auto tensorType = mlir::RankedTensorType::get(shape, mlir::IntegerType::get(context, 8));
+	// Create a new DenseElementsAttr with the i8 values.
+	return DenseElementsAttr::get(tensorType, llvm::ArrayRef(values));
 	```
 # Universal Posit Wrapper verification and 2's complement issue
 
