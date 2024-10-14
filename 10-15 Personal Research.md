@@ -14,7 +14,15 @@
 - API spec: 
 	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)`
 		- `raw_bit` input is 64-bit correspond with `apFloat.bitcastToAPInt().getZExtValue()` export datatype, however the `hsb` 32-bit is all zero.
-		- output is also 64-bit is because to bridge the `mlir` `rewriter.getIntegerAttr(IntType, uintValue)`
+		- output is also 64-bit is because to bridge the `mlir` `rewriter.getIntegerAttr(IntType, uintValue)`, `hsb` 32-bit is also all zero
+		- Support all `n-bits`, `es_val`
+		- Implementation:
+			- No `bitset` or `bitblock` as we in universal.
+			- All bit wise operation.
+			- Round to nearest.
+				- `round_up = guard & (round | sticky);`
+			- No while loops.
+				- `__builtin_ctzl(value);`
 	- Bug Resolved:
 		- Notice that the raw data from `apfloat` is interpreted with `f32` instead of `f64`, takes half a day to debug.
 
@@ -31,7 +39,7 @@
 - Methodology:
 	- Accept the command line argument:
 		- Add the following to your pass initialization:
-		- code snippet
+		- code snippet:
 			```cpp
 			  Option<int> _n_bits{*this, "n-bits",
 		      llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
@@ -183,7 +191,7 @@ The following MLIR is before lower to `llvm dialect`
 				- [nobody needs it](https://discourse.llvm.org/t/alignment-on-memref-global/3381)
 					- so ONNX-MLIR creates a custom one?
 	- Probably we don't need to touch offset and alignment.
-- `KrnlGlobalOp` creation
+- `KrnlGlobalOp` creation:
 	- Only created by `KrnlBuilder::constant`
 		- code snippet:
 			```cpp
@@ -196,20 +204,6 @@ The following MLIR is before lower to `llvm dialect`
 			      b().getStringAttr(name + std::to_string(constantID++)),
 			      value.value_or(nullptr), offset.value_or(nullptr),S
 			      alignment.value_or(nullptr));
-			}
-			```
-	- get `DenseElementAttribute` from value:
-		- code snippet:
-			```cpp
-			DenseElementsAttr getDenseElementAttributeFromKrnlValue(Value value) {
-			  KrnlGlobalOp globalOp =
-			      dyn_cast_or_null<mlir::KrnlGlobalOp>(value.getDefiningOp());
-			  if (globalOp)
-			    if (globalOp.getValue().has_value())
-			      return mlir::dyn_cast<DenseElementsAttr>
-				      (globalOp.getValueAttr());
-			
-			  return nullptr;
 			}
 			```
 - `DenseElementsAttr` creation:
