@@ -209,6 +209,7 @@ The following MLIR is before lower to `llvm dialect`
 - `DenseElementsAttr` creation:
 	- code snippet:
 		```cpp
+		ArrayAttr cats_int64sAttr = adaptor.getCatsInt64sAttr();
 		DenseElementsAttr cats_int64s = mlir::DenseElementsAttr::get(
         RankedTensorType::get(
             cats_int64sAttr.size(), rewriter.getIntegerType(64)),
