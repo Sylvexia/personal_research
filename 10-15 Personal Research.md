@@ -3,7 +3,13 @@
 # Summary
 
 - Integrated the raw bit posit conversion to MLIR part.
-	- In the future it would be substitute by ONNX 
+	- In the future it would be substituted by ONNX model converter.
+	- It's for evaluate `arith` operation substitution in the near future.
+- Type Dispatcher
+	- Generating symbol and type conversion with command line config.
+- Posit Wrapper
+	- Unit test and rough API is complete.
+	- Specifically handling 2's complement issue.
 # POSIT Value Conversion in MLIR
 
 - API spec: 
