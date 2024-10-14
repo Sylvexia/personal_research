@@ -1,4 +1,8 @@
 洪祐鈞
+
+# Summary
+
+
 # POSIT Value Conversion in MLIR
 
 - API spec: 
@@ -6,7 +10,7 @@
 		- `raw_bit` input is 64-bit correspond with `apFloat.bitcastToAPInt().getZExtValue()` export datatype, however the `hsb` 32-bit is all zero.
 		- output is also 64-bit is because to bridge the `mlir` `rewriter.getIntegerAttr(IntType, uintValue)`
 	- Bug Resolved:
-		- Notice that the raw data from `apfloat` is interpreted with f32 instead of f64, takes half a day to debug.
+		- Notice that the raw data from `apfloat` is interpreted with `f32` instead of `f64`, takes half a day to debug.
 
 # MLIR Posit Config Type Dispatcher
 
