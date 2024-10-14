@@ -158,7 +158,7 @@ The following MLIR is before lower to `llvm dialect`
 - [`memref` reference](https://mlir.llvm.org/docs/Dialects/MemRef/)
 - `reinterpret_cast`: takes an allocated memory of type `memref<1x64x7x7xf32>` and "views" it as a `memref<1x3136xf32>`
 - `alloc`/`alloca`
-	- `alloc` allocate memory on heap (verify)
+	- `alloc` allocate memory on heap.
 		- `%alloc_7 = memref.alloc() {alignment = 128 : i64} : memref<1x128xf32>`
 			- `alignment = 128` might infer `SIMD` or similar memory alignment requirements for performance.
 	- `alloca` allocate memory on stack.
@@ -207,18 +207,18 @@ The following MLIR is before lower to `llvm dialect`
 - `KrnlGlobalOp` creation
 	- Only created by `KrnlBuilder::constant`
 		- code snippet:
-		```cpp
-		Value KrnlBuilder::constant(MemRefType type, StringRef name,
-		    std::optional<Attribute> value, std::optional<IntegerAttr> offset,
-		    std::optional<IntegerAttr> alignment) const {
-		  static int32_t constantID = 0;
-		  return b().create<KrnlGlobalOp>(loc(), type,
-		      b().getI64ArrayAttr(type.getShape()),
-		      b().getStringAttr(name + std::to_string(constantID++)),
-		      value.value_or(nullptr), offset.value_or(nullptr),S
-		      alignment.value_or(nullptr));
-		}
-		```
+			```cpp
+			Value KrnlBuilder::constant(MemRefType type, StringRef name,
+			    std::optional<Attribute> value, std::optional<IntegerAttr> offset,
+			    std::optional<IntegerAttr> alignment) const {
+			  static int32_t constantID = 0;
+			  return b().create<KrnlGlobalOp>(loc(), type,
+			      b().getI64ArrayAttr(type.getShape()),
+			      b().getStringAttr(name + std::to_string(constantID++)),
+			      value.value_or(nullptr), offset.value_or(nullptr),S
+			      alignment.value_or(nullptr));
+			}
+			```
 	- get `DenseElementAttribute` from value:
 		- code snippet:
 			```cpp
@@ -243,7 +243,7 @@ The following MLIR is before lower to `llvm dialect`
 		```
 # Universal Posit Wrapper verification and 2's complement issue
 
-- In universal library, the negative is 2's complement for bit except the sign bit compare to standard
+- In universal library, the negative is 2's complement except the sign bit compare to standard
 	- We must comply with posit standard at MLIR side, hence we need to deal with the issue in the posit wrapper.
 	- Code snippet:
 		```cpp
@@ -293,7 +293,7 @@ The following MLIR is before lower to `llvm dialect`
 		PASS: a = 128 b = 87 c = 128 c_ref = 128
 		Passed 255 tests
 		```
-- Verify the library name
+- Verify the library name (since we still have `api` written in `c++`)
 	```bash
 	$ nm libposit_c_api_custom.a | grep posit8
 	0000000000000000 t _GLOBAL__sub_I_posit8es0_add
