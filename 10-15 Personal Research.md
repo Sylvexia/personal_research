@@ -54,14 +54,16 @@
 			- If we substitute the f32 to posit, just substitute the f32 part and all will apply
 		- code snippet:
 			```cpp
+			struct FloatToIntTypeConverter : public mlir::TypeConverter {
 			  explicit FloatToIntTypeConverter(uint8_t bitWidth) {
-    addConversion([bitWidth](Type type) -> Type {
-		      if (isa<Float32Type>(type)) {
-		        return IntegerType::get(
-		            type.getContext(), bitWidth, IntegerType::Signless);
-		      }
-		      return type;
-		    });
+			    addConversion([bitWidth](Type type) -> Type {
+			      if (isa<Float32Type>(type)) {
+			        return IntegerType::get(
+			            type.getContext(), bitWidth, IntegerType::Signless);
+			      }
+			      return type;
+			    });
+			...
 			```
 - Example output:
 	- 
