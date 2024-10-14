@@ -6,7 +6,7 @@
 		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=2' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
 		- struct `FrontendToKrnlLoweringPass` can be referred
 	- Writing a pass that convert all `f32` data type to say, `uint8`
-	- Get to know the `private` and `readonly` attribute.
+	- Get to know the function `private` and `readonly` attribute.
 		- [ref](https://llvm.org/docs/LangRef.html)
 		- `private`
 			- Global values with “`private`” linkage are only directly accessible by objects in the current module. In particular, linking code into a module with a private global value may cause the private to be renamed as necessary to avoid collisions. Because the symbol is private to the module, all references can be updated. This doesn’t show up in any symbol table in the object file.
@@ -24,7 +24,8 @@
 
 - API spec: 
 	- `uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)`
-- 
+		- `raw_bit` input is 64-bit correspond with `APFloat` export datatype, however the `hsb` 32-bit is all zero.
+		- output is also 64-bit is because to bridge the 
 
 # MLIR Posit Config Type Dispatcher
 
