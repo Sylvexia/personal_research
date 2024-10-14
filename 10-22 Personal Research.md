@@ -2,6 +2,11 @@
 # Task
 
 - Modify the `KrnlGlobalOp` value attribute.
+- Turn off the constant propagation in posit.
+- `@run_main_graph`
+		- `KrnlEntryPointOpLowering`
+- Universal Wrapper
+	- `NaR` handling.
 # Quantize inspiration
 
 - `Tensorflow` inspiration:

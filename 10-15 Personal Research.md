@@ -11,11 +11,11 @@
 			- This attribute indicates that the function does not write through this pointer argument, even though it may write to the memory that the pointer points to.
 			- If a function writes to a `readonly` pointer argument, the behavior is undefined.
 	- what does `MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID` mean?
-	- Turn off the constant propagation in posit.
-	- `@run_main_graph`
-		- `KrnlEntryPointOpLowering`
-- Universal Wrapper
-	- `NaR` handling.
+		- useful when
+			- You are defining new types of operations, attributes, or custom data structures that interact with MLIR.
+			- You need a **TypeID** system to manage these custom types across the IR safely.
+			- Inline linkage is required for header-defined components.
+
 
 # POSIT Value Conversion in MLIR
 
