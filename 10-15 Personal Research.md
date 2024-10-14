@@ -215,7 +215,8 @@ The following MLIR is before lower to `llvm dialect`
         cats_int64sAttr.getValue());
 		```
 - Iterate and get the value:
-	`getValues<APFloat>`??
+	`auto apFloat : denseAttr.getValues<llvm::APFloat>()` ???
+- How to create array?
 # Universal Posit Wrapper verification and 2's complement issue
 
 - In universal library, the negative is 2's complement except the sign bit compare to standard
