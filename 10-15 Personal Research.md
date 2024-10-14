@@ -218,6 +218,12 @@ The following MLIR is before lower to `llvm dialect`
 - Iterate and get the value:
 	`auto apFloat : denseAttr.getValues<llvm::APFloat>()` ???
 - How to create array?
+	```cpp
+	auto i8TensorType = mlir::RankedTensorType::get(shape, mlir::IntegerType::get(context, 8));
+	
+	    // Create a new DenseElementsAttr with the i8 values.
+	    return mlir::DenseElementsAttr::get(i8TensorType, llvm::makeArrayRef(i8Values));
+	```
 # Universal Posit Wrapper verification and 2's complement issue
 
 - In universal library, the negative is 2's complement except the sign bit compare to standard
