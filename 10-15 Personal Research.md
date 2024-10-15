@@ -25,7 +25,6 @@
 				- `__builtin_ctzl(value);`
 	- Bug Resolved:
 		- Notice that the raw data from `apfloat` is interpreted with `f32` instead of `f64`, takes half a day to debug.
-
 # MLIR Posit Config Type Dispatcher
 
 - Summary:
