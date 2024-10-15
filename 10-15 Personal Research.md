@@ -21,7 +21,7 @@
 			- All bit wise operation.
 			- Round to nearest.
 				- `round_up = guard & (round | sticky);`
-			- No while loops.
+			- No loops.
 				- `__builtin_ctzl(value);`
 	- Bug Resolved:
 		- Notice that the raw data from `apfloat` is interpreted with `f32` instead of `f64`, takes half a day to debug.
