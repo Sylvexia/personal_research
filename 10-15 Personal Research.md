@@ -221,7 +221,6 @@ The following MLIR is before lower to `llvm dialect`
 	```cpp
 	llvm::SmallVector<uint8_t, 1> values;
 	auto tensorType = mlir::RankedTensorType::get(shape, mlir::IntegerType::get(context, 8));
-	// Create a new DenseElementsAttr with the i8 values.
 	return DenseElementsAttr::get(tensorType, llvm::ArrayRef(values));
 	```
 # Universal Posit Wrapper verification and 2's complement issue
