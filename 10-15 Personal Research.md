@@ -43,7 +43,7 @@
 			```cpp
 			  Option<int> _n_bits{*this, "n-bits",
 		      llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
-		  Option<int> _es_val{*this, "es-val",
+			  Option<int> _es_val{*this, "es-val",
 		      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
 			```
 	- Dispatch the type:
