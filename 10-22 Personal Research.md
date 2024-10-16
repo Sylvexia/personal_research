@@ -139,3 +139,15 @@ module {
 ```
 
 Verification:
+code snippet:
+```cpp
+for (auto [origValue, newValue] : llvm::zip(
+		 denseAttr.getValues<APFloat>(), newDenseAttr.getValues<APInt>())) {
+  llvm::errs() << "orig: " << origValue.convertToFloat() << "\n";
+  // cast to binary
+  for (int i = n_bits - 1; i >= 0; i--) {
+	llvm::errs() << ((newValue.getZExtValue() >> i) & 1);
+  }
+  llvm::errs() << "\n";
+}
+```
