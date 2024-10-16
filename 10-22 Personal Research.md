@@ -169,3 +169,12 @@ orig: 2.717297e-02
 Failure:
 
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+
+another failure:
+when return
+```cpp
+func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) -> memref<32x1x3x3xf32> {
+    %1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C...
+    return %1 : memref<32x1x3x3xf32>
+}
+```
