@@ -169,8 +169,11 @@ orig: 2.717297e-02
 Failure:
 
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
-
+```cpp
+float value: -INF
+error: failed to legalize operation 'arith.constant' that was explicitly marked illegal
 another failure:
+```
 when return
 ```cpp
 func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) -> memref<32x1x3x3xf32> {
