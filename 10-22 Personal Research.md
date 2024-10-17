@@ -169,6 +169,7 @@ orig: 2.717297e-02
 Failure:
 
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+reason:　arith const failed
 ```cpp
 float value: -INF
 error: failed to legalize operation 'arith.constant' that was explicitly marked illegal
