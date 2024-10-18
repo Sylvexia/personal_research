@@ -183,3 +183,12 @@ func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) -> memref<32x1x3x3xf32>
     return %1 : memref<32x1x3x3xf32>
 }
 ```
+
+the following does not work for type conveter.
+```
+func.func @test_memrefReturn(%arg0: memref<32x1x3x3xf32>) -> memref<32x1x3x3xf32> {
+
+  return %arg0 : memref<32x1x3x3xf32>
+
+}
+```
