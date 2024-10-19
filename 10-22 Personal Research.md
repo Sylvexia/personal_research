@@ -167,7 +167,20 @@ orig: 2.717297e-02
 ```
 
 Bug and Resolve:
-- The addConversion return type mib
+- The addConversion return type might actually matters
+```cpp
+addConversion([bitWidth](FloatType type) -> Type {
+  if (isa<Float32Type>(type)) {
+	return IntegerType::get(
+		type.getContext(), bitWidth, IntegerType::Signless);
+  }
+```
+
+Is not equal to modify the `FloatType` to `Type`
+
+Does this infer the it also register the `typeConverter.isLegal(op)` when passed in the Operation type?
+
+
 
 
 Failure:
