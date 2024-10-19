@@ -178,6 +178,9 @@ addConversion([bitWidth](FloatType type) -> Type {
 
 Is not equal to modify the `FloatType` to `Type`
 
+If you want to `([bitWidth](FloatType type)`
+You need to `dyn_cast` the type
+
 Does this infer the it also register the `typeConverter.isLegal(op)` when passed in the Operation type?
 
 
