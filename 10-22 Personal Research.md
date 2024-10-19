@@ -166,6 +166,9 @@ orig: 2.717297e-02
 00000010
 ```
 
+Bug:
+- 
+
 Failure:
 
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
