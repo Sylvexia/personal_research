@@ -183,6 +183,12 @@ You need to `dyn_cast` the type
 
 So when you
 
+Revise:
+```cpp
+bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
+		   typeConverter.isLegal(&op.getBody());
+```
+`getBody` means all the operation inside the body must be integer types
 
 
 Failure:
