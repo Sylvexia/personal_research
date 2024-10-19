@@ -2,7 +2,6 @@
 
 # Task
 
-- Modify the `KrnlGlobalOp` value attribute.
 - Writing a pass that convert all `f32` data type to say, `uint8`
 - Turn off the constant propagation in posit.
 - `@run_main_graph`
