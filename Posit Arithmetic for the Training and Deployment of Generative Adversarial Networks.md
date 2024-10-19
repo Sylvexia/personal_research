@@ -60,7 +60,7 @@ No easy way to adopt small bit to train GAN.
 
 ## Proposed Method: System architecture
 
-![meow](Pasted image 20241019164501.png)
+![meow](posit_gan_image/Value_Distribution.png)
 
 ---
 
