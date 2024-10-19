@@ -13,7 +13,7 @@ style: |
   }
 ---
 
-# Why GANs Are Hard to Train
+# Posit Arithmetic for the Training and Deployment of Generative Adversarial Networks
 
 ---
 
