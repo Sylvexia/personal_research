@@ -166,8 +166,13 @@ orig: 2.717297e-02
 00000010
 ```
 
-Bug:
-- 
+Bug and Resolve:
+- The addConversion return type mib
+
+
+Failure:
+- Adding pass to the main compiler currently does not work
+	- Might be not dealing with other `memref` Type.
 
 Failure:
 
