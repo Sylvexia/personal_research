@@ -50,15 +50,19 @@ No easy way to adopt small bit to train GAN.
 
 ---
 
-## 3. Non-Convergence  
-- Both models compete without reaching equilibrium.  
-- Leads to oscillations in performance.
+## Proposed Method: System architecture
 
 ---
 
-## 4. Hyperparameter Sensitivity  
-- GANs are highly sensitive to learning rates & batch sizes.  
-- Small changes can destabilize training.
+## Proposed Method: Parameter Scaling
+
+---
+
+## Proposed Method: Loss Scaling
+
+---
+
+## Proposed Method: Fast Approx. of tanh(x)
 
 ---
 
