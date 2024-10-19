@@ -26,6 +26,10 @@ style: |-
 	- Train G and D at the same time
 		- G try to generate fake data such that D cannot distinguish
 		- D try to get better at judging real and fake data.
+- Application:
+	- Image generation
+	- Data augmentation
+	- Style Transfer
 
 ---
 
