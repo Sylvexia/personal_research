@@ -2,9 +2,9 @@
 marp: true
 theme: gaia
 paginate: true
-backgroundColor: #ffffff
-color: #000000
-style: |
+backgroundColor: 
+color: 
+style: |-
   h1, h2, h3 {
     text-align: center;
   }
