@@ -167,7 +167,7 @@ orig: 2.717297e-02
 ```
 
 Bug and Resolve:
-- The addConversion return type might actually matters
+- The addConversion input type might actually matters
 ```cpp
 addConversion([bitWidth](FloatType type) -> Type {
   if (isa<Float32Type>(type)) {
@@ -181,8 +181,7 @@ Is not equal to modify the `FloatType` to `Type`
 If you want to `([bitWidth](FloatType type)`
 You need to `dyn_cast` the type
 
-Does this infer the it also register the `typeConverter.isLegal(op)` when passed in the Operation type?
-
+So when you
 
 
 
