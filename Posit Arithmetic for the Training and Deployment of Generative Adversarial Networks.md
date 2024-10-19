@@ -1,10 +1,9 @@
-
 ---
 marp: true
-theme: default
+theme: gaia
 paginate: true
-backgroundColor: #1E1E1E
-color: #FFFFFF
+backgroundColor: #ffffff
+color: #000000
 style: |
   h1, h2, h3 {
     text-align: center;
@@ -12,7 +11,6 @@ style: |
   section {
     font-size: auto;
   }
-  
 ---
 
 # Why GANs Are Hard to Train
