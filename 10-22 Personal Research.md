@@ -103,7 +103,11 @@
 # `KrnlGlobalOp`
 
 - Methodology:
-	- 
+	1. Convert the return type, which is `MemRefType`
+	2. Get the value attribute of `KrnlGlobalOp`, which is `DenseElementsAttr`
+	3. Modify the `DenseElementsAttr`Convert the value, which use `attr.mapValues` to get the `APInt`
+	4. Write the `APInt` conversion logic into the `mapValues` callback function.
+	5. Replace the old operation with new operation with the modified data above.
 
 - Input:
 ```cpp
