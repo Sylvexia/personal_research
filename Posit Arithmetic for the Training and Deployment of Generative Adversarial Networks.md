@@ -17,15 +17,15 @@ style: |-
 
 ---
 
-## 1. Vanishing/Exploding Gradients  
-- Generator & Discriminator gradients often become unstable.  
-- Makes optimization difficult and slow.
+## Contribution:
+- The first to use non-standard 8-bit FP format to train and 6-bit FP format to inference.
+- Fast approximation of tanh(x) function in posit.
+- Software and Hardware Evaluation.
 
 ---
 
-## 2. Mode Collapse  
-- Generator learns to produce limited patterns repeatedly.  
-- Fails to generate diverse outputs.
+## Why GAN is hard to train?  
+- 
 
 ---
 
