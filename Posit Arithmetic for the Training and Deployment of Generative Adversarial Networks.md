@@ -32,7 +32,8 @@ style: |-
 ## Why GAN is hard to train?  
 No easy way to adopt small bit to train GAN.
 - Output of GAN is millions of pixels which sensitive to numeric errors.
-- At that time, the only method was to use Nvidia mixed-precision framework to train half precision GAN.
+- At that time, the only method was to use Nvidia mixed-precision framework to train GAN.
+	- Nvidia O1 mode: Only use FP16 for GEMM operator
 
 ---
 
