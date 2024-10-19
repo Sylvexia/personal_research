@@ -25,7 +25,8 @@ style: |-
 ---
 
 ## Why GAN is hard to train?  
-- 
+No easy way to adopt small bit to train GAN.
+- Output of GAN is millions of pixels which sensitive to numeric errors.
 
 ---
 
