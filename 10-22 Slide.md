@@ -2,7 +2,7 @@
 marp: true
 theme: default
 paginate: true
-header: 10-22 Personal Research
+header: 
 footer: 
 style: "section {
 
@@ -20,9 +20,7 @@ style: "section {
 
   \  border-radius: 8px;\r   \ 
 
-  \  font-size: 32px;\r   \ 
-
-  \  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\ 
+  \  font-size: 32px;\r
 
   \ }
 
