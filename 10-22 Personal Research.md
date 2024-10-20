@@ -137,8 +137,8 @@ module {
 }
 ```
 
-Verification:
-code snippet:
+- Verification:
+	- From old and new `denseAttr`, iterate at the same time and compare them. 
 ```cpp
 for (auto [origValue, newValue] : llvm::zip(
 		 denseAttr.getValues<APFloat>(), newDenseAttr.getValues<APInt>())) {

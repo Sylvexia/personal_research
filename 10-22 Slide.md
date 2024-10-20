@@ -60,17 +60,36 @@ style: "section {
 # `Modifying KrnlGlobalOp`
 
 - Input:
-	```cpp
-	func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
-	    %1 = "krnl.global"() {name = "constant_2", 
-		    shape = [32, 1, 3, 3], 
-		    value = dense<"0x2F9C...AB3E"> : 
-			    tensor<32x1x3x3xf32>} : () ->
-				    memref<32x1x3x3xf32>
-	  return
-	}
-	```
+```cpp
+func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
+%1 = "krnl.global"() {name = "constant_2", 
+	shape = [32, 1, 3, 3], 
+	value = dense<"0x2F9C...AB3E"> : 
+		tensor<32x1x3x3xf32>} : () ->
+			memref<32x1x3x3xf32>
+return
+}
+```
 - Command:
 ```bash
 ./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' ./test_krnl.mlir
+```
+
+---
+
+# `Modifying KrnlGlobalOp`
+- Verification:
+	- From old and new `denseAttr`, iterate at the same time and compare them.
+```cpp
+for (auto [origValue, newValue] : 
+  llvm::zip(denseAttr.getValues<APFloat>(), 
+    newDenseAttr.getValues<APInt>())) {
+    
+  llvm::errs() << "orig: " << origValue.convertToFloat() << "\n";
+
+  for (int i = n_bits - 1; i >= 0; i--) {
+	llvm::errs() << ((newValue.getZExtValue() >> i) & 1);
+  }
+  llvm::errs() << "\n";
+}
 ```
