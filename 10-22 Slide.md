@@ -172,3 +172,16 @@ For pattern `addConversion([](Type type)` return the same type as fallback mecha
 - And its comment:
 	`The order of type conversion is important: later ones are tried earlier.`
 	- No relevant information are found in the documentation.
+
+---
+# Modifying `KrnlGlobalOp`
+
+- Revise:
+	```cpp
+	bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
+			   typeConverter.isLegal(&op.getBody());
+	```
+- `getBody` means all the operation inside the body must be integer types
+
+---
+# Modifying `KrnlGlobalOp`
