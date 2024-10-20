@@ -81,14 +81,27 @@ return
 - Verification:
 	- From old and new `denseAttr`, iterate at the same time and compare them.
 ```cpp
-for (auto [origValue, newValue] : 
-  llvm::zip(denseAttr.getValues<APFloat>(), 
-    newDenseAttr.getValues<APInt>())) {
-    
-  llvm::errs() << "orig: " << origValue.convertToFloat() << "\n";
+for (auto [origValue, newValue] : llvm::zip(
+  denseAttr.getValues<APFloat>(), 
+  newDenseAttr.getValues<APInt>())) {
+  
+  llvm::errs() << "original float value: " 
+    << origValue.convertToFloat() << "\n";
 
+  llvm::errs() << "original float raw bit: ";
+  uint64_t orig_raw_bit = origValue.bitcastToAPInt().getZExtValue();
+  for(int i = 31; i >= 0; i--) {
+	if (i == 30 || i == 22) {
+	  llvm::errs() << " ";
+	}
+	llvm::errs() << ((orig_raw_bit >> i) & 1);
+  }
+  llvm::errs() << "\n";
+
+  llvm::errs() << "new raw bit: ";
+  uint64_t raw_bit = newValue.getZExtValue();
   for (int i = n_bits - 1; i >= 0; i--) {
-	llvm::errs() << ((newValue.getZExtValue() >> i) & 1);
+	llvm::errs() << ((raw_bit >> i) & 1);
   }
   llvm::errs() << "\n";
 }
