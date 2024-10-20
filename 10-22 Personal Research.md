@@ -1,5 +1,4 @@
 洪祐鈞
-
 # Task
 
 - Writing a pass that convert all `f32` data type to say, `uint8`
@@ -176,12 +175,18 @@ addConversion([bitWidth](FloatType type) -> Type {
   }
 ```
 
-Is not equal to modify the `FloatType` to `Type`
-
-If you want to `([bitWidth](FloatType type)`
+``([bitWidth](Type type)`` would make the `FloatType` information lost.
+If you want to `([bitWidth](Type type)`
 You need to `dyn_cast` the type
 
-So when you
+The order of the `addConversion` also matters:
+
+`addConversion([](Type type)`
+`addConversion([bitWidth](MemRefType type)`
+`addConversion([bitWidth](TensorType type)`
+`addConversion([bitWidth](FloatType type)`
+
+
 
 Revise:
 ```cpp
@@ -189,7 +194,6 @@ bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
 		   typeConverter.isLegal(&op.getBody());
 ```
 `getBody` means all the operation inside the body must be integer types
-
 
 Failure:
 - Adding pass to the main compiler currently does not work
@@ -203,21 +207,4 @@ reason:　arith const failed
 float value: -INF
 error: failed to legalize operation 'arith.constant' that was explicitly marked illegal
 another failure:
-```
-
-when return
-```cpp
-func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) -> memref<32x1x3x3xf32> {
-    %1 = "krnl.global"() {name = "constant_2", shape = [32, 1, 3, 3], value = dense<"0x2F9C...
-    return %1 : memref<32x1x3x3xf32>
-}
-```
-
-the following does not work for type conveter.
-```
-func.func @test_memrefReturn(%arg0: memref<32x1x3x3xf32>) -> memref<32x1x3x3xf32> {
-
-  return %arg0 : memref<32x1x3x3xf32>
-
-}
 ```
