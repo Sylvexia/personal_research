@@ -185,3 +185,13 @@ For pattern `addConversion([](Type type)` return the same type as fallback mecha
 
 ---
 # Modifying `KrnlGlobalOp`
+- Failure:
+	- Adding pass to the main compiler currently does not work
+		- Might be not dealing with other `memref` operations.
+	- Reproduce
+	- `./onnx-mlir --EmitMLIR ./mnist_model.onnx -o ./log.txt`
+		```cpp
+		float value: -INF
+		error: failed to legalize operation 'arith.constant' that was explicitly marked illegal
+		another failure:
+		```
