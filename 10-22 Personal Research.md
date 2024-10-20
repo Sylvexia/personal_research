@@ -186,6 +186,10 @@ The order of the `addConversion` also matters:
 `addConversion([bitWidth](TensorType type)`
 `addConversion([bitWidth](FloatType type)`
 
+The first one accept any type and return the original
+This act as a fallback mechanics for not able to convert all by once.
+You can see the same pattern in `onnx-mlir` project.
+
 
 
 Revise:
