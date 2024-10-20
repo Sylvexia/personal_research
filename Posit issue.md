@@ -45,6 +45,8 @@ softposit
 
 `((2^(2^2))^1)*(1+0.5+0.25+0.125+0.0625) = 31`
 
+Do increment has issue?
+tldr: no
 
 posit< 8,1>  = 01110110 : 48
 posit< 8,1>  = 01110111 : 56
