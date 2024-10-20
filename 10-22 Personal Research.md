@@ -201,7 +201,7 @@ bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
 
 Failure:
 - Adding pass to the main compiler currently does not work
-	- Might be not dealing with other `memref` Type.
+	- Might be not dealing with other `memref` operations.
 
 Failure:
 
