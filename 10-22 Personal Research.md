@@ -203,8 +203,6 @@ Failure:
 - Adding pass to the main compiler currently does not work
 	- Might be not dealing with other `memref` operations.
 
-Failure:
-
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
 reason:　arith const failed
 ```cpp
