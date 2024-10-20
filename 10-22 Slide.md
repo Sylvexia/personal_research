@@ -4,19 +4,21 @@ theme: default
 paginate: true
 header: 10-22 Personal Research
 footer: 
-style: |-
-  section {
-    font-family: 'Arial', sans-serif;
+style: "section {
+
+  \  font-family: 'Arial', sans-serif;
+
   }
-  pre {
-    background-color: #2d2d2d;
-    color: #f8f8f2;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  h1, h2 {
-    color: #2a7ae2;
-  }
+
+  \  pre, code {\r
+
+  \    background-color: #ffffff;\r   \ 
+
+  color: #2d2d2d; \r padding: 10px;\r    border-radius: 8px;\r    font-size: 16px;\r    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: light shadow */\r  }h1, h2 {
+
+  \  color: #2a7ae2;
+
+  }"
 ---
 
 # Software Engineering Concepts  
