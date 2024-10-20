@@ -106,17 +106,17 @@ func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
 
 # Modifying `KrnlGlobalOp`
 
-- Verification output:
-```
-original float value: -3.941769e-01
-original float raw bit:  1 01111101 10010011101000110001111
-new raw bit: 10110100100111010001100011110000
-```
+- Verification output: 
+	- This is posit<32, 2>, different from the aforementioned posit<8,0>
+		```
+		original float value: -3.941769e-01
+		original float raw bit:  1 01111101 10010011101000110001111
+		new raw bit: 10110100100111010001100011110000
+		```
+	- verify with posit tool
+		`./posit -3.941769e-01 10110100100111010001100011100000`
 
-- verify with posit tool
-`./posit -3.941769e-01 10110100100111010001100011100000`
-
-- compare:
+- Compare:
 	```cpp
 	10110100100111010001100011110000 // mlir log
 	10110100100111010001100011100000 // posit tool
@@ -126,7 +126,15 @@ new raw bit: 10110100100111010001100011110000
 
 # Modifying `KrnlGlobalOp`
 
-
+- compare:
+	```cpp
+	10110100100111010001100011110000 // mlir log
+	10110100100111010001100011100000 // posit tool
+	```
+	- Notice that we feed the `-3.941769e-01` directly into posit tool! 
+		- This number already lost the precision
+	- This is why we also need to log original float raw bit:  
+		- `1 01111101 10010011101000110001111`
 ---
 # Modifying `KrnlGlobalOp`
 
