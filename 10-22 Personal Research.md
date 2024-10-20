@@ -99,7 +99,7 @@
 		}
 		```
 
-# `KrnlGlobalOp`
+# `Modifying KrnlGlobalOp`
 
 - Methodology:
 	1. Convert the return type, which is `MemRefType`
@@ -120,9 +120,9 @@ func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
 }
 ```
 - Command:
-	```cpp
-	./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir
-	```
+```cpp
+./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir
+```
 - Output:
 ```cpp
 module {

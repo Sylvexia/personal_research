@@ -33,9 +33,9 @@ style: "section {
   }"
 ---
 
-# Software Engineering Concepts  
-### by [Your Name]  
-#### [Date]  
+# 10-22 Personal Research  
+### by 洪祐鈞
+#### 10/22  
 
 ---
 
@@ -47,25 +47,30 @@ style: "section {
 
 ---
 
-# Introduction  
-- Why is this topic important?  
-- What are we going to cover?  
+# Modifying `KrnlGlobalOp`
+- Methodology:
+	1. Convert the return type, which is `MemRefType`
+	2. Get the value attribute of `KrnlGlobalOp`, which is `DenseElementsAttr`
+	3. Modify the `DenseElementsAttr`, Convert the value, which use `attr.mapValues` to get the `APInt`
+	4. Write the `APInt` conversion logic into the `mapValues` callback function.
+	5. Replace the old operation with new operation with the modified data above.
 
 ---
 
-# Example Code: Sorting Algorithm
+# `Modifying KrnlGlobalOp`
 
-```javascript
-// JavaScript Bubble Sort Example
-function bubbleSort(arr) {
-  let n = arr.length;
-  for (let i = 0; i < n - 1; i++) {
-    for (let j = 0; j < n - i - 1; j++) {
-      if (arr[j] > arr[j + 1]) {
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // Swap
-      }
-    }
-  }
-  return arr;
-}
-console.log(bubbleSort([5, 2, 9, 1, 5, 6]));
+- Input:
+	```cpp
+	func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
+	    %1 = "krnl.global"() {name = "constant_2", 
+		    shape = [32, 1, 3, 3], 
+		    value = dense<"0x2F9C...AB3E"> : 
+			    tensor<32x1x3x3xf32>} : () ->
+				    memref<32x1x3x3xf32>
+	  return
+	}
+	```
+- Command:
+```bash
+./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' ./test_krnl.mlir
+```
