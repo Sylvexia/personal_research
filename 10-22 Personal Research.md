@@ -152,7 +152,6 @@ for (auto [origValue, newValue] : llvm::zip(
 ```
 
 log:
-
 ```
 original float value: -3.941769e-01
 original float raw bit:  1 01111101 10010011101000110001111
