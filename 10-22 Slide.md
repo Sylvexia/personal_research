@@ -10,11 +10,23 @@ style: "section {
 
   }
 
-  \  pre, code {\r
+  pre, code {\r
 
-  \    background-color: #ffffff;\r   \ 
+  \  background-color: #ffffff;\r   \ 
 
-  color: #2d2d2d; \r padding: 10px;\r    border-radius: 8px;\r    font-size: 16px;\r    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: light shadow */\r  }h1, h2 {
+  \  color: #2d2d2d; \r\ 
+
+  \  padding: 10px;\r   \ 
+
+  \  border-radius: 8px;\r   \ 
+
+  \  font-size: 16px;\r   \ 
+
+  \  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\ 
+
+  \ }
+
+  h1, h2 {
 
   \  color: #2a7ae2;
 
