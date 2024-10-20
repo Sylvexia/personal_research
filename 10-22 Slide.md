@@ -20,7 +20,7 @@ style: "section {
 
   \  border-radius: 8px;\r   \ 
 
-  \  font-size: 16px;\r   \ 
+  \  font-size: 32px;\r   \ 
 
   \  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\ 
 
@@ -53,7 +53,7 @@ style: "section {
 
 ---
 
-# Example Code: Sorting Algorithm  
+# Example Code: Sorting Algorithm
 
 ```javascript
 // JavaScript Bubble Sort Example
