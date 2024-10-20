@@ -152,22 +152,19 @@ for (auto [origValue, newValue] : llvm::zip(
 ```
 
 log:
-```cpp
-orig: 3.117385e-01
-00010100
-orig: 5.425086e-01
-00100011
-orig: 5.432761e-01
-00100011
-orig: -1.210481e-01
-10001000
-orig: 2.717297e-02
-00000010
-```
 
+```
 original float value: -3.941769e-01
 original float raw bit:  1 01111101 10010011101000110001111
-new raw bit: 10110100100111010001100011110000 
+new raw bit: 10110100100111010001100011110000
+```
+
+verify with posit tool
+`./posit -3.941769e-01 10110100100111010001100011100000`
+
+compare:
+10110100100111010001100011110000 // mlir log
+10110100100111010001100011100000 // posit tool
 
 Bug and Resolve:
 - The addConversion input type might actually matters
