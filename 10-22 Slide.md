@@ -6,7 +6,7 @@ header: 10-22 Personal Research
 footer: 
 style: "section {
 
-  \  font-family: 'Arial', sans-serif;
+  \  font-size: auto;
 
   }
 
