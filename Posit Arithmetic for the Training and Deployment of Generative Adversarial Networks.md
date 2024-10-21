@@ -109,10 +109,9 @@ No easy way to adopt small bit to train GAN.
   - Forward Pass:
     - From input to last layer.
   - Backward Pass:
-    - Calculate the error from predict ouput and target.
-    - Based on the change modified the weight (Gradient Descent)
+    - Calculate the error from predict output and target.
   - Weight Update:
-    - Using the Gradient and learning rate to control the update step.
+    - The optimizer use gradient and learning rate to control the update step.
 
 ---
 
