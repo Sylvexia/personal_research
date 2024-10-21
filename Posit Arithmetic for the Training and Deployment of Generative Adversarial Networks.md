@@ -11,10 +11,6 @@ style: |-
   section {
     font-size: auto;
   }
-  img {
-    max-width: 100%;
-    height: auto;
-  }
 ---
 
 # Posit Arithmetic for the Training and Deployment of Generative Adversarial Networks
@@ -61,16 +57,27 @@ No easy way to adopt small bit to train GAN.
 	- Nvidia O1 mode: Only use FP16 for GEMM operator
 
 ---
-
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 ## Numerical Properties of GAN training
 - The height is frequency of log2(|values|)
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
 - 0%, 50%, 100% means training epoch progress.
 - Weights are concentrated in 2^-4 to 2^-5, need to handle
 - Activations are concentrated in 2^-2 to 2^0, no need to handle
-![h:320](posit_gan_image/Value_Distribution.png)
+![h:320 center](posit_gan_image/Value_Distribution.png)
 
 ---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 ## Proposed Method: System architecture
 
 - Encoder/Decoder:
@@ -79,7 +86,7 @@ No easy way to adopt small bit to train GAN.
 	- t: Exponent bias.
 	- Encoder: {S, R, E + t, F} -> {P}
 	- Decoder: {P, t} -> {S, R, E - t, F}
-![](posit_gan_image/system_arch.png)
+![h:320 center](posit_gan_image/system_arch.png)
 
 ---
 
