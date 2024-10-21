@@ -71,6 +71,10 @@ func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
 	```
 
 ---
+# Modifying`KrnlGlobalOp`
+- Output:
+	- 
+---
 
 # Modifying `KrnlGlobalOp`
 - Verification:
