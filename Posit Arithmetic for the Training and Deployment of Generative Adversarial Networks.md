@@ -16,7 +16,7 @@ style: |-
 # Posit Arithmetic for the Training and Deployment of Generative Adversarial Networks
 
 - Author: Nhut-Minh Ho, Duy-Thanh Nguyen, Himeshi De Silva, John L. Gustafson, Weng-Fai Wong, Ik Joon Chang,  National University of Singapore Kyung Hee University
-- Advisor: Peng-Shen, Chen
+- Professor: Peng-Shen, Chen
 - Reporter: Yu-Chun, Hung
 
 ---
