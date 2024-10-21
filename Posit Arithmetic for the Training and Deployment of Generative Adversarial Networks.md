@@ -66,6 +66,7 @@ No easy way to adopt small bit to train GAN.
 - The height is frequency of log2(|values|)
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
 - 0%, 50%, 100% means training epoch progress.
+	- Value does not change much across epoch
 - Weights are concentrated in 2^-4 to 2^-5, need to handle
 - Activations are concentrated in 2^-2 to 2^0, no need to handle
 ![h:320 center](posit_gan_image/Value_Distribution.png)
