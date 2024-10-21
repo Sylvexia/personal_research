@@ -130,8 +130,7 @@ style: "section {
 	for (auto [origValue, newValue] : llvm::zip(
 	  denseAttr.getValues<APFloat>(), 
 	  newDenseAttr.getValues<APInt>())) {
-	  llvm::errs() << "original float value: " 
-		<< origValue.convertToFloat() << "\n";
+	  llvm::errs() << "original float value: " << origValue.convertToFloat() << "\n";
 	  llvm::errs() << "original float raw bit: ";
 	  uint64_t orig_raw_bit = origValue.bitcastToAPInt().getZExtValue();
 	  for(int i = 31; i >= 0; i--) {
@@ -140,8 +139,7 @@ style: "section {
 		}
 		llvm::errs() << ((orig_raw_bit >> i) & 1);
 	  }
-	  llvm::errs() << "\n";
-	  llvm::errs() << "new raw bit: ";
+	  llvm::errs() << "\n" << "new raw bit: ";
 	  uint64_t raw_bit = newValue.getZExtValue();
 	  for (int i = n_bits - 1; i >= 0; i--) {
 		llvm::errs() << ((raw_bit >> i) & 1);
