@@ -44,7 +44,7 @@ style: |-
 ## Contribution:
 
 - The first to use non-standard 8-bit FP format to train and 6-bit FP format to inference.
-- Fast approximation of tanh(x) function in posit.
+- Fast approximation of `tanh(x)` function in posit.
 - Software and Hardware Evaluation of GAN in posit and other FP format.
 
 ---
