@@ -63,14 +63,15 @@ No easy way to adopt small bit to train GAN.
 - The height is frequency of log2(|values|)
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
 - 0%, 50%, 100% means training epoch progress.
-- We can see the weight has strong bias issue
-	- Note that posit is good at represent the value around exponent 0.
+- Weights are concentrated in 2^-4 to 2^-5, need to handle
+- Activations are concentrated in 2^-2 to 2^0, no need to handle
 
 ---
 ## Proposed Method: System architecture
 
 ![](posit_gan_image/system_arch.png)
 - Encoder/Decoder:
+	- Encoder: {S, }
 	- Irrelevant to model architecture!
 ---
 
