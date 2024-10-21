@@ -11,6 +11,10 @@ style: |-
   section {
     font-size: auto;
   }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 ---
 
 # Posit Arithmetic for the Training and Deployment of Generative Adversarial Networks
