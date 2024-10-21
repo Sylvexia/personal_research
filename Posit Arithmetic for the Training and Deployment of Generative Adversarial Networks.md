@@ -110,6 +110,7 @@ No easy way to adopt small bit to train GAN.
     - From input to last layer.
   - Backward Pass:
     - Calculate the error from predict output and target.
+    - Gradient are computed for each weight, for steepest direction in loss function
   - Weight Update:
     - The optimizer use gradient and learning rate to control the update step.
 
