@@ -62,6 +62,7 @@ No easy way to adopt small bit to train GAN.
 ![meow](posit_gan_image/Value_Distribution.png)
 - The height is frequency of log2(|values|)
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
+- 0%, 50%, 100% means training epoch progress.
 
 ---
 ## Proposed Method: System architecture
