@@ -54,46 +54,7 @@ style: "section {
 ---
 # Modifying`KrnlGlobalOp`
 
-To format the input, output, and command code snippets in Marp using your desired structure (Input, Output side-by-side, with Command below), here’s how you can do it using an HTML table and code blocks.
-Marp Slide with Input, Output, and Command Layout
-
-markdown
-
----
-marp: true
-theme: default
-paginate: true
-header: 'MLIR Code Transformation'
-footer: 'Page $page'
-style: |
-  section {
-    font-family: 'Arial', sans-serif;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  td {
-    vertical-align: top;
-    padding: 10px;
-    border: 1px solid #ddd;
-    width: 50%; /* Ensures input and output are side-by-side */
-  }
-  pre {
-    background-color: #ffffff;
-    color: #2d2d2d;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-    overflow-x: auto;
-  }
----
-
-# MLIR Code Transformation Example  
-
-
-
+<strong>Command</strong> <pre style="background-color: #ffffff; color: #2d2d2d; padding: 10px; border-radius: 8px; font-size: 14px; overflow-x: auto;"> <code class="bash">./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' ./test_krnl.mlir</code> </pre>
 ---
 # Modifying`KrnlGlobalOp`
 
