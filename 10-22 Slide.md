@@ -240,3 +240,8 @@ For pattern `addConversion([](Type type)` return the same type as fallback mecha
 		error: failed to legalize operation 'arith.constant' that was explicitly marked illegal
 		another failure:
 		```
+
+---
+# Future Works
+
+- Writing the conversion pattern to convert `memref` operators and see if it works with the existing pass.
