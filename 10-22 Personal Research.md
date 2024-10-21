@@ -7,6 +7,7 @@
 	2. Get the `value` attribute of `KrnlGlobalOp`, which is `DenseElementsAttr`
 	3. Modify the `DenseElementsAttr`:
 		1. Convert the value, which use `attr.mapValues` to get the `APInt`
+			1. Can refer to `UniformQuantizedPerAxisValueConverter::convert` in `LLVM quant` dialect
 	4. Write the `APInt` conversion logic into the `mapValues` callback function.
 	5. Replace the old operation with new operation with the new `MemRefType` and `DenseElementsAttr`
 
