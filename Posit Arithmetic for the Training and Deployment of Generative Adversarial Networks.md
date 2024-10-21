@@ -59,22 +59,24 @@ No easy way to adopt small bit to train GAN.
 ---
 
 ## Numerical Properties of GAN training
-![meow](posit_gan_image/Value_Distribution.png)
 - The height is frequency of log2(|values|)
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
 - 0%, 50%, 100% means training epoch progress.
 - Weights are concentrated in 2^-4 to 2^-5, need to handle
 - Activations are concentrated in 2^-2 to 2^0, no need to handle
+![meow](posit_gan_image/Value_Distribution.png)
 
 ---
 ## Proposed Method: System architecture
 
-![](posit_gan_image/system_arch.png)
 - Encoder/Decoder:
-	- Encoder: {S, R, E + t, F} -
-	- Irrelevant to model architecture!
-	Contract testing
-		segmenting
+	- Shifting posit exponent bit.
+		- Irrelevant to model architecture!
+	- t: Exponent bias.
+	- Encoder: {S, R, E + t, F} -> {P}
+	- Decoder: {P, t} -> {S, R, E - t, F}
+![](posit_gan_image/system_arch.png)
+
 ---
 
 ## Proposed Method: Parameter Scaling
