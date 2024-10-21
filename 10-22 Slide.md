@@ -100,7 +100,7 @@ style: "section {
 
 ---
 
-# Modifying`KrnlGlobalOp`
+# Modifying `KrnlGlobalOp`
 
 - Observation:
 	- In the testcase, the following is modified properly
@@ -110,7 +110,12 @@ style: "section {
 			- function return type and `KrnlGlobalOp` return type
 		- `value = dense<"0x2F9C...AB3E"> : tensor<32x1x3x3xf32>` -> `dense<"0x1423...0315"> : tensor<32x1x3x3xi8>`
 			- `KrnlGlobalOp` `value` attribute value and type
-	- What's inside those cryptic bits?
+
+---
+# Modifying `KrnlGlobalOp`
+
+- Observation:
+	- What's inside those cryptic bits? (`dense<"0x2F9C...AB3E">`)
 		- Flattened the array, and concatenate the element with hexadecimal representation.
 			- Should not have precision loss.
 		- Dense attribute number of character: (without `"dense<0x" ">"`)
@@ -119,34 +124,31 @@ style: "section {
 ---
 
 # Modifying `KrnlGlobalOp`
-- Verification:
+- Verification: 
 	- From old and new `denseAttr`, iterate at the same time and compare them.
-		```cpp
-		for (auto [origValue, newValue] : llvm::zip(
-		  denseAttr.getValues<APFloat>(), 
-		  newDenseAttr.getValues<APInt>())) {
-		  
-		  llvm::errs() << "original float value: " 
-			<< origValue.convertToFloat() << "\n";
-		
-		  llvm::errs() << "original float raw bit: ";
-		  uint64_t orig_raw_bit = origValue.bitcastToAPInt().getZExtValue();
-		  for(int i = 31; i >= 0; i--) {
-			if (i == 30 || i == 22) {
-			  llvm::errs() << " ";
-			}
-			llvm::errs() << ((orig_raw_bit >> i) & 1);
-		  }
-		  llvm::errs() << "\n";
-		
-		  llvm::errs() << "new raw bit: ";
-		  uint64_t raw_bit = newValue.getZExtValue();
-		  for (int i = n_bits - 1; i >= 0; i--) {
-			llvm::errs() << ((raw_bit >> i) & 1);
-		  }
-		  llvm::errs() << "\n";
+	```cpp
+	for (auto [origValue, newValue] : llvm::zip(
+	  denseAttr.getValues<APFloat>(), 
+	  newDenseAttr.getValues<APInt>())) {
+	  llvm::errs() << "original float value: " 
+		<< origValue.convertToFloat() << "\n";
+	  llvm::errs() << "original float raw bit: ";
+	  uint64_t orig_raw_bit = origValue.bitcastToAPInt().getZExtValue();
+	  for(int i = 31; i >= 0; i--) {
+		if (i == 30 || i == 22) {
+		  llvm::errs() << " ";
 		}
-		```
+		llvm::errs() << ((orig_raw_bit >> i) & 1);
+	  }
+	  llvm::errs() << "\n";
+	  llvm::errs() << "new raw bit: ";
+	  uint64_t raw_bit = newValue.getZExtValue();
+	  for (int i = n_bits - 1; i >= 0; i--) {
+		llvm::errs() << ((raw_bit >> i) & 1);
+	  }
+	  llvm::errs() << "\n";
+	}
+	```
 
 ---
 
@@ -172,7 +174,7 @@ style: "section {
 
 # Modifying `KrnlGlobalOp`
 
-- compare:
+- Compare:
 	```cpp
 	10110100100111010001100011110000 // mlir log
 	10110100100111010001100011100000 // posit tool
