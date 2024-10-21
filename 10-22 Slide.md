@@ -53,28 +53,21 @@ style: "section {
 
 ---
 # Modifying`KrnlGlobalOp`
-| Input                                                                                                                                                                                                                                                                                                                                                                 | Output |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| ```cpp<br>func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) <br>  -> memref<32x1x3x3xf32> <br>  {<br>    %1 = "krnl.global"() <br>    {<br>      name = "constant_2", <br>      shape = [32, 1, 3, 3], <br>      value = dense<"0x2F9C...AB3E"> : tensor<32x1x3x3xf32><br>    } : () -> memref<32x1x3x3xf32><br>  return %1 : memref<32x1x3x3xf32><br>}<br>``` |        |
- 
-
----
-# Modifying`KrnlGlobalOp`
 
 - Input:
-```cpp
-func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) 
-  -> memref<32x1x3x3xf32> 
-  {
-    %1 = "krnl.global"() 
-    {
-      name = "constant_2", 
-      shape = [32, 1, 3, 3], 
-      value = dense<"0x2F9C...AB3E"> : tensor<32x1x3x3xf32>
-    } : () -> memref<32x1x3x3xf32>
-  return %1 : memref<32x1x3x3xf32>
-}
-```
+	```cpp
+	func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) 
+	  -> memref<32x1x3x3xf32> 
+	  {
+	    %1 = "krnl.global"() 
+	    {
+	      name = "constant_2", 
+	      shape = [32, 1, 3, 3], 
+	      value = dense<"0x2F9C...AB3E"> : tensor<32x1x3x3xf32>
+	    } : () -> memref<32x1x3x3xf32>
+	  return %1 : memref<32x1x3x3xf32>
+	}
+	```
 - Command:
 	```bash
 	./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' ./test_krnl.mlir
@@ -83,17 +76,17 @@ func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32)
 ---
 # Modifying`KrnlGlobalOp`
 - Output:
-```cpp
-func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8) 
-  -> memref<32x1x3x3xi8> 
-  {                                                                        %0 = "krnl.global"() 
-    {
-      name = "name", 
-      shape = [32, 1, 3, 3], 
-      value = dense<"0x1423...0315"> : tensor<32x1x3x3xi8>
-    } : () -> memref<32x1x3x3xi8>                                          return %0 : memref<32x1x3x3xi8>                                      }
-}
-```
+	```cpp
+	func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8) 
+	  -> memref<32x1x3x3xi8> 
+	  {                                                                        %0 = "krnl.global"() 
+	    {
+	      name = "name", 
+	      shape = [32, 1, 3, 3], 
+	      value = dense<"0x1423...0315"> : tensor<32x1x3x3xi8>
+	    } : () -> memref<32x1x3x3xi8>                                          return %0 : memref<32x1x3x3xi8>                                      }
+	}
+	```
 
 ---
 
