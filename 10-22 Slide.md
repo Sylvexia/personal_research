@@ -26,9 +26,7 @@ style: "section {
 
   }
 
-  .container {\r
-
-  \    position: absolute;\r    top: 0;\r    left: 0;\r    width: 100%;\r    height: 100%;\r  }.leftpane {\r      width: 50%;\r      height: 100%;\r      float: left;\r      background-color: rosybrown;\r      border-collapse: collapse;\r  }\r\r  .rightpane {\r    width: 50%;\r    height: 100%;\r    position: relative;\r    float: right;\r    background-color: yellow;\r    border-collapse: collapse;\r  }"
+  ;\r  }"
 ---
 
 # 10-22 Personal Research  
@@ -52,19 +50,7 @@ style: "section {
 	5. Replace the old operation with new operation with the modified data above.
 
 ---
-# Modifying`KrnlGlobalOp`
-
-<div class="container">
-        <div class="leftpane">
-            <h1>Left column</h1>
-        </div>
-        <div class="rightpane">
-            <h1>Right column</h1>
-        </div>
-</div>
-
----
-# Modifying`KrnlGlobalOp`
+# Modifying `KrnlGlobalOp`
 
 - Input:
 	```cpp
@@ -86,7 +72,7 @@ style: "section {
 	```
 
 ---
-# Modifying`KrnlGlobalOp`
+# Modifying `KrnlGlobalOp`
 - Output:
 	```cpp
 	func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8) 
