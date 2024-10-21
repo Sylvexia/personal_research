@@ -163,6 +163,8 @@ func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8)
     } : () -> memref<32x1x3x3xi8>                                          return %0 : memref<32x1x3x3xi8>                                      }
 }
 ```
+- Observation:
+	- 
 - Verification:
 	- From old and new `denseAttr`, iterate at the same time and compare them. 
 ```cpp
