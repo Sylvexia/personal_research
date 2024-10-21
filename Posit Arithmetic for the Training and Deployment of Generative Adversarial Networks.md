@@ -160,7 +160,7 @@ No easy way to adopt small bit to train GAN.
 ## Conclusion
 
 - Presents ways to train GAN in 8-bit and deploy in 6-bit
-- Using modified Pytorch allow to experiment with different training schemes.
-- For hardware
+- Using modified Pytorch allows to experiment with different training schemes.
+- Hardware simulation 
 
 ---
