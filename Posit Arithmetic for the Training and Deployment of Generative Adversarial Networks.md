@@ -64,7 +64,7 @@ No easy way to adopt small bit to train GAN.
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
 - 0%, 50%, 100% means training epoch progress.
 - We can see the weight has strong bias issue
-	- Remember the fact that posit is good at represent the value around exponent 0.
+	- Note that posit is good at represent the value around exponent 0.
 
 ---
 ## Proposed Method: System architecture
