@@ -126,6 +126,11 @@ No easy way to adopt small bit to train GAN.
 
 ## Proposed Method: Parameter Scaling
 
+- In posit, value near exponent 0 has the most accuracy. Hence shift the value is helpful.
+	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
+- The weight is decoded before multiply add operation. Then encode after that.
+	- Weights are kept scaled in weight update.
+![[Pasted image 20241021234214.png]]
 ---
 
 ## Proposed Method: Loss Scaling
