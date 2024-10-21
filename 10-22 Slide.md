@@ -52,7 +52,29 @@ style: "section {
 	5. Replace the old operation with new operation with the modified data above.
 
 ---
+# Modifying`KrnlGlobalOp`
 
+<table> 
+<tr>
+
+<td>
+  <strong>Input</strong>
+  <pre>
+  <code>1 2 3 4 5</code>
+  </pre> 
+</td>
+
+<td>
+  <strong>Output</strong> 
+  <pre>
+  <code>15</code>
+  </pre> 
+</td> 
+
+</tr> 
+</table>
+<strong>Command</strong> <pre><code>python sum.py</code></pre>
+---
 # Modifying`KrnlGlobalOp`
 
 - Input:
