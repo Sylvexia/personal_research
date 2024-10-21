@@ -53,8 +53,10 @@ style: "section {
 
 ---
 # Modifying`KrnlGlobalOp`
-
-<strong>Command</strong> <pre style="background-color: #ffffff; color: #2d2d2d; padding: 10px; border-radius: 8px; font-size: 14px;"> <code class="bash">./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' ./test_krnl.mlir</code> </pre>
+| Input                                                                                                                                                                                                                                                                                                                                                                 | Output |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| ```cpp<br>func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) <br>  -> memref<32x1x3x3xf32> <br>  {<br>    %1 = "krnl.global"() <br>    {<br>      name = "constant_2", <br>      shape = [32, 1, 3, 3], <br>      value = dense<"0x2F9C...AB3E"> : tensor<32x1x3x3xf32><br>    } : () -> memref<32x1x3x3xf32><br>  return %1 : memref<32x1x3x3xf32><br>}<br>``` |        |
+ 
 
 ---
 # Modifying`KrnlGlobalOp`
