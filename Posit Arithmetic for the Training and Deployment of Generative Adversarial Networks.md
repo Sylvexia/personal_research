@@ -71,7 +71,7 @@ No easy way to adopt small bit to train GAN.
 
 ![](posit_gan_image/system_arch.png)
 - Encoder/Decoder:
-	- Irrelevant 
+	- Irrelevant to model architecture!
 ---
 
 ## Proposed Method: Parameter Scaling
