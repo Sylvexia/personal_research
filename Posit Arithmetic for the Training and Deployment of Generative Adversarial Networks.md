@@ -81,7 +81,7 @@ No easy way to adopt small bit to train GAN.
 	- t: Exponent bias.
 	- Encoder: {S, R, E + t, F} -> {P}
 	- Decoder: {P, t} -> {S, R, E - t, F}
-	- Are used when operation involve weight scaling
+	- The weight is stored scaled format. Decode then compute.
 ![h:320 center](posit_gan_image/system_arch.png)
 
 ---
@@ -94,13 +94,18 @@ No easy way to adopt small bit to train GAN.
   - G: dot product of E and A
   - E: error
 - dot product between `W * A` and `E * A`
+	- Involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
 ![h:320 center](posit_gan_image/system_arch.png)
 
 ---
 
 ## Proposed Method: System architecture
 
-
+- For "Other operations" and "weight updates", value change is small. Stored with `posit<16,2>` internally.
+	- Standard low precision CNN training use bit width 16.
+- The `es` value is kept 2, which can simply truncate or concatenate zero to convert between `posit<8, 2>` and `posit<16, 2>`
+	- es value 1: fails to converge
+	- es value 3: fraction accuracy is not enough
 ![h:320 center](posit_gan_image/system_arch.png)
 
 ---
@@ -115,6 +120,7 @@ No easy way to adopt small bit to train GAN.
     - Gradient are computed for each weight, for steepest direction in loss function.
   - Weight Update:
     - The optimizer use gradient and learning rate to optimize the weight.
+- Inference is just running the forward pass once.
 
 ---
 
