@@ -60,7 +60,7 @@ style: "section {
 
 ---
 # Modifying `KrnlGlobalOp`
-- Testcase involves f32 input argument, return `memref` array, and `KrnlGlobalOp`
+- Testcase involves `f32` input argument, return `memref` array, and `KrnlGlobalOp`
 - Input:
 	```cpp
 	func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) 
@@ -155,7 +155,7 @@ style: "section {
 # Modifying `KrnlGlobalOp`
 
 - Verification output: 
-	- This is posit<32, 2>, different from the aforementioned posit<8,0>
+	- This is `posit<32, 2>`, different from the aforementioned `posit<8,0>`
 		```
 		original float value: -3.941769e-01
 		original float raw bit:  1 01111101 10010011101000110001111
@@ -235,8 +235,8 @@ For pattern `addConversion([](Type type)` return the same type as fallback mecha
 - Failure:
 	- Adding pass to the main compiler currently does not work
 		- Might be not dealing with other `memref` operations.
-	- Reproduce
-	- `./onnx-mlir --EmitMLIR ./mnist_model.onnx -o ./log.txt`
+	- Reproduce:
+		`./onnx-mlir --EmitMLIR ./mnist_model.onnx -o ./log.txt`
 		```cpp
 		float value: -INF
 		error: failed to legalize operation 'arith.constant' that was explicitly marked illegal
