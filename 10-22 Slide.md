@@ -57,11 +57,12 @@ style: "section {
 - Input:
 ```cpp
 func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
-  %1 = "krnl.global"() {name = "constant_2", 
-  shape = [32, 1, 3, 3], 
-  value = dense<"0x2F9C...AB3E"> : 
-    tensor<32x1x3x3xf32>} : () ->
-      memref<32x1x3x3xf32>
+  %1 = "krnl.global"() 
+  {
+	  name = "constant_2", 
+	  shape = [32, 1, 3, 3], 
+	  value = dense<"0x2F9C...AB3E"> : tensor<32x1x3x3xf32>
+  } : () -> memref<32x1x3x3xf32>
   return
 }
 ```
@@ -73,7 +74,17 @@ func.func @test_krnlGlobal(%arg0: f32, %arg1: f32) {
 ---
 # Modifying`KrnlGlobalOp`
 - Output:
-	- 
+```cpp
+func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8) 
+  -> memref<32x1x3x3xi8> 
+  {                                                                        %0 = "krnl.global"() 
+    {
+      name = "name", 
+      shape = [32, 1, 3, 3], 
+      value = dense<"0x1423...0315"> : tensor<32x1x3x3xi8>
+    } : () -> memref<32x1x3x3xi8>                                          return %0 : memref<32x1x3x3xi8>                                      }
+}
+```
 ---
 
 # Modifying `KrnlGlobalOp`
