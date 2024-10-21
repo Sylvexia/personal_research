@@ -11,6 +11,10 @@ style: |-
   section {
     font-size: auto;
   }
+  img[alt~="center"] {
+    display: block;
+    margin: 0 auto;
+  }
 ---
 
 # Posit Arithmetic for the Training and Deployment of Generative Adversarial Networks
@@ -57,12 +61,6 @@ No easy way to adopt small bit to train GAN.
 	- Nvidia O1 mode: Only use FP16 for GEMM operator
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 ## Numerical Properties of GAN training
 - The height is frequency of log2(|values|)
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
@@ -72,21 +70,49 @@ img[alt~="center"] {
 ![h:320 center](posit_gan_image/Value_Distribution.png)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Proposed Method: System architecture
 
-- Encoder/Decoder:
-	- Shifting posit exponent bit.
+- Biased Encoder/Decoder:
+	- For adding/subtracting exponent bit in posit data.
 		- Irrelevant to model architecture!
 	- t: Exponent bias.
 	- Encoder: {S, R, E + t, F} -> {P}
 	- Decoder: {P, t} -> {S, R, E - t, F}
+	- Are used when operation involve weight scaling
 ![h:320 center](posit_gan_image/system_arch.png)
+
+---
+
+## Proposed Method: System architecture
+
+- Architecture:
+  - W: weights
+  - A: activations
+  - G: dot product of E and A
+  - E: error
+- dot product between `W * A` and `E * A`
+![h:320 center](posit_gan_image/system_arch.png)
+
+---
+
+## Proposed Method: System architecture
+
+
+![h:320 center](posit_gan_image/system_arch.png)
+
+---
+
+## Proposed Method: System architecture
+
+- What is the training steps?
+  - Forward Pass:
+    - From input to last layer.
+  - Backward Pass:
+    - Calculate the error from predict ouput and target.
+    - Based on the change modified the weight (Gradient Descent)
+  - Weight Update:
+    - Using the Gradient and learning rate to control the update step.
 
 ---
 
