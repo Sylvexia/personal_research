@@ -28,3 +28,6 @@ Two ways to represent quantized ONNX model:
 	- all the values within the tensor are quantized the same way with the same quantization parameters
 - Per channel
 	- for each dimension, typically the channel dimension of a tensor, the values in the tensor are quantized with different quantization parameters.
+
+- Post Training Quantization (PTQ)
+- Quantization Aware Training (QAT)
