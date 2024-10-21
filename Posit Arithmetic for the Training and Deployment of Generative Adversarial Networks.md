@@ -60,6 +60,8 @@ No easy way to adopt small bit to train GAN.
 
 ## Numerical Properties of GAN training
 ![meow](posit_gan_image/Value_Distribution.png)
+- 
+
 ---
 ## Proposed Method: System architecture
 
