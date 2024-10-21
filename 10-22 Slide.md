@@ -54,28 +54,46 @@ style: "section {
 ---
 # Modifying`KrnlGlobalOp`
 
-<table> 
-<tr>
+To format the input, output, and command code snippets in Marp using your desired structure (Input, Output side-by-side, with Command below), here’s how you can do it using an HTML table and code blocks.
+Marp Slide with Input, Output, and Command Layout
 
-<td>
-  <strong>Input</strong>
-  <pre>
-  <code>
-  
-  </code>
-  </pre> 
-</td>
+markdown
 
-<td>
-  <strong>Output</strong> 
-  <pre>
-  <code>15</code>
-  </pre> 
-</td> 
+---
+marp: true
+theme: default
+paginate: true
+header: 'MLIR Code Transformation'
+footer: 'Page $page'
+style: |
+  section {
+    font-family: 'Arial', sans-serif;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  td {
+    vertical-align: top;
+    padding: 10px;
+    border: 1px solid #ddd;
+    width: 50%; /* Ensures input and output are side-by-side */
+  }
+  pre {
+    background-color: #ffffff;
+    color: #2d2d2d;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+---
 
-</tr> 
-</table>
-<strong>Command</strong> <pre><code>python sum.py</code></pre>
+# MLIR Code Transformation Example  
+
+
+
 ---
 # Modifying`KrnlGlobalOp`
 
