@@ -161,6 +161,7 @@ No easy way to adopt small bit to train GAN.
 
 - Presents ways to train GAN in 8-bit and deploy in 6-bit
 - Using modified Pytorch allows to experiment with different training schemes.
-- Hardware simulation 
+- Hardware simulation shows posit has better energy and runtime.
+- Once low precision accelerator emerged, the proposed method should be promising.
 
 ---
