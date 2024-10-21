@@ -50,6 +50,18 @@ style: "section {
 ---
 # Modifying`KrnlGlobalOp`
 
+<div class="container">
+        <div class="leftpane">
+            <h1>Left column</h1>
+        </div>
+        <div class="rightpane">
+            <h1>Middle column</h1>
+        </div>
+</div>
+
+---
+# Modifying`KrnlGlobalOp`
+
 - Input:
 	```cpp
 	func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) 
