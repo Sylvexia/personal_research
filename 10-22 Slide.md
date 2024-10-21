@@ -118,9 +118,11 @@ style: "section {
 	- What's inside those cryptic bits? (`dense<"0x2F9C...AB3E">`)
 		- Flattened the array, and concatenate the element with hexadecimal representation.
 			- Should not have precision loss.
-		- Dense attribute number of character: (without `"dense<0x" ">"`)
+		- Dense attribute number of character: (without `"dense<0x" ">")
 			- old: 2304 (`f32`)
 			- new: 576 (`i8`), which is 100% -> 25%
+		- original tensor: `tensor<32x1x3x3xf32>` 288 elements.
+			- 1 hexadecimal can represent 4 bit
 ---
 
 # Modifying `KrnlGlobalOp`
@@ -245,3 +247,4 @@ For pattern `addConversion([](Type type)` return the same type as fallback mecha
 # Future Works
 
 - Writing the conversion pattern to convert `memref` operators and see if it works with the existing pass.
+- Seeing more existing project to validate my approach.
