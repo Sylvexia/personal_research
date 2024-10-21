@@ -76,8 +76,6 @@ No easy way to adopt small bit to train GAN.
 
 ---
 
-## 5. Evaluation Challenges  
-- No perfect metric for assessing GAN output quality.  
-- Requires manual inspection and multiple metrics (e.g., FID, IS).
+
 
 ---
