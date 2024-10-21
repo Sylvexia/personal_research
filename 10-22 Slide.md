@@ -14,13 +14,9 @@ style: "section {
 
   \  background-color: #ffffff;\r   \ 
 
-  \  color: #2d2d2d; \r\ 
+  \  color: #2d2d2d; \r \ 
 
-  \  padding: 10px;\r   \ 
-
-  \  border-radius: 8px;\r   \ 
-
-  \  font-size: 32px;\r
+  \  font-size: auto;\r
 
   \ }
 
@@ -79,12 +75,14 @@ style: "section {
 	```cpp
 	func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8) 
 	  -> memref<32x1x3x3xi8> 
-	  {                                                                        %0 = "krnl.global"() 
+	  {
+	    %0 = "krnl.global"() 
 	    {
 	      name = "name", 
 	      shape = [32, 1, 3, 3], 
 	      value = dense<"0x1423...0315"> : tensor<32x1x3x3xi8>
-	    } : () -> memref<32x1x3x3xi8>                                          return %0 : memref<32x1x3x3xi8>                                      }
+	    } : () -> memref<32x1x3x3xi8>
+	    return %0 : memref<32x1x3x3xi8>                                      }
 	}
 	```
 
