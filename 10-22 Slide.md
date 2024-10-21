@@ -24,7 +24,11 @@ style: "section {
 
   \  color: #2a7ae2;
 
-  }"
+  }
+
+  .container {\r
+
+  \    position: absolute;\r    top: 0;\r    left: 0;\r    width: 100%;\r    height: 100%;\r  }.leftpane {\r      width: 50%;\r      height: 100%;\r      float: left;\r      background-color: rosybrown;\r      border-collapse: collapse;\r  }\r\r  .rightpane {\r    width: 50%;\r    height: 100%;\r    position: relative;\r    float: right;\r    background-color: yellow;\r    border-collapse: collapse;\r  }"
 ---
 
 # 10-22 Personal Research  
@@ -55,7 +59,7 @@ style: "section {
             <h1>Left column</h1>
         </div>
         <div class="rightpane">
-            <h1>Middle column</h1>
+            <h1>Right column</h1>
         </div>
 </div>
 
