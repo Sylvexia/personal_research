@@ -32,9 +32,9 @@ style: "section {
 #### 10/22  
 
 ---
-
 # Summary
 1. Successfully modify the `KrnlGlobalOp` type and value.
+
 
 ---
 
