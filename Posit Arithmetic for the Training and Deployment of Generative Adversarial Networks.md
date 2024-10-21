@@ -69,7 +69,7 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Proposed Method: System architecture
 
-
+![](posit_gan_image/system_arch.png)
 
 ---
 
