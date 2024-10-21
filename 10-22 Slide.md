@@ -197,9 +197,8 @@ style: "section {
 		2. `addConversion([bitWidth](MemRefType type)`
 		3. `addConversion([bitWidth](TensorType type)`
 		4. `addConversion([bitWidth](FloatType type)`
-
 	- The first one accept any type and return the original
-	- This act as a fallback mechanics for not able to convert all by once.
+		- This act as a fallback mechanics for not able to convert all by once.
 
 ---
 # Modifying `KrnlGlobalOp`
