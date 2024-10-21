@@ -164,7 +164,7 @@ func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8)
 }
 ```
 - Observation:
-	- 
+	- dense attribute
 - Verification:
 	- From old and new `denseAttr`, iterate at the same time and compare them. 
 ```cpp

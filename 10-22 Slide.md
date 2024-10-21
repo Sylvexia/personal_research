@@ -48,6 +48,7 @@ style: "section {
 	2. Get the value attribute of `KrnlGlobalOp`, which is `DenseElementsAttr`
 	3. Modify the `DenseElementsAttr`, Convert the value, which use `attr.mapValues` to get the `APInt`
 	4. Write the `APInt` conversion logic into the `mapValues` callback function.
+		1. 
 	5. Replace the old operation with new operation with the modified data above.
 
 ---
@@ -91,6 +92,8 @@ func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8)
 ---
 
 # Modifying`KrnlGlobalOp`
+576
+2304
 
 ---
 
