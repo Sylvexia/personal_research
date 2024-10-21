@@ -68,7 +68,7 @@ No easy way to adopt small bit to train GAN.
 - 0%, 50%, 100% means training epoch progress.
 - Weights are concentrated in 2^-4 to 2^-5, need to handle
 - Activations are concentrated in 2^-2 to 2^0, no need to handle
-![meow scale:50%](posit_gan_image/Value_Distribution.png)
+![h:320](posit_gan_image/Value_Distribution.png)
 
 ---
 ## Proposed Method: System architecture
