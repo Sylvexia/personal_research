@@ -2,14 +2,21 @@
 
 # `Modifying KrnlGlobalOp`
 
-- Methodology:
+- Type Conversion:
+	- Register all type conversion case to the type conversion class, and implement the conversion logic 1 by 1.
+		- `addConversion([](Type type)`
+		- `addConversion([bitWidth](MemRefType type)`
+		- `addConversion([bitWidth](TensorType type)`
+		- `addConversion([bitWidth](FloatType type)`
+- Methodology: (`KrnlGlobalOp`)
 	1. Convert the return type, which is `MemRefType`
 	2. Get the `value` attribute of `KrnlGlobalOp`, which is `DenseElementsAttr`
 	3. Modify the `DenseElementsAttr`:
 		1. Convert the value, which use `attr.mapValues` to map the `APFloat` to `APInt`
-			1. Can refer to `UniformQuantizedPerAxisValueConverter::convert` in `LLVM quant` dialect
-	4. Write the `APInt` conversion logic into the `mapValues` callback function, and get the new element type.
-	5. Replace the old operation with new operation with the new `MemRefType` and `DenseElementsAttr`
+			-  Can refer to `UniformQuantizedPerAxisValueConverter::convert` in `LLVM quant` dialect
+		2. Write the `APInt` conversion logic into the `mapValues` callback function.
+		3. With callback function and new integer element type, you can create new `DenseElementAttr`
+	4. Replace the old operation with new operation with the new `MemRefType` and `DenseElementsAttr`
 
 - Input:
 ```cpp
