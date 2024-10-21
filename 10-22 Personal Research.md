@@ -169,8 +169,9 @@ func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8)
 		- `f32` -> `i8` 
 			- input argument
 		- `memref<32x1x3x3xf32>` -> `memref<32x1x3x3xi8>` 
-			- function output and `KrnlGlobalOp` type
-		- 
+			- function return type and `KrnlGlobalOp` return type
+		- `value = dense<"0x2F9C...AB3E"> : tensor<32x1x3x3xf32>` -> `dense<"0x1423...0315"> : tensor<32x1x3x3xi8>`
+			- `KrnlGlobalOp` `value` attribute value and type
 	- Dense attribute number of character: (without `"dense<0x" ">"`)
 		- old: 2304 (`f32`)
 		- new: 576 (`i8`), which is 100% -> 25%
