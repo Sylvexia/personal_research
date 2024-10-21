@@ -71,8 +71,10 @@ No easy way to adopt small bit to train GAN.
 
 ![](posit_gan_image/system_arch.png)
 - Encoder/Decoder:
-	- Encoder: {S, }
+	- Encoder: {S, R, E + t, F} -
 	- Irrelevant to model architecture!
+	Contract testing
+		segmenting
 ---
 
 ## Proposed Method: Parameter Scaling
