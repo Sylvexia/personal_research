@@ -133,7 +133,23 @@ No easy way to adopt small bit to train GAN.
 ![[Pasted image 20241021234214.png]]
 ---
 
+## Proposed Method: Parameter Scaling
+
+- How to decide integer t?
+
+---
+
+## Proposed Method: Parameter Scaling
+
+- Across different GANs, the t value is `3~5`
+- Use only the first iteration histogram to set the `t`
+	- Further calibration does not payoff.
+	- Maybe it's because the value distribution does not change much during training?
+
+---
 ## Proposed Method: Loss Scaling
+
+- Loss scaling is 
 
 ---
 
@@ -141,6 +157,10 @@ No easy way to adopt small bit to train GAN.
 
 ---
 
+## Conclusion
 
+- Presents ways to train GAN in 8-bit and deploy in 6-bit
+- Using modified Pytorch allow to experiment with different training schemes.
+- For hardware
 
 ---
