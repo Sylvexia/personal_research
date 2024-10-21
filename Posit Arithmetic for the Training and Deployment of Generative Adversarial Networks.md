@@ -60,7 +60,8 @@ No easy way to adopt small bit to train GAN.
 
 ## Numerical Properties of GAN training
 ![meow](posit_gan_image/Value_Distribution.png)
-- 
+- The height is frequency of log2(|values|)
+- W -> weight, A -> Activation, G -> Generator, D -> Discriminator
 
 ---
 ## Proposed Method: System architecture
