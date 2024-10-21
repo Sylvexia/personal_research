@@ -103,11 +103,11 @@
 
 - Methodology:
 	1. Convert the return type, which is `MemRefType`
-	2. Get the value attribute of `KrnlGlobalOp`, which is `DenseElementsAttr`
+	2. Get the `value` attribute of `KrnlGlobalOp`, which is `DenseElementsAttr`
 	3. Modify the `DenseElementsAttr`:
 		1. Convert the value, which use `attr.mapValues` to get the `APInt`
 	4. Write the `APInt` conversion logic into the `mapValues` callback function.
-	5. Replace the old operation with new operation with the modified data above.
+	5. Replace the old operation with new operation with the new `MemRefType` and `DenseElementsAttr`
 
 - Input:
 ```cpp
@@ -165,7 +165,15 @@ func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8)
 }
 ```
 - Observation:
-	- dense attribute
+	- In the testcase, the following is modified properly
+		- `f32` -> `i8` 
+			- input argument
+		- `memref<32x1x3x3xf32>` -> `memref<32x1x3x3xi8>` 
+			- function output and `KrnlGlobalOp` type
+		- 
+	- Dense attribute number of character: (without `"dense<0x" ">"`)
+		- old: 2304 (`f32`)
+		- new: 576 (`i8`), which is 100% -> 25%
 - Verification:
 	- From old and new `denseAttr`, iterate at the same time and compare them. 
 ```cpp
