@@ -60,7 +60,9 @@ style: "section {
 <td>
   <strong>Input</strong>
   <pre>
-  <code>1 2 3 4 5</code>
+  <code>
+  
+  </code>
   </pre> 
 </td>
 
