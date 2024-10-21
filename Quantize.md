@@ -30,4 +30,6 @@ Two ways to represent quantized ONNX model:
 	- for each dimension, typically the channel dimension of a tensor, the values in the tensor are quantized with different quantization parameters.
 
 - Post Training Quantization (PTQ)
+	- Quantize after training.
 - Quantization Aware Training (QAT)
+	- Training with additional epoch while quantizing.

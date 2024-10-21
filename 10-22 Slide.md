@@ -73,6 +73,7 @@ style: "section {
 
 ---
 # Modifying `KrnlGlobalOp`
+
 - Output:
 	```cpp
 	func.func @test_krnlGlobalReturn(%arg0: i8, %arg1: i8) 
@@ -91,6 +92,7 @@ style: "section {
 ---
 
 # Modifying`KrnlGlobalOp`
+
 - Observation:
 	- In the testcase, the following is modified properly
 		- `f32` -> `i8` 
