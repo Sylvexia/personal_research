@@ -208,7 +208,18 @@ No easy way to adopt small bit to train GAN.
 ## Experiment:
 
 - Post-training deployment output quality
-- 
+	- Use FP32 as baseline to compare.
+	- P8 P6 use es = 1 for best quality
+	- Metrics:
+		- PSNR (Peak Signal-to-Noise Ratio): Higher the better
+		- SSIM (Structural Similarity Index Measure): Higher the better
+	- Compare:
+		- `+` means scaling
+		- `T` means `tanh` approximation
+		(fig 9 a b)
+	- Result:
+		- P6+T, P6+ have SSIM > 0.9
+			- High output quality
 
 ---
 ## Conclusion
