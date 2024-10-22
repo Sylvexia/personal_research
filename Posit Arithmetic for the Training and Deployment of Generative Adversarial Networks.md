@@ -204,3 +204,12 @@ No easy way to adopt small bit to train GAN.
 - Once low precision accelerator emerged, the proposed method should be promising.
 
 ---
+## Insight:
+
+- Shift the scale of weight may help in low bit model training and inferencing.
+	- Especially shift by power of 2 is easy for posit. (no bias like normal float)
+- For same `es` value posit, conversion between them is easy.
+	- Truncate fraction or append zero.
+- For training, weight update is normally small. It must be handled
+	- Learning rate: 5e-4
+- 
