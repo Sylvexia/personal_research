@@ -180,6 +180,7 @@ No easy way to adopt small bit to train GAN.
 - Compare: (specific spec needed)
 	- Nvidia Apex O1: FP16
 	- QPytorch: FP8
+- GAN train with different format would give different output.
 
 ---
 ## Conclusion
