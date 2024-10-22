@@ -170,9 +170,13 @@ No easy way to adopt small bit to train GAN.
 - Most GANs use tanh as the output layer in the Generator
 - Approximation: (formula)
 - Correction: Set threshold and bias, and add up the quantity
-	- ![[Pasted image 20241022091705.png]]
+![[Pasted image 20241022091705.png]]
 ---
+## Experiment
 
+- FP32 accumulator is enough
+
+---
 ## Conclusion
 
 - Presents ways to train GAN in 8-bit and deploy in 6-bit
