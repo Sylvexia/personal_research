@@ -192,8 +192,12 @@ No easy way to adopt small bit to train GAN.
 	- Same input vector in latent space give different output at the bottom row.
 	- Need metrics to judge good or bad.
 - Metrics:
-	- Inception Score: lower the better
-	- Frechet Inception Distance: 
+	- Inception Score: Not used?
+	- `Frechet Inception Distance`: lower the better
+		- Except ESRGAN: PSNR metrics
+- Result:
+	- P8 outperform FP8
+	- Scaling match fp16 trainign
 
 ---
 ## Conclusion
