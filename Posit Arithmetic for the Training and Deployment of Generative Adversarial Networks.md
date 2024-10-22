@@ -151,7 +151,9 @@ No easy way to adopt small bit to train GAN.
 
 - Standard approach in low precision training.
 	- Prevents small gradient values from being rounded to zero.
-- Scale the loss by s, and it propagate and scale all gradient accordingly.
+- Scale the loss by s, gradient would also be scaled.
+- Gradient must be unscaled before weight update.
+- Conventional ways:
 
 ---
 
