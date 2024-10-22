@@ -63,6 +63,7 @@ No easy way to adopt small bit to train GAN.
 
 ---
 ## Numerical Properties of GAN training
+
 - The height is frequency of log2(|values|)
 - W -> weight, A -> Activation, G -> Generator, D -> Discriminator
 - 0%, 50%, 100% means training epoch progress.
@@ -90,7 +91,7 @@ No easy way to adopt small bit to train GAN.
 
 - Architecture:
   - W: weights
-  - A: activations
+  - A: activation values
   - G: dot product of E and A
   - E: error
 - dot product between `W * A` and `E * A`
@@ -167,14 +168,15 @@ No easy way to adopt small bit to train GAN.
 ## Proposed Method: Fast Approx. of tanh(x)
 
 - Most GANs use tanh as the output layer in the Generator
-- Approximation:
+- Approximation: (formula)
 - Correction: Set threshold and bias, and add up the quantity
+	- ![[Pasted image 20241022091705.png]]
 ---
 
 ## Conclusion
 
 - Presents ways to train GAN in 8-bit and deploy in 6-bit
-- Using modified Pytorch allows to experiment with different training schemes.
+- Using modified `PyTorch` allows to experiment with different training schemes.
 - Hardware simulation shows posit has better energy and runtime.
 - Once low precision accelerator emerged, the proposed method should be promising.
 
