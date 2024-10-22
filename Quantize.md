@@ -33,3 +33,4 @@ Two ways to represent quantized ONNX model:
 	- Quantize after training.
 - Quantization Aware Training (QAT)
 	- Training with additional epoch while quantizing.
+	- Inserting fake quantize node to simulate the precision loss, for more accurate result.
