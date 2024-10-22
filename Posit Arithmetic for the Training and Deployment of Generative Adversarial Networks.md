@@ -32,7 +32,7 @@ style: |-
 	- Discriminator (D): Distinguish real and fake data.
 - Training:
 	- Train G and D at the same time
-		- G try to generate fake data such that D cannot distinguish
+		- G try to generate fake data such that D cannot distinguish.
 		- D try to get better at judging real and fake data.
 
 ---
@@ -59,7 +59,7 @@ No easy way to adopt small bit to train GAN.
 - Output of GAN is millions of pixels which sensitive to numeric errors.
 - At that time, the only method was to use Nvidia mixed-precision framework to train GAN.
 	- Nvidia O1 mode: Only use FP16 for GEMM operator, and others are FP32
-- No other proposal use bit width 8 to train
+- No other proposal use bit width 8 to train at that time.
 
 ---
 ## Numerical Properties of GAN training
@@ -135,8 +135,10 @@ No easy way to adopt small bit to train GAN.
 ---
 
 ## Proposed Method: Parameter Scaling
-
+- As mentioned before, t is for scaling factor in Encoder/Decoder
+	- Formula:
 - How to decide integer t?
+	- Formula:
 
 ---
 
