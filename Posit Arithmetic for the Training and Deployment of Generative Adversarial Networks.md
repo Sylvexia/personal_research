@@ -142,8 +142,7 @@ No easy way to adopt small bit to train GAN.
 - As mentioned before, t is for scaling factor in Encoder/Decoder
 	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
-- How to decide integer t?
-	- Formula:
+- How to decide scale t?
 
 ---
 
@@ -169,7 +168,7 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Proposed Method: Loss Scaling
 
-![](posit_gan_image/loss_scale.png)
+![center](posit_gan_image/loss_scale.png)
 
 --- 
 ## Proposed Method: Fast Approx. of tanh(x)
