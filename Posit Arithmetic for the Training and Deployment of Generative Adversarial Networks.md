@@ -45,7 +45,7 @@ style: |-
 
 ---
 
-## What is Posit
+## What is Posit?
 
 
 
@@ -65,6 +65,7 @@ No easy way to adopt small bit to train GAN.
 - At that time, the only method was to use Nvidia mixed-precision framework to train GAN.
 	- Nvidia O1 mode: Only use FP16 for GEMM operator, and others are FP32
 - No other proposal use bit width 8 to train GAN at that time.
+	- Binary training, 8-bit training do exist but not include GAN
 
 ---
 ## Numerical Properties of GAN training
@@ -82,13 +83,13 @@ No easy way to adopt small bit to train GAN.
 ## Proposed Method: System architecture
 
 - Biased Encoder/Decoder:
-	- For adding/subtracting exponent bit in posit data.
+	- For add/subtract t in exponent bit in posit data.
 		- Irrelevant to model architecture!
-	- t: Exponent bias.
 	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
-	- The weight is stored scaled format. Decode then compute.
-![h:320 center](posit_gan_image/system_arch.png)
+	- The weight is stored scaled format.
+		- Before compute dot product, need to decode.
+![h:240 center](posit_gan_image/system_arch.png)
 
 ---
 
@@ -133,13 +134,14 @@ No easy way to adopt small bit to train GAN.
 	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
 - The weight is decoded before multiply add operation. Then encode after that.
 	- Weights are kept scaled in weight update.
-![](posit_gan_image/accuracy_curve.png)
+![h:360 center](posit_gan_image/accuracy_curve.png)
 ---
 
 ## Proposed Method: Parameter Scaling
 
 - As mentioned before, t is for scaling factor in Encoder/Decoder
-	- Formula:
+	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
+	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
 - How to decide integer t?
 	- Formula:
 
