@@ -187,6 +187,8 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Experiment
 
+- The configuration is the same for different format.
+	- random number generator state, default optimizer hyper parameters, and the number of epochs set by the original work
 - GAN train with different format would give different output.
 	- Zebra stripe are different on the top row.
 	- Same input vector in latent space give different output at the bottom row.
@@ -197,7 +199,7 @@ No easy way to adopt small bit to train GAN.
 		- Except ESRGAN: PSNR metrics
 - Result:
 	- P8 outperform FP8
-	- Scaling match fp16 trainign
+	- Scaling match fp16 training
 
 ---
 ## Conclusion
