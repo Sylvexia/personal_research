@@ -153,10 +153,10 @@ No easy way to adopt small bit to train GAN.
 	- Prevents small gradient values from being rounded to zero.
 - Scale the loss by `s`, gradient would also be scaled.
 - Gradient must be unscaled before weight update.
-- Conventional method:
+- Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
-- Proposed method:
-	- 
+- Proposed method: (posit)
+	- Shift the center of the distribution towards the range of posits that have the highest accuracy 
 
 ---
 
