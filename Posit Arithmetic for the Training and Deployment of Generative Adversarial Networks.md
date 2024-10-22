@@ -157,7 +157,7 @@ No easy way to adopt small bit to train GAN.
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
-	- Shift the center of the distribution towards the range of posits that have the highest accuracy 
+	- Shift the center of the distribution towards the range of posits that have the highest accuracy.
 
 ---
 ## Proposed Method: Loss Scaling
@@ -187,7 +187,11 @@ No easy way to adopt small bit to train GAN.
 
 - GAN train with different format would give different output.
 	- Zebra stripe are different on the top row.
-	- Same lat
+	- Same input vector in latent space give different output at the bottom row.
+	- Need metrics to judge good or bad.
+- Metrics:
+	- Inception Score: lower the better
+	- Frechet Inception Distance: 
 
 ---
 ## Conclusion
