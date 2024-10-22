@@ -135,6 +135,7 @@ No easy way to adopt small bit to train GAN.
 ---
 
 ## Proposed Method: Parameter Scaling
+
 - As mentioned before, t is for scaling factor in Encoder/Decoder
 	- Formula:
 - How to decide integer t?
@@ -195,6 +196,10 @@ No easy way to adopt small bit to train GAN.
 		- Same input vector in latent space give different output at the bottom row.
 		- Need metrics to judge good or bad.
 		- (fig 8.)
+---
+## Experiment
+
+- Training quality:
 	- Metrics:
 		- Inception Score: Not used?
 		- `Frechet Inception Distance`: lower the better
