@@ -133,7 +133,7 @@ No easy way to adopt small bit to train GAN.
 	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
 - The weight is decoded before multiply add operation. Then encode after that.
 	- Weights are kept scaled in weight update.
-![[Pasted image 20241021234214.png]]
+![](posit_gan_image/accuracy_curve.png)
 ---
 
 ## Proposed Method: Parameter Scaling
@@ -167,7 +167,7 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Proposed Method: Loss Scaling
 
-![[Pasted image 20241022085627.png]]
+![](posit_gan_image/loss_scale.png)
 
 --- 
 ## Proposed Method: Fast Approx. of tanh(x)
@@ -175,7 +175,7 @@ No easy way to adopt small bit to train GAN.
 - Most GANs use tanh as the output layer in the Generator
 - Approximation: (formula)
 - Correction: Set threshold and bias, and add up the quantity
-![[Pasted image 20241022091705.png]]
+![](posit_gan_image/tanh_approx.png)
 ---
 ## Experiment
 
