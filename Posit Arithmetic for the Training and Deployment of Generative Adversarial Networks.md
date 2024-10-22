@@ -159,8 +159,13 @@ No easy way to adopt small bit to train GAN.
 	- Shift the center of the distribution towards the range of posits that have the highest accuracy 
 
 ---
+## Proposed Method: Loss Scaling
 
+![[Pasted image 20241022085627.png]]
+
+--- 
 ## Proposed Method: Fast Approx. of tanh(x)
+
 
 ---
 
