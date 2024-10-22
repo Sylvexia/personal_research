@@ -174,8 +174,8 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Experiment
 
-- FP32 accumulator is enough for training.
-	- FP64 is tried and does not 
+- FP32 accumulator for `mult-add` operation is enough for training.
+	- FP64 is tried and does not help much, quire is not needed.
 
 ---
 ## Conclusion
