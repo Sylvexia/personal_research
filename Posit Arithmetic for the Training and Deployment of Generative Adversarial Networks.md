@@ -223,7 +223,7 @@ No easy way to adopt small bit to train GAN.
 	- Compare:
 		- `+` means scaling
 		- `T` means `tanh` approximation
-		(fig 9 a b)
+		![](posit_gan_image/infer_quality.png)
 	- Result:
 		- P6+T, P6+ have SSIM > 0.9
 			- High output quality
