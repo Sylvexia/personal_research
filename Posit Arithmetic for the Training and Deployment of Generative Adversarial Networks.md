@@ -85,8 +85,8 @@ No easy way to adopt small bit to train GAN.
 	- For adding/subtracting exponent bit in posit data.
 		- Irrelevant to model architecture!
 	- t: Exponent bias.
-	- Encoder: {S, R, E + t, F} -> {P}
-	- Decoder: {P, t} -> {S, R, E - t, F}
+	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
+	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
 	- The weight is stored scaled format. Decode then compute.
 ![h:320 center](posit_gan_image/system_arch.png)
 
@@ -95,10 +95,7 @@ No easy way to adopt small bit to train GAN.
 ## Proposed Method: System architecture
 
 - Architecture:
-  - W: weights
-  - A: activation values
-  - G: gradient
-  - E: error
+  - W: weights, A: activation values, G: gradient, E: error
 - dot product between `W * A` and `E * A`
 	- Involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
 ![h:300 center](posit_gan_image/system_arch.png)
