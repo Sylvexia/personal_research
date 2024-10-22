@@ -168,7 +168,7 @@ No easy way to adopt small bit to train GAN.
 
 - Most GANs use tanh as the output layer in the Generator
 - Approximation:
-- Correction: Set
+- Correction: Set threshold and bias, and add up the quantity
 ---
 
 ## Conclusion
