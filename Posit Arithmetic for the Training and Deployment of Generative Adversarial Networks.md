@@ -154,6 +154,8 @@ No easy way to adopt small bit to train GAN.
 - Scale the loss by s, gradient would also be scaled.
 - Gradient must be unscaled before weight update.
 - Conventional ways:
+	- Increase s until its overflow, then decrease - Nvidia Apex
+- 
 
 ---
 
