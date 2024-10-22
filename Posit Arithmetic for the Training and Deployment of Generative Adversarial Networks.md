@@ -143,13 +143,14 @@ No easy way to adopt small bit to train GAN.
 
 - Across different GANs, the t value is `3~5`
 - Use only the first iteration histogram to set the `t`
-	- Further calibration does not payoff.
+	- Further calibration through iteration does not payoff.
 	- Maybe it's because the value distribution does not change much during training?
 
 ---
 ## Proposed Method: Loss Scaling
 
-- Loss scaling is 
+- Loss scaling is standard approach in low precision training.
+- Scale the loss by s, and it propagate and scale all gradient accordingly.
 
 ---
 
