@@ -166,7 +166,8 @@ No easy way to adopt small bit to train GAN.
 --- 
 ## Proposed Method: Fast Approx. of tanh(x)
 
-
+- Most GANs use tanh as the output layer in the Generator
+- Approximation:
 ---
 
 ## Conclusion
