@@ -92,7 +92,7 @@ No easy way to adopt small bit to train GAN.
 - Architecture:
   - W: weights
   - A: activation values
-  - G: dot product of E and A
+  - G: gradient
   - E: error
 - dot product between `W * A` and `E * A`
 	- Involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
