@@ -59,7 +59,7 @@ No easy way to adopt small bit to train GAN.
 - Output of GAN is millions of pixels which sensitive to numeric errors.
 - At that time, the only method was to use Nvidia mixed-precision framework to train GAN.
 	- Nvidia O1 mode: Only use FP16 for GEMM operator, and others are FP32
-- No other proposal use bit width 8 to train at that time.
+- No other proposal use bit width 8 to train GAN at that time.
 
 ---
 ## Numerical Properties of GAN training
