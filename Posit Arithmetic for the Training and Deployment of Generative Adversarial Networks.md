@@ -174,7 +174,8 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Experiment
 
-- FP32 accumulator is enough
+- FP32 accumulator is enough for training.
+	- FP64 is tried and does not 
 
 ---
 ## Conclusion
