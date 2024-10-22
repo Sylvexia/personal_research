@@ -187,19 +187,28 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Experiment
 
-- The configuration is the same for different format.
-	- random number generator state, default optimizer hyper parameters, and the number of epochs set by the original work
-- GAN train with different format would give different output.
-	- Zebra stripe are different on the top row.
-	- Same input vector in latent space give different output at the bottom row.
-	- Need metrics to judge good or bad.
-- Metrics:
-	- Inception Score: Not used?
-	- `Frechet Inception Distance`: lower the better
-		- Except ESRGAN: PSNR metrics
-- Result:
-	- P8 outperform FP8
-	- Scaling match fp16 training
+- Training quality:
+	- The configuration is the same for different format.
+		- random number generator state, default optimizer hyper parameters, and the number of epochs set by the original work
+	- GAN train with different format would give different output.
+		- Zebra stripe are different on the top row.
+		- Same input vector in latent space give different output at the bottom row.
+		- Need metrics to judge good or bad.
+		- (fig 8.)
+	- Metrics:
+		- Inception Score: Not used?
+		- `Frechet Inception Distance`: lower the better
+			- Except ESRGAN: PSNR metrics
+	- Result:
+		- P8 outperform FP8
+		- Scaling match fp16 training
+		- (table 1)
+
+---
+## Experiment:
+
+- Post-training deployment output quality
+- 
 
 ---
 ## Conclusion
