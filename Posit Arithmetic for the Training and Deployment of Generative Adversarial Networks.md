@@ -45,9 +45,14 @@ style: |-
 
 ---
 
+## What is Posit
+
+
+
+---
 ## Contribution:
 
-- The first to use non-standard 8-bit FP format to train and 6-bit FP format to inference.
+- The first to use non-standard 8-bit FP format to train GAN and 6-bit FP format for GAN inference.
 - Fast approximation of `tanh(x)` function in posit.
 - Software and Hardware Evaluation of GAN in posit and other FP format.
 
@@ -96,7 +101,7 @@ No easy way to adopt small bit to train GAN.
   - E: error
 - dot product between `W * A` and `E * A`
 	- Involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
-![h:320 center](posit_gan_image/system_arch.png)
+![h:300 center](posit_gan_image/system_arch.png)
 
 ---
 
@@ -243,4 +248,3 @@ No easy way to adopt small bit to train GAN.
 	- Truncate fraction or append zero.
 - For training, weight update is normally small. It must be handled
 	- Learning rate: 2e-4
-- 
