@@ -111,6 +111,10 @@ Try to get work:
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
 
+- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
+- `#map6 = affine_map<(d0, d1) -> (d0 + d1 - 1)>`
+- `#map4 = affine_map<(d0, d1) -> (-d1 + 29, 3)>`
+
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
 - `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
 - `%alloca_6 = memref.alloca() : memref<f32>`
