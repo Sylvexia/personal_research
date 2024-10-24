@@ -178,10 +178,4 @@ error: failed to legalize operation 'arith.constant' that was explicitly marked 
 another failure:
 ```
 
-No issue:
-`./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
 
-TBD:
-`./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
-
-Try to get work:
