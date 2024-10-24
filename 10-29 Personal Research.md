@@ -107,3 +107,6 @@ TBD:
 
 Try to get work:
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+
+- entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
+	- `attributes {llvm.emit_c_interface}`
