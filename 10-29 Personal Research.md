@@ -114,3 +114,5 @@ Try to get work:
 - `%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32)`
 - `%17 = affine.load %arg0[%arg1, %14, %15, %16] : memref<1x1x28x28xf32>`
 - `affine.yield %20 : f32`
+- `affine.store %11, %alloc[%arg1, %8, %arg4, %arg5] : memref<1x32x28x28xf32>`
+- 
