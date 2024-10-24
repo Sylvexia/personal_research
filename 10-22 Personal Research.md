@@ -177,3 +177,6 @@ float value: -INF
 error: failed to legalize operation 'arith.constant' that was explicitly marked illegal
 another failure:
 ```
+
+`./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
+
