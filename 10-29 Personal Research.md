@@ -123,3 +123,5 @@ Try to get work:
 - `%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>`
 - `%9 = arith.cmpf oge, %8, %cst_0 : f32`
 	- oge??
+
+What does affine dialect do?
