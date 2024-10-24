@@ -110,3 +110,7 @@ Try to get work:
 
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
+- `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
+- `%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32)`
+- `%17 = affine.load %arg0[%arg1, %14, %15, %16] : memref<1x1x28x28xf32>`
+- `affine.yield %20 : f32`
