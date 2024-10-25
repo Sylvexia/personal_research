@@ -113,6 +113,7 @@ Try to get work:
 
 - Affine Dialect Polyhedral Structure:
 	- `()` means dimension, `[]` means symbol
+		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
 		- Always index type.
 	- `affine.apply` must be 1 D
 	- First example:
