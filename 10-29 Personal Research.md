@@ -114,6 +114,7 @@ Try to get work:
 - Affine Dialect Polyhedral Structure:
 	- `()` means dimension, `[]` means symbol, which is constant.
 		- Always index type.
+	- `affine.apply` must be 1 D
 	- First example:
 		- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
 			- Map 2D to 1D, output 1D `d0 * 64 + d1`
@@ -121,11 +122,14 @@ Try to get work:
 			- `%8 = %arg2 * 64 + %arg3`
 	- Second example:
 		- `#map5 = affine_map<(d0)[s0] -> (d0 + s0)>`
-			- Map 1D to 1D with
+			- Map 1D to 1D. output 1D `d0 + s0`
 		- `%14 = affine.apply #map5(%arg6)[%arg2]`
 			- `%14 = arg6 + arg2`
+	- Third example:
+		- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
+			- map 1D to 4D
+		- 
 
-- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
 - `#map6 = affine_map<(d0, d1) -> (d0 + d1 - 1)>`
 - `#map4 = affine_map<(d0, d1) -> (-d1 + 29, 3)>`
 
