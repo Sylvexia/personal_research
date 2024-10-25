@@ -112,8 +112,8 @@ Try to get work:
 	- `attributes {llvm.emit_c_interface}`
 
 - `#map7 = affine_map<(d0) -> (0, d0 * 2)>`
-	- 
 	- `%8 = affine.max #map7(%arg3)`
+- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
 
 - `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
 - `#map6 = affine_map<(d0, d1) -> (d0 + d1 - 1)>`
