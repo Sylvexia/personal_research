@@ -123,7 +123,7 @@ Try to get work:
 		- `#map5 = affine_map<(d0)[s0] -> (d0 + s0)>`
 			- Map 1D to 1D with
 		- `%14 = affine.apply #map5(%arg6)[%arg2]`
-- 
+			- `%14 = arg6 + arg2`
 
 - `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
 - `#map6 = affine_map<(d0, d1) -> (d0 + d1 - 1)>`
