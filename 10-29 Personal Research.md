@@ -111,6 +111,10 @@ Try to get work:
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
 
+- `#map7 = affine_map<(d0) -> (0, d0 * 2)>`
+	- 
+	- `%8 = affine.max #map7(%arg3)`
+
 - `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
 - `#map6 = affine_map<(d0, d1) -> (d0 + d1 - 1)>`
 - `#map4 = affine_map<(d0, d1) -> (-d1 + 29, 3)>`
