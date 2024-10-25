@@ -131,6 +131,19 @@ Try to get work:
 			- map 1D to 4D
 		- `affine.for %arg5 = 0 to min #map8(%arg3)[%c28, %c2, %c0, %c2, %c1]`
 			- After Mapping, `%min_res = min(d0, d1, d2, d3)` and the `%arg5` is from 0 to `%min_res`
+- `iter_args(%arg7 = %cst_0)` must have correspond yield.
+	- Example:
+		```cpp
+		%cst_0 = arith.constant 0.000000e+00 : f32
+		%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32) 
+		{
+			...
+			affine.yield %12 : f32
+		}
+		```
+	- 
+
+
 
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
 - `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
