@@ -131,6 +131,7 @@ Try to get work:
 			- map 1D to 4D
 		- `affine.for %arg5 = 0 to min #map8(%arg3)[%c28, %c2, %c0, %c2, %c1]`
 			- After Mapping, `%min_res = min(d0, d1, d2, d3)` and the `%arg5` is from 0 to `%min_res`
+- Affine for loop construct:
 - `iter_args(%arg7 = %cst_0)` must have correspond yield.
 	- Example:
 		```cpp
