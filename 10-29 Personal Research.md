@@ -112,13 +112,14 @@ Try to get work:
 	- `attributes {llvm.emit_c_interface}`
 
 - Always index type:
-	- F
-	- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
-		- Map 2D to 1D, output 1D `d0 * 64 + d1`
-	- `%8 = affine.apply #map9(%arg2, %arg3)`
-		- `%8 = %arg2 * 64 + %arg3`
-	- `#map5 = affine_map<(d0)[s0] -> (d0 + s0)>`
-		- `%14 = affine.apply #map5(%arg6)[%arg2]`
+	- First example:
+		- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
+			- Map 2D to 1D, output 1D `d0 * 64 + d1`
+		- `%8 = affine.apply #map9(%arg2, %arg3)`
+			- `%8 = %arg2 * 64 + %arg3`
+	- Second example:
+		- `#map5 = affine_map<(d0)[s0] -> (d0 + s0)>`
+			- `%14 = affine.apply #map5(%arg6)[%arg2]`
 
 - `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
 - `#map6 = affine_map<(d0, d1) -> (d0 + d1 - 1)>`
