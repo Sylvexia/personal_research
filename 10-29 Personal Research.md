@@ -143,12 +143,16 @@ Try to get work:
 				affine.yield %12 : f32
 			}
 			```
-		- 
+		- Initialize `%arg7` to `%cst_0` which is `0`
+		- `%arg7 = %12` at the end of the loop
+		- After `1` iteration, return the `%12` result.
 
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
 - `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
 - `%alloca_6 = memref.alloca() : memref<f32>`
+	- modify the 
 - `%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32)`
+	- modify return type.
 - `affine.yield %20 : f32`
 - `%17 = affine.load %arg0[%arg1, %14, %15, %16] : memref<1x1x28x28xf32>`
 - `affine.store %11, %alloc[%arg1, %8, %arg4, %arg5] : memref<1x32x28x28xf32>`
