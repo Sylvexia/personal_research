@@ -112,7 +112,7 @@ Try to get work:
 	- `attributes {llvm.emit_c_interface}`
 
 - Affine Dialect Polyhedral Structure:
-	- `()` means dimension, `[]` means symbol, which is constant.
+	- `()` means dimension, `[]` means symbol
 		- Always index type.
 	- `affine.apply` must be 1 D
 	- First example:
@@ -128,10 +128,8 @@ Try to get work:
 	- Third example:
 		- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
 			- map 1D to 4D
-		- 
-
-- `#map6 = affine_map<(d0, d1) -> (d0 + d1 - 1)>`
-- `#map4 = affine_map<(d0, d1) -> (-d1 + 29, 3)>`
+		- `affine.for %arg5 = 0 to min #map8(%arg3)[%c28, %c2, %c0, %c2, %c1]`
+			- After Mapping, `%min_res = min(d0, d1, d2, d3)` and the `%arg5` is from 0 to `%min_res`
 
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
 - `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
