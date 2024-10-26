@@ -226,8 +226,13 @@ No easy way to adopt small bit to train GAN.
 		- `T` means `tanh` approximation
 		![](posit_gan_image/infer_quality.png)
 	- Result:
-		- P6+T, P6+ have SSIM > 0.9
+		- `P6+T`, `P6+` have `SSIM` > `0.9`
 			- High output quality
+
+---
+## Hardware Simulation
+
+
 
 ---
 ## Conclusion
