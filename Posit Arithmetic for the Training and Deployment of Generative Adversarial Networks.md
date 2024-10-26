@@ -76,15 +76,18 @@ style: |-
 - Software and Hardware Evaluation of GAN in posit and other FP format.
 
 ---
+## Why GAN is hard to train? 
+- My insight
 
+---
 ## Why GAN is hard to train? 
 
-No easy way to adopt small bit to train GAN.
-- Output of GAN is millions of pixels which sensitive to numeric errors.
-- At that time, the only method was to use Nvidia mixed-precision framework to train GAN.
-	- Nvidia O1 mode: Only use FP16 for GEMM operator, and others are FP32
-- No other proposal use bit width 8 to train GAN at that time.
-	- Binary training, 8-bit training do exist but not include GAN
+- No easy way to adopt small bit to train GAN.
+	- Output of GAN is millions of pixels which sensitive to numeric errors.
+	- At that time, the only method was to use Nvidia mixed-precision framework to train GAN.
+		- Nvidia O1 mode: Only use FP16 for GEMM operator, and others are FP32
+	- No other proposal use bit width 8 to train GAN at that time.
+		- Binary training, 8-bit training do exist but not include GAN
 
 ---
 ## Numerical Properties of GAN training
