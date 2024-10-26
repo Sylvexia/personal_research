@@ -70,7 +70,7 @@ No easy way to adopt small bit to train GAN.
 ## Numerical Properties of GAN training
 
 - The height is frequency of $\log_2(|\text{values}|)$
-- W -> weight, A -> Activation, G -> Generator, D -> Discriminator
+- W: weight, A: Activation, G: Generator, D: Discriminator
 - 0%, 50%, 100% means training epoch progress.
 	- Value does not change much across epoch
 - Weights are concentrated in $2^{-4}$ to $2^{-5}$, need to handle
@@ -209,7 +209,7 @@ No easy way to adopt small bit to train GAN.
 	- Result:
 		- P8 outperform FP8
 		- Scaling match fp16 training
-		![[Pasted image 20241026142354.png]]
+		![[FID_Score.png]]
 
 ---
 ## Experiment:
@@ -220,13 +220,18 @@ No easy way to adopt small bit to train GAN.
 	- Metrics:
 		- PSNR (Peak Signal-to-Noise Ratio): Higher the better
 		- SSIM (Structural Similarity Index Measure): Higher the better
+
+---
+## Experiment:
+
+- Post-training deployment output quality
 	- Compare:
 		- `+` means scaling
 		- `T` means `tanh` approximation
-		![](posit_gan_image/infer_quality.png)
 	- Result:
 		- `P6+T`, `P6+` have `SSIM` > `0.9`
 			- High output quality
+	![center h:320](posit_gan_image/infer_quality.png)
 
 ---
 ## Hardware Simulation
