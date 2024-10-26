@@ -60,7 +60,7 @@ style: |-
 	- sign bit: 0 is +, 1 is -
 	- regime bit: 
 		- resizable bit, decide the `useed` exponent
-			- useed = 2
+			- useed = 2^(2^es)
 		- duplicate leading 0/1 and stop with opposite bit.
 		- `110: k = 1`, `10: k = 0`, `01: k = -1`, `001: k = -2`
 	- exponent: same as IEEE 754 exponent, but must be positive and no bias.
