@@ -58,14 +58,16 @@ style: |-
 	- e.g. `posit<16, 3>`
 - Format:
 	- sign bit: 0 is +, 1 is -
-	- regime bit: resizable bit, decide the exponent of k, duplicate leading 0/1 and stop with opposite bit.
+	- regime bit: 
+		- resizable bit, decide the exponent of k
+		- duplicate leading 0/1 and stop with opposite bit.
 		- 110: k=1, 10: k = 0, 01: k = -1, 001: k = -2
 	- exponent: same as IEEE 754 exponent, but must be positive and no bias.
 	- fraction bit: same as IEEE 754 fraction
 ---
 ## What is Posit?
 - Properties:
-	- The carry of exponent bit:
+	- The carry of the posit:
 		- 0, 001, 111, 1 -> 
 		- 0, 01, 000, 00
 	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which mean more precision.
