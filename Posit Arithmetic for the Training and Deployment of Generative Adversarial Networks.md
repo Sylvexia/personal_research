@@ -175,7 +175,7 @@ No easy way to adopt small bit to train GAN.
 - Most GANs use tanh as the output layer in the Generator
 - Approximation: (formula)
 - Correction: Set threshold and bias, and add up the quantity
-![](posit_gan_image/tanh_approx.png)
+![center](posit_gan_image/tanh_approx.png)
 ---
 ## Experiment
 
@@ -184,7 +184,7 @@ No easy way to adopt small bit to train GAN.
 	- The output is then quantize to P16
 - Compare: (specific spec needed)
 	- Nvidia Apex O1: FP16
-	- QPytorch: FP8
+	- `QPytorch`: FP8
 	- This Paper: P8
 
 ---
@@ -197,7 +197,7 @@ No easy way to adopt small bit to train GAN.
 		- Zebra stripe are different on the top row.
 		- Same input vector in latent space give different output at the bottom row.
 		- Need metrics to judge good or bad.
-		- (fig 8.)
+		- ![[Pasted image 20241026142250.png]]
 ---
 ## Experiment
 
@@ -231,7 +231,7 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Hardware Simulation
 
-
+![[Pasted image 20241026142050.png]]
 
 ---
 ## Conclusion
