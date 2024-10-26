@@ -149,7 +149,7 @@ No easy way to adopt small bit to train GAN.
 - Across different GANs, the t value is `3~5`
 - Use only the first iteration histogram to set the `t`
 	- Further calibration through iteration does not payoff.
-	- Maybe it's because the value distribution does not change much during training?
+	- The value distribution does not change much during training.
 
 ---
 ## Proposed Method: Loss Scaling
