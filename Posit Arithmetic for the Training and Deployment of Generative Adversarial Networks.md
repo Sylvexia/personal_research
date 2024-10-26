@@ -24,7 +24,10 @@ style: |-
 - Reporter: Yu-Chun, Hung
 
 ---
+## Insight:
 
+
+---
 ## What is GAN?
 
 - Consists of Generator and Discriminator Network:
@@ -46,9 +49,20 @@ style: |-
 ---
 ## What is Posit?
 
+- Environment variables:
+	- `n-bit`: length of bits, `es-val`: max length of exponent.
+	- e.g. posit<16, 3>
+- Format:
+	- sign bit: 0 is +, 1 is -
+	- regime bit: resizable bit, 
+	- exponent: same as IEEE 754 exponent, but must be positive and no bias.
+	- fraction bit: same as IEEE 754 fraction
+---
+## What is Posit?
 - Properties:
 	- If value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which mean more precision.
 	- Under same es-val, conversion between n-bits requires only truncate/pad zeros. 
+![center h:240](paper_speech_image/posit_example.png)
 
 ---
 ## Contribution:

@@ -19,7 +19,7 @@ Cambridge, MA
 ## How does Posit Works?
 
 - Format:
-	- ![[posit_format.png]]
+	- ![[paper_speech_image/posit_format.png]]
 - Parameter: 
 	- Posit<total_bits, es_bits>
 	- Example: Posit<32,3>
@@ -28,7 +28,7 @@ Cambridge, MA
 			- At most 3 bit of exponent
 			- 3-bit of exponent as a pack
 - Formula:
-	![[formula.png]]
+	![[paper_speech_image/formula.png]]
 	- 00000000: Zero
 	- 10000000: NaR (Not a Real)
 	- useed = 2^(2^es)
@@ -66,7 +66,7 @@ Cambridge, MA
 ## Example
 
 - Given posit<16,3> (16-bit, es = 3)
-![[posit_example.png]]
+![[paper_speech_image/posit_example.png]]
 - sign term: 0 -> positive -> +
 - regime term: 0001 -> k = -3, -> 256^-3
 	- useed = 2^(2^es) = 256
@@ -104,11 +104,11 @@ In paper: 3 cases:
 - 1 < |value| < 0
 
 original paper non-sense:
-![[wrong.png]]
+![[paper_speech_image/wrong.png]]
 ## Larger Dynamic
 
 - Posit have larger dynamic range
-![[Dynamic_Range.png]]
+![[paper_speech_image/Dynamic_Range.png]]
 
 # Accuracy
 
@@ -116,12 +116,12 @@ original paper non-sense:
 - Posit 32: 32 - 1(sign) - 2(regime) - 2(exponent) + 1(1.xxx fraction)
 - IEEE FP16: 10-bit fraction + (1.xxx fraction)
 - Posit 16: 16 - 1(sign) - 2(regime) - 1(exponent) + 1(1.xxx fraction)
-![[DecimalAccuracy.png]]
+![[paper_speech_image/DecimalAccuracy.png]]
 
 # Posit(32, 2) accuracy v.s. IEEE float 32 
 
 - Posit has more accuracy when the value's 2's exponent is close to 0
-![[precision.png]]
+![[paper_speech_image/precision.png]]
 (ref: https://spectrum.ieee.org/floating-point-numbers-posits-processor)
 
 ## Posit Precision
@@ -129,7 +129,7 @@ original paper non-sense:
 - Observation: 
 	- shorter regime bits allows more fraction bits
 	- Value distribution is close together exponentially around 0. 
-![[posit_construction.png]]
+![[paper_speech_image/posit_construction.png]]
 ## Abstract
 
 - RNN model is huge for memory aspect.
@@ -149,18 +149,18 @@ original paper non-sense:
 
 ## Overview of common numerical data type
 
-![[fp_format.png]]
+![[paper_speech_image/fp_format.png]]
 
 - BF16: Used in Google cloud TPU and Intel AI processors
 - Fixed-point: 0.1 + 0.2 != 0.30000000000000004
-	![[meme_decimal.png]]
+	![[paper_speech_image/meme_decimal.png]]
 - low precision fixed-point arithmetic become DL quantization in inference.
 
 ## Other FP Format
 
-![[FP8_News.png]]
-![[FP8_Paper.png]]
-![[FP4_news.png]]
+![[paper_speech_image/FP8_News.png]]
+![[paper_speech_image/FP8_Paper.png]]
+![[paper_speech_image/FP4_news.png]]
 ## Experiment
 
 - Train 2 speech recognition model
@@ -169,7 +169,7 @@ original paper non-sense:
 		- 1,000 hours of audiobooks
 	-  Model architecture follows DeepSpeech3 specifications
 	- Substitute batch normalization to layer normalization.
-		![[Normalization.png]]
+		![[paper_speech_image/Normalization.png]]
 		ref:(https://medium.com/@zljdanceholic/groupnorm-then-batchnorm-instancenorm-layernorm-e2b2a1d350a0)
 	- Networks were not retrained after quantization was applied
 	- There's no specific words describe how the quantization is done
@@ -179,7 +179,7 @@ original paper non-sense:
 	- MLP attention model
 	- Encoder: 
 		- 4 layer of bidirectional-GRU (Gated Recurrent Unit)
-		- ![[GRU.png]]
+		- ![[paper_speech_image/GRU.png]]
 			- Ref(https://vtiya.medium.com/gru-vs-bi-gru-which-one-is-going-to-win-58a45ede5fba)
 			- 1024 hidden units
 		- 2 downsampling pooling layer
@@ -195,7 +195,7 @@ original paper non-sense:
 	- Decoder: 2-layer forward-only decoder with 512 hidden unit
 	- 30M parameter
 
-![[accuracy_loss.png]]
+![[paper_speech_image/accuracy_loss.png]]
 
 WER(Word Error Rate)
 - The lower, the better
@@ -223,8 +223,8 @@ Observation:
 
 ### Hardware Spec:
 
-![[Conversion_spec.png]]
-![[mac_spec.png]]
+![[paper_speech_image/Conversion_spec.png]]
+![[paper_speech_image/mac_spec.png]]
 - 8-bit posit adder is approximately 25% of 32-bit float-point adder
 - Posit adder is smaller than fixed-point adder
 
@@ -232,21 +232,21 @@ Observation:
 - My 64-bit double multiplier: 5GHz, 111.2mW, 6.324um^2, 60 cycle. 16nm TSMC (No handling denormal)
 - Original paper does not state that it’s single cycle.
 
-![[No_Denormal.png]]
+![[paper_speech_image/No_Denormal.png]]
 - ref:https://developer.nvidia.com/blog/cuda-pro-tip-flush-denormals-confidence/
 - +20% speedup
 ### Question:
 
 1. How many cycle of this hardware? What standard of the implementation did they follow?
 	
-	![[rethink_hardware.png]]
+	![[paper_speech_image/rethink_hardware.png]]
 	ref: [Rethinking floating point for deep learning](https://arxiv.org/abs/1811.01721)
 
 ## Prototype LSTM ENGINE
 
 ### LSTM Formula
 
-![[LSTM_Formula.png]]
+![[paper_speech_image/LSTM_Formula.png]]
 - x: input
 - h: hidden state
 - c: cell state
@@ -257,7 +257,7 @@ Observation:
 
 ### Accelerator Architecture
 
-![[LSTM_ACCEL_ARCH.png]]
+![[paper_speech_image/LSTM_ACCEL_ARCH.png]]
 - Datapath:
 	- Use cache buffers for input, hidden state, and weight. use 8MACs to calculate the matrix-multiplication and 4 accumulator for addition.
 	- Feed 4 result to calculate activation.
@@ -265,7 +265,7 @@ Observation:
 
 - Activation function tanh and sigma is done by piecewise approximation.
 	- Using straight line segment to approximate the function. 
-	- ![[Pieceswise_sigmoid.png]]
+	- ![[paper_speech_image/Pieceswise_sigmoid.png]]
 
 ### Summary of LSTM accelerator 
 

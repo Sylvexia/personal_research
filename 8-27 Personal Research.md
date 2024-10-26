@@ -17,7 +17,7 @@ Original posit paper states that posit<8,0> is good for deep learning applicatio
 
 in "Study of Posit Numeric in Speech Recognition Neural Inference"
 We have good result:
-![[accuracy_loss.png]]
+![[paper_speech_image/accuracy_loss.png]]
 
 but in "Rethinking floating point for deep learning"
 The dynamic range of posit<8,0> is not enough:
