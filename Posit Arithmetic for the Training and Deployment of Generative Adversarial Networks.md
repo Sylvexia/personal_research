@@ -141,7 +141,7 @@ style: |-
 	- `E * A -> G`
 		- $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
 			- Gradient of loss is the product between error term and previous activation value.
-- ![h:240 center](posit_gan_image/system_arch.png)
+![h:240 center](posit_gan_image/system_arch.png)
 ---
 
 ## Proposed Method: System architecture
@@ -161,7 +161,6 @@ style: |-
   - Forward Pass:
     - From input to last layer to give output.
   - Backward Pass:
-    - Calculate the error from predict output and target.
     - Gradient are computed for each weight, for steepest direction in loss function.
   - Weight Update:
     - The optimizer use gradient and learning rate to optimize the weight.
