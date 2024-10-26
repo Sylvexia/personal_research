@@ -156,6 +156,7 @@ style: |-
 ---
 
 ## Proposed Method: System architecture
+
 - The image is misleading in my opinion.
 - What are the training steps?
   - Forward Pass:
