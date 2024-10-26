@@ -68,8 +68,9 @@ style: |-
 ## What is Posit?
 - Properties:
 	- The carry of the posit:
-		- 0, 001, 111, 1 -> 
-		- 0, 01, 000, 00
+		- 0,001,111,1 -> 
+		- 0,01,000,00
+		- regime bit shorter, fraction bit is longer.
 	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which mean more precision.
 	- Under same `es-val`, conversion between n-bits requires only remove/pad zeros. 
 ![center h:240](paper_speech_image/posit_example.png)
