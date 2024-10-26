@@ -97,7 +97,7 @@ style: |-
 ## Why GAN is hard to train? 
 
 - My insight
-	- 
+	- Sensitive to hyperparameter (e.g. learning rate)
 
 ---
 ## Numerical Properties of GAN training
