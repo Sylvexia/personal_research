@@ -209,7 +209,7 @@ No easy way to adopt small bit to train GAN.
 	- Result:
 		- P8 outperform FP8
 		- Scaling match fp16 training
-		- (table 1)
+		![[Pasted image 20241026142354.png]]
 
 ---
 ## Experiment:
