@@ -82,7 +82,7 @@ No easy way to adopt small bit to train GAN.
 ## Proposed Method: System architecture
 
 - Biased Encoder/Decoder:
-	- For add/subtract t in exponent bit in posit data.
+	- For add/subtract "$t$" in exponent bit in posit data.
 		- Irrelevant to model architecture!
 	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
@@ -96,8 +96,7 @@ No easy way to adopt small bit to train GAN.
 
 - Architecture:
   - W: weights, A: activation values, G: gradient, E: error
-- dot product between `W * A` and `E * A`
-	- Involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
+  - The dot product between `W * A` and `E * A` involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
 ![h:300 center](posit_gan_image/system_arch.png)
 
 ---
@@ -158,7 +157,7 @@ No easy way to adopt small bit to train GAN.
 - Standard approach in low precision training.
 	- Prevents small gradient values from being rounded to zero.
 - Scale the loss by `s`, gradient would also be scaled.
-- Gradient must be unscaled before weight update.
+- Gradient must be unscaled by `1/s` before weight update.
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
@@ -166,12 +165,13 @@ No easy way to adopt small bit to train GAN.
 
 ---
 ## Proposed Method: Loss Scaling
+- X-axis: gradient value
+- Y-axis: frequency
 
 ![center](posit_gan_image/loss_scale.png)
 
 --- 
 ## Proposed Method: Fast Approx. of tanh(x)
-
 - Most GANs use tanh as the output layer in the Generator
 - Approximation: (formula)
 - Correction: Set threshold and bias, and add up the quantity
