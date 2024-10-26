@@ -130,18 +130,25 @@ style: |-
 - Architecture:
   - W: weights, A: activation values, G: gradient, E: error
   - The dot product between `W * A` and `E * A` involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
-	  - $a^{(l)} = \sigma(W^{(l)} a^{(l-1)} + b^{(l)})$
-	  - $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
-		  - Gradient of loss is the product between error term and previous activation value.
 ![h:300 center](posit_gan_image/system_arch.png)
+---
+## Proposed Method: System architecture
 
+- Architecture (My insight)
+	- `W * A -> A`
+		- $a^{(l)} = \sigma(W^{(l)} a^{(l-1)} + b^{(l)})$
+			- The product of previous activation and weight plus bias is current activation value.
+	- `E * A -> G`
+		- $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
+			- Gradient of loss is the product between error term and previous activation value.
+- ![h:240 center](posit_gan_image/system_arch.png)
 ---
 
 ## Proposed Method: System architecture
 
-- For "Other operations" and "weight updates", value change is small. Stored with `posit<16,2>` internally.
+- For operations value change is small like "other operations" and "weight updates", stored with `posit<16,2>` internally.
 	- Standard low precision CNN training use bit width 16.
-- The `es` value is kept 2, which can simply truncate or concatenate zero to convert between `posit<8, 2>` and `posit<16, 2>`
+- The `es` value is kept 2, which can simply remove/add zero to convert between `posit<8, 2>` and `posit<16, 2>`
 	- es value 1: fails to converge
 	- es value 3: fraction accuracy is not enough
 ![h:320 center](posit_gan_image/system_arch.png)
