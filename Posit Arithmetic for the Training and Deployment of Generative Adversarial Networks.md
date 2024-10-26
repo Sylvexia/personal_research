@@ -98,6 +98,9 @@ style: |-
 
 - My insight
 	- Sensitive to hyperparameter (e.g. learning rate)
+	- Mode Collapse:
+		- Generate only generate same images.
+	- D
 
 ---
 ## Numerical Properties of GAN training
