@@ -111,7 +111,6 @@ Try to get work:
 
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
-- what is the difference between `replaceAllUsesOf(NewOp)` and replacewithOP
 
 - Affine Dialect Polyhedral Structure:
 	- `()` means dimension, `[]` means symbol
@@ -150,11 +149,13 @@ Try to get work:
 
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
 - `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
+	- `getType()`
 - `%alloca_6 = memref.alloca() : memref<f32>`
-	- modify the type (get type)
+	- `getType()`
 - `%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32)`
 	- `getType()`
 - `affine.yield %20 : f32`
+	- `getType()`
 - `%17 = affine.load %arg0[%arg1, %14, %15, %16] : memref<1x1x28x28xf32>`
 	- `getType()`
 - `affine.store %11, %alloc[%arg1, %8, %arg4, %arg5] : memref<1x32x28x28xf32>`
@@ -163,6 +164,7 @@ Try to get work:
 	- `getType()`
 - no memref.store??
 - `%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>`
+	- to??
 - `%9 = arith.cmpf oge, %8, %cst_0 : f32`
 	- oge??
 	- ordered v.s unordered
