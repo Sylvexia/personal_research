@@ -44,7 +44,6 @@ style: |-
 	- Style Transfer
 
 ---
-
 ## What is Posit?
 
 
