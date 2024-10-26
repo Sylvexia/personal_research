@@ -209,7 +209,7 @@ style: |-
 - Steps:
 	- $L_{\text{scaled}} = L \times s$: 
 	- $\nabla W_{\text{scaled}} = \frac{\partial L_{\text{scaled}}}{\partial W}$
-	- $\nabla W_{\text{unscaled}} = \frac{\nabla W_{\text{scaled}}}{S}$
+	- $\nabla W_{\text{unscaled}} = \frac{\nabla W_{\text{scaled}}}{s}$
 	- 
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
