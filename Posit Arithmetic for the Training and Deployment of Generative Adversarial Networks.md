@@ -175,7 +175,7 @@ style: |-
 	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
 - The weight is decoded before multiply add operation. Then encode after that.
 	- Weights are kept scaled in weight update.
-![h:360 center](posit_gan_image/accuracy_curve.png)
+![center height:360](paper_speech_image/precision.png)
 ---
 
 ## Proposed Method: Parameter Scaling
