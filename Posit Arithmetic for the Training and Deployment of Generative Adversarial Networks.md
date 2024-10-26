@@ -213,6 +213,7 @@ style: |-
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
 	- Shift the center of the distribution towards the range of posits that have the highest accuracy.
+	- s does not change that much, can be set after first iteration.
 
 ---
 ## Proposed Method: Loss Scaling
