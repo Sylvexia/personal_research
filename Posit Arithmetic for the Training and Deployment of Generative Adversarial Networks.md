@@ -178,7 +178,7 @@ style: |-
 
 - In posit, value near exponent 0 has the most accuracy. Hence scale the value is helpful.
 	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
-- The weight is decoded before multiply add operation. Then encode after that.
+- The weight is decoded before multiply-add operation. Then encode after that.
 	- Weights are kept scaled in weight update.
 ![center height:360](paper_speech_image/precision.png)
 ---
