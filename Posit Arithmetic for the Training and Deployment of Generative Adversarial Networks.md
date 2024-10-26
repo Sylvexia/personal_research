@@ -84,10 +84,6 @@ style: |-
 
 ---
 ## Why GAN is hard to train? 
-- My insight
-
----
-## Why GAN is hard to train? 
 
 - No easy way to adopt small bit to train GAN.
 	- Output of GAN is millions of pixels which sensitive to numeric errors.
@@ -95,6 +91,13 @@ style: |-
 		- Nvidia O1 mode: Only use FP16 for GEMM operator, and others are FP32
 	- No other proposal use bit width 8 to train GAN at that time.
 		- Binary training, 8-bit training do exist but not include GAN
+
+---
+
+## Why GAN is hard to train? 
+
+- My insight
+	- 
 
 ---
 ## Numerical Properties of GAN training
@@ -127,6 +130,8 @@ style: |-
 - Architecture:
   - W: weights, A: activation values, G: gradient, E: error
   - The dot product between `W * A` and `E * A` involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
+	  - 
+	  - $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
 ![h:300 center](posit_gan_image/system_arch.png)
 
 ---
@@ -188,7 +193,7 @@ style: |-
 	- Prevents small gradient values from being rounded to zero.
 - Scale the loss by `s`, gradient would also be scaled.
 - Gradient must be unscaled by `1/s` afterwards.
-	- Gradient calculation:$\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$, more or less
+	- Gradient calculation: $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$, more or less
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
