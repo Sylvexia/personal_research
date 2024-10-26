@@ -207,10 +207,10 @@ style: |-
 - Loss Scaling is standard approach in low precision training.
 	- Prevents small gradient values from being rounded to zero.
 - Steps:
-	- $L_{\text{scaled}} = L \times s$: 
-	- $\nabla W_{\text{scaled}} = \frac{\partial L_{\text{scaled}}}{\partial W}$
-	- $\nabla W_{\text{unscaled}} = \frac{\nabla W_{\text{scaled}}}{s}$
-	- 
+	- $L_{\text{scaled}} = L \times s$: Scale the loss by s
+	- $\nabla W_{\text{scaled}} = \frac{\partial L_{\text{scaled}}}{\partial W_i}$: Calculate gradient with Scaled loss and i-th dimension weight.
+	- $\nabla W_{\text{unscaled}} = \frac{\nabla W_{\text{scaled}}}{s}$: Un-scale the loss by 1/s
+	- Use the gradient to update weight.
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
