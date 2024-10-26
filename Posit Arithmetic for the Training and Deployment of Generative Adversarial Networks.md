@@ -120,6 +120,7 @@ style: |-
 
 - Biased Encoder/Decoder:
 	- For add/subtract "$t$" in exponent bit in posit data.
+		- This scales power of 2.
 		- Irrelevant to model architecture!
 	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$ : scaler
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$ : de-scaler
