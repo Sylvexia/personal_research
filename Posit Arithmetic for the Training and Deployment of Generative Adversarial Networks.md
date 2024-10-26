@@ -99,7 +99,9 @@ style: |-
 - My insight
 	- Sensitive to hyperparameter (e.g. learning rate)
 	- Mode Collapse:
-		- Generate only generate same images.
+		- G Generate only generate same images.
+	- Diminished gradient:
+		- D is too good at judging, causing G gradient vanished and learn nothing.
 
 ---
 ## Numerical Properties of GAN training
