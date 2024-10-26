@@ -47,8 +47,8 @@ style: |-
 ## What is Posit?
 
 - Properties:
-	- If value exponent is more close to zero, regime bit is shorter, more space for fraction, which mean more precision.
-	- Under same es-val, conversion between n-bit requires only truncate/pad zeros. 
+	- If value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which mean more precision.
+	- Under same es-val, conversion between n-bits requires only truncate/pad zeros. 
 
 ---
 ## Contribution:
