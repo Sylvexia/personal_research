@@ -236,7 +236,7 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Hardware Simulation
 
-![[HardwareSimulation.png]]
+![](posit_gan_image/HardwareSimulation.png)
 
 ---
 ## Conclusion
