@@ -25,7 +25,8 @@ style: |-
 
 ---
 ## Insight:
-
+- This paper is trying to train and infer GAN model with lower bit data.
+- Posit floating point data have more precision then normal floating data.
 
 ---
 ## What is GAN?
@@ -162,7 +163,7 @@ No easy way to adopt small bit to train GAN.
 
 ## Proposed Method: Parameter Scaling
 
-- Across different GANs, the t value is `3~5`
+- From experiment: Across different GANs, the t value is `3~5`
 - Use only the first iteration histogram to set the `t`
 	- Further calibration through iteration does not payoff.
 	- The value distribution does not change much during training.
@@ -174,7 +175,7 @@ No easy way to adopt small bit to train GAN.
 	- Prevents small gradient values from being rounded to zero.
 - Scale the loss by `s`, gradient would also be scaled.
 - Gradient must be unscaled by `1/s` afterwards.
-	- Gradient calculation:$\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
+	- Gradient calculation:$\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$, more or less
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
@@ -184,6 +185,7 @@ No easy way to adopt small bit to train GAN.
 ## Proposed Method: Loss Scaling
 - X-axis: gradient value
 - Y-axis: frequency
+- Float loss scaling is going to overflow.
 
 ![center](posit_gan_image/loss_scale.png)
 
@@ -226,7 +228,7 @@ No easy way to adopt small bit to train GAN.
 	- Result:
 		- P8 outperform FP8
 		- Scaling match fp16 training
-		![[FID_Score.png]]
+		![center h:240](posit_gan_image/FID_Score.png)
 
 ---
 ## Experiment:
