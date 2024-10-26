@@ -128,7 +128,7 @@ No easy way to adopt small bit to train GAN.
 
 ## Proposed Method: Parameter Scaling
 
-- In posit, value near exponent 0 has the most accuracy. Hence shift the value is helpful.
+- In posit, value near exponent 0 has the most accuracy. Hence scale the value is helpful.
 	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
 - The weight is decoded before multiply add operation. Then encode after that.
 	- Weights are kept scaled in weight update.
@@ -158,7 +158,7 @@ No easy way to adopt small bit to train GAN.
 	- Prevents small gradient values from being rounded to zero.
 - Scale the loss by `s`, gradient would also be scaled.
 - Gradient must be unscaled by `1/s` afterwards.
-	- $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
+	- Gradient calculation:$\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
