@@ -208,7 +208,7 @@ style: |-
 	- Prevents small gradient values from being rounded to zero.
 - Steps:
 	- $L_{\text{scaled}} = L \times s$: Scale the loss by s
-	- $\nabla W_{\text{scaled}} = \frac{\partial L_{\text{scaled}}}{\partial W_i}$: Calculate gradient with Scaled loss and i-th dimension weight.
+	- $\nabla W_{\text{scaled}} = \frac{\partial L_{\text{scaled}}}{\partial W_i}$: Calculate gradient with scaled loss and weight.
 	- $\nabla W_{\text{unscaled}} = \frac{\nabla W_{\text{scaled}}}{s}$: Un-scale the loss by 1/s
 	- Use the gradient to update weight.
 - Conventional method: (float)
