@@ -29,7 +29,7 @@ style: |-
 - This paper is trying to train and infer GAN model with lower bit data.
 - Small numerical error can cause GAN training failure.
 - Posit floating point data have more precision then normal floating data when value exponent close to zero.
-- Scale the weight and gradient to where posit 
+- Scale the weight and gradient to where posit good at to exploit the bit width.
 
 ---
 ## What is GAN?
@@ -55,7 +55,7 @@ style: |-
 
 - Environment variables:
 	- `n-bit`: length of bits, `es-val`: max length of exponent.
-	- e.g. posit<16, 3>
+	- e.g. `posit<16, 3>`
 - Format:
 	- sign bit: 0 is +, 1 is -
 	- regime bit: resizable bit, 
