@@ -132,6 +132,7 @@ style: |-
   - The dot product between `W * A` and `E * A` involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
 	  - 
 	  - $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
+		  - Gradient of loss is the product between error term and previous activation value.
 ![h:300 center](posit_gan_image/system_arch.png)
 
 ---
