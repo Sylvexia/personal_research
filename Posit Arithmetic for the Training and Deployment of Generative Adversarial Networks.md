@@ -197,7 +197,7 @@ No easy way to adopt small bit to train GAN.
 		- Zebra stripe are different on the top row.
 		- Same input vector in latent space give different output at the bottom row.
 		- Need metrics to judge good or bad.
-		- ![[Pasted image 20241026142250.png]]
+		- ![center](posit_gan_image/GAN_Output.png)
 ---
 ## Experiment
 
@@ -231,7 +231,7 @@ No easy way to adopt small bit to train GAN.
 ---
 ## Hardware Simulation
 
-![[Pasted image 20241026142050.png]]
+![[HardwareSimulation.png]]
 
 ---
 ## Conclusion
