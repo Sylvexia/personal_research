@@ -156,10 +156,11 @@ style: |-
 ---
 
 ## Proposed Method: System architecture
-
-- What is the training steps?
+- The image is misleading in my opinion.
+- What are the training steps?
   - Forward Pass:
-    - From input to last layer to give output.
+    - Calculate activation value with weight, bias, previous activation value and activation value.
+    - Calculate the loss with loss function metrics, which involves the difference between current and target output.
   - Backward Pass:
     - Gradient are computed for each weight, for steepest direction in loss function.
   - Weight Update:
