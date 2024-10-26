@@ -25,8 +25,11 @@ style: |-
 
 ---
 ## Insight:
+
 - This paper is trying to train and infer GAN model with lower bit data.
-- Posit floating point data have more precision then normal floating data.
+- Small numerical error can cause GAN training failure.
+- Posit floating point data have more precision then normal floating data when value exponent close to zero.
+- Scale the weight and gradient to where posit 
 
 ---
 ## What is GAN?
