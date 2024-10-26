@@ -46,7 +46,9 @@ style: |-
 ---
 ## What is Posit?
 
-
+- Properties:
+	- If value exponent is more close to zero, regime bit is shorter, more space for fraction, which mean more precision.
+	- Under same es-val, conversion between n-bit requires only truncate/pad zeros. 
 
 ---
 ## Contribution:
@@ -84,8 +86,8 @@ No easy way to adopt small bit to train GAN.
 - Biased Encoder/Decoder:
 	- For add/subtract "$t$" in exponent bit in posit data.
 		- Irrelevant to model architecture!
-	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
-	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
+	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$ : scaler
+	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$ : de-scaler
 	- The weight is stored scaled format.
 		- Before compute dot product, need to decode.
 ![h:240 center](posit_gan_image/system_arch.png)
