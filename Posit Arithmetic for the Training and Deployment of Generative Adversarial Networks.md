@@ -196,6 +196,7 @@ style: |-
 ## Proposed Method: Parameter Scaling
 
 - From experiment: Across different GANs, the t value is `3~5`
+	- Insight: es-bit is 2, so it freed 1 to 3 bits of fraction.
 - Use only the first iteration histogram to set the `t`
 	- Further calibration through iteration does not payoff.
 	- The value distribution does not change much during training.
@@ -203,11 +204,11 @@ style: |-
 ---
 ## Proposed Method: Loss Scaling
 
-- Standard approach in low precision training.
+- Loss Scaling is standard approach in low precision training.
 	- Prevents small gradient values from being rounded to zero.
 - Scale the loss by `s`, gradient would also be scaled.
 - Gradient must be unscaled by `1/s` afterwards.
-	- Gradient calculation: $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$, more or less
+	- Gradient calculation: $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
 - Conventional method: (float)
 	- Increase `s` until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
@@ -217,7 +218,7 @@ style: |-
 ## Proposed Method: Loss Scaling
 - X-axis: gradient value
 - Y-axis: frequency
-- Float loss scaling is going to overflow.
+- Float loss scaling approach to overflow.
 
 ![center](posit_gan_image/loss_scale.png)
 
