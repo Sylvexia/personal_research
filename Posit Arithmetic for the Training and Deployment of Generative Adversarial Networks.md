@@ -159,8 +159,8 @@ style: |-
 - For operations value change is small like "other operations" and "weight updates", stored with `posit<16,2>` internally.
 	- Standard low precision CNN training use bit width 16.
 - The `es` value is kept 2, which can simply remove/add zero to convert between `posit<8, 2>` and `posit<16, 2>`
-	- es value 1: fails to converge
-	- es value 3: fraction accuracy is not enough
+	- $es = 1$: fails to converge
+	- $es = 3$: fraction accuracy is not enough
 ![h:320 center](posit_gan_image/system_arch.png)
 
 ---
@@ -218,12 +218,12 @@ style: |-
 - Loss Scaling is standard approach in low precision training.
 	- Prevents small gradient values from being rounded to zero.
 - Steps:
-	- **During** the gradient calculation, scale by s.
+	- **During** the gradient calculation, scale by $s$.
 	- After the gradient is calculated, scale the value back.
 	- Use the gradient to update weight.
 	- Loss is a concept, since in back propagation, loss value itself is not used.
 - Conventional method: (float)
-	- Increase `s` until its overflow, then decrease - Nvidia Apex
+	- Increase $s$ until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
 	- Same as parameter scaling.
 
@@ -240,9 +240,9 @@ style: |-
 - Most GANs use tanh as the output layer in the Generator
 - Approximation: 
 	- $\text{Sigmoid}(x) = \left( x \oplus 8000_{16} \right) \gg 2$
-		- A bit operation trick in original posit paper.
+		- A bit operation trick in original posit paper with $es = 0$
 	- $\text{PositTanh}(x) = 2 \cdot \text{Sigmoid}(2x) - 1$
-	- $x$ is `posit<16,0>`
+	- $x$ is `posit<16,0>`, retain the previous `posit<16, 2>` output.
 - Correction: Set threshold and bias, and add up the quantity with bounding.
 ![center](posit_gan_image/tanh_approx.png)
 ---
