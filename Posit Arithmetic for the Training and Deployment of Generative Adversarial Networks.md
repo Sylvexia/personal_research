@@ -277,7 +277,7 @@ style: |-
 		- `PSNR`: the higher the better (only in ESRGAN)
 	- Result:
 		- P8 outperform FP8
-		- P8 Scaling match fp16 training
+		- P8+ (with scaling) match fp16 training
 		![center h:240](posit_gan_image/FID_Score.png)
 
 ---
@@ -285,7 +285,7 @@ style: |-
 
 - Post-training deployment output quality
 	- Use FP32 as baseline to compare.
-	- P8 P6 use es = 1 for best quality
+	- P8, P6 use $es = 1$ for best quality
 	- Metrics:
 		- PSNR (Peak Signal-to-Noise Ratio): Higher the better
 		- SSIM (Structural Similarity Index Measure): Higher the better
