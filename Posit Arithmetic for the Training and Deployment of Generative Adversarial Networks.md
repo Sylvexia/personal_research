@@ -73,7 +73,7 @@ style: |-
 
 - Properties:
 	- The carry of the posit:
-		- 0,001,111,1 -> 
+		- 0,001,111,0 -> 
 		- 0,01,000,00
 		- regime bit shorter, fraction bit is longer.
 	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which mean more precision.
@@ -158,9 +158,11 @@ style: |-
 
 - For operations value change is small like "other operations" and "weight updates", stored with `posit<16,2>` internally.
 	- Standard low precision CNN training use bit width 16.
-- The `es` value is kept 2, which can simply remove/add zero to convert between `posit<8, 2>` and `posit<16, 2>`
+	- Especially gradient accumulator and optimizer parameters.
+- The `es` value is kept 2 in training scheme
+	- Conversion between 8, 16 bit can simply add/remove 0
 	- $es = 1$: fails to converge
-	- $es = 3$: fraction accuracy is not enough
+	- $es = 3$: fraction accuracy is not enough.
 ![h:320 center](posit_gan_image/system_arch.png)
 
 ---
