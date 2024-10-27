@@ -330,5 +330,5 @@ style: |-
 
 - In terms of scaling in posit training and inferencing:
 	- Weight and Activation can be low with scaling.
-	- Weight update have high precision need.
+	- Optimizer and gradient accumulator have high precision need.
 	- 
