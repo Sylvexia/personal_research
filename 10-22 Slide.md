@@ -24,9 +24,7 @@ style: "section {
 
   \  color: #2a7ae2;
 
-  }
-
-  ;\r  }"
+  }"
 ---
 
 # 10-22 Personal Research  
