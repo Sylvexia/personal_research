@@ -244,6 +244,7 @@ style: |-
 
 - FP32 accumulator for `mult-add` operation is enough for training.
 	- FP64 is tried and does not help much, quire is not needed.
+		- 
 	- The output is then quantize to P16
 - Compare: (specific spec needed)
 	- Nvidia Apex O1: FP16
