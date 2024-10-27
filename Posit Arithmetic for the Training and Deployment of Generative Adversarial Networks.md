@@ -305,6 +305,8 @@ style: |-
 ---
 ## Hardware Simulation
 
+
+
 ![](posit_gan_image/HardwareSimulation.png)
 
 ---
