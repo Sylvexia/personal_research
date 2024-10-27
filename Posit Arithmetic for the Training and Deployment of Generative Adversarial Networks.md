@@ -310,7 +310,10 @@ style: |-
 	- GEM5 simulator with MLPACK to implement DCGAN.
 - Result:
 	- The posit format consumes less energy and less computing time than the float format of the same size.
-	- 
+	- In terms of power, it scale between linearly and quadratically. (bound by matrix multiplication)
+		- Division operation is bottleneck.
+			- Tanh in the generator
+			- Discriminator.
 
 ![](posit_gan_image/HardwareSimulation.png)
 
@@ -325,9 +328,5 @@ style: |-
 ---
 ## Insight:
 
-- Shift the scale of weight may help in low bit model training and inferencing.
-	- Especially shift by power of 2 is easy for posit. (no bias like normal float)
-- For same `es` value posit, conversion between them is easy.
-	- Truncate fraction or append zero.
-- For training, weight update is normally small. It must be handled
-	- Learning rate: 2e-4
+- In terms of scaling in posit training and inferencing:
+	- See the value range
