@@ -309,8 +309,7 @@ style: |-
 	- Using integrated power estimation in Synopsys’ design compiler with LP65nm CMOS standard cells
 	- GEM5 simulator with MLPACK to implement DCGAN.
 - Result:
-	- Power scale linearly in term of power.
-	- 
+	- Normalized Power: 
 
 ![](posit_gan_image/HardwareSimulation.png)
 
