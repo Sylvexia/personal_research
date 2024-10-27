@@ -269,7 +269,7 @@ style: |-
 - Training quality:
 	- Metrics:
 		- `Frechet Inception Distance`: lower the better
-		- PSNR: the higher the better (only in ESRGAN)
+		- `PSNR`: the higher the better (only in ESRGAN)
 	- Result:
 		- P8 outperform FP8
 		- Scaling match fp16 training
