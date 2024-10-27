@@ -190,7 +190,9 @@ style: |-
 	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
 - How to decide scale t?
-	- The largest
+	- $\{ \text{bins}, \text{frequencies} \} = \text{histogram}\left( \log_2 \left( |W| \right) \right)$
+	- $t = \left\lfloor 0 - \text{bins}\left[\arg\max(\text{frequencies})\right] \right\rfloor$
+		- 
 
 ---
 
