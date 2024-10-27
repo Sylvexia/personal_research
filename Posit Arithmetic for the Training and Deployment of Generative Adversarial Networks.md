@@ -272,7 +272,7 @@ style: |-
 		- `PSNR`: the higher the better (only in ESRGAN)
 	- Result:
 		- P8 outperform FP8
-		- Scaling match fp16 training
+		- P8 Scaling match fp16 training
 		![center h:240](posit_gan_image/FID_Score.png)
 
 ---
