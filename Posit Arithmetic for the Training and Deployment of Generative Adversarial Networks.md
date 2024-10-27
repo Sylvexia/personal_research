@@ -313,7 +313,7 @@ style: |-
 	- In terms of power, it scale between linearly and quadratically. (bound by matrix multiplication)
 		- Division operation is bottleneck.
 			- Tanh in the generator
-			- Discriminator.
+			- Discriminator. (scale better in deployment)
 
 ![](posit_gan_image/HardwareSimulation.png)
 
