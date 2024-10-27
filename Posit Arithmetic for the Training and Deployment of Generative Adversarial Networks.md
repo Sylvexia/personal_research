@@ -62,10 +62,15 @@ style: |-
 		- resizable bit, decide the $\text{useed} = 2^{2^{es}}$ exponent k
 		- duplicate leading 0/1 and stop with opposite bit.
 		- `110: k = 1`, `10: k = 0`, `01: k = -1`, `001: k = -2`
-	- exponent: same as IEEE 754 exponent, but must be positive and no bias.
-	- fraction bit: same as IEEE 754 fraction.
+	- exponent: same as IEEE754 exponent, but must be positive and no bias.
+	- fraction bit: same as IEEE754 fraction.
 ---
 ## What is Posit?
+
+
+---
+## What is Posit?
+
 - Properties:
 	- The carry of the posit:
 		- 0,001,111,1 -> 
