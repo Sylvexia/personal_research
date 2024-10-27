@@ -235,6 +235,7 @@ style: |-
 - Most GANs use tanh as the output layer in the Generator
 - Approximation: 
 	- $\text{Sigmoid}(x) = \left( x \oplus 8000_{16} \right) \gg 2$
+		- A bit operation trick in original posit paper.
 	- $\text{PositTanh}(x) = 2 \cdot \text{Sigmoid}(2x) - 1$
 	- $x$ is `posit<16,0>`
 - Correction: Set threshold and bias, and add up the quantity with bounding.
@@ -244,7 +245,7 @@ style: |-
 
 - FP32 accumulator for `mult-add` operation is enough for training.
 	- FP64 is tried and does not help much, quire is not needed.
-		- 
+		- quire: a data type to accumulate exact sum of product without rounding.
 	- The output is then quantize to P16
 - Compare: (specific spec needed)
 	- Nvidia Apex O1: FP16
@@ -267,9 +268,8 @@ style: |-
 
 - Training quality:
 	- Metrics:
-		- Inception Score: Not used?
 		- `Frechet Inception Distance`: lower the better
-			- Except ESRGAN: PSNR metrics
+		- PSNR: the higher the better (only in ESRGAN)
 	- Result:
 		- P8 outperform FP8
 		- Scaling match fp16 training
