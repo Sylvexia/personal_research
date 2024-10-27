@@ -309,7 +309,8 @@ style: |-
 	- Using integrated power estimation in Synopsys’ design compiler with LP65nm CMOS standard cells
 	- GEM5 simulator with MLPACK to implement DCGAN.
 - Result:
-	- Normalized Power: 
+	- The posit format consumes less energy and less computing time than the float format of the same size.
+	- 
 
 ![](posit_gan_image/HardwareSimulation.png)
 
