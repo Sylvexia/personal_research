@@ -190,6 +190,7 @@ style: |-
 	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
 - How to decide scale t?
+	- The largest
 
 ---
 
