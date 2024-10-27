@@ -152,6 +152,11 @@ Try to get work:
 	- `getType()`
 - `%alloca_6 = memref.alloca() : memref<f32>`
 	- `getType()`
+- `%13 = memref.load %alloc_4[%arg1, %arg2, %11, %12] : memref<1x64x14x14xf32>`
+	- `getType()`
+- no memref.store??
+- `%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>`
+	- to??
 - `%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32)`
 	- `getType()`
 - `affine.yield %20 : f32`
@@ -160,11 +165,6 @@ Try to get work:
 	- `getType()`
 - `affine.store %11, %alloc[%arg1, %8, %arg4, %arg5] : memref<1x32x28x28xf32>`
 	- `getType()`
-- `%13 = memref.load %alloc_4[%arg1, %arg2, %11, %12] : memref<1x64x14x14xf32>`
-	- `getType()`
-- no memref.store??
-- `%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>`
-	- to??
 - `%9 = arith.cmpf oge, %8, %cst_0 : f32`
 	- oge??
 	- ordered v.s unordered
