@@ -194,7 +194,7 @@ style: |-
 	- $t = \left\lfloor 0 - \text{bins}\left[\arg\max(\text{frequencies})\right] \right\rfloor$, 
 		- $t$ is integer, 
 		- $\arg\max$ is the index of max array element.
-	- Insight: The highest bar in histogram decide the value of $t$.
+	- Insight: $t$ shift the histogram such that the highest peak is 0
 	![h:320 center](posit_gan_image/Value_Distribution.png)
 
 ---
