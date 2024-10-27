@@ -191,8 +191,11 @@ style: |-
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$
 - How to decide scale t?
 	- $\{ \text{bins}, \text{frequencies} \} = \text{histogram}\left( \log_2 \left( |W| \right) \right)$
-	- $t = \left\lfloor 0 - \text{bins}\left[\arg\max(\text{frequencies})\right] \right\rfloor$
-		- 
+	- $t = \left\lfloor 0 - \text{bins}\left[\arg\max(\text{frequencies})\right] \right\rfloor$, 
+		- $t$ is integer, 
+		- $\arg\max$ is the index of max array element.
+	- Insight: The highest bar in histogram decide the value of $t$.
+	![h:320 center](posit_gan_image/Value_Distribution.png)
 
 ---
 
