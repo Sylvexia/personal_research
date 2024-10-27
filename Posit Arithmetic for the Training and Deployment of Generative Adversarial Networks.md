@@ -329,4 +329,6 @@ style: |-
 ## Insight:
 
 - In terms of scaling in posit training and inferencing:
-	- See the value range
+	- Weight and Activation can be low with scaling.
+	- Weight update have high precision need.
+	- 
