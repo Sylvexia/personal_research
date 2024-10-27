@@ -233,7 +233,9 @@ style: |-
 --- 
 ## Proposed Method: Fast Approx. of tanh(x)
 - Most GANs use tanh as the output layer in the Generator
-- Approximation: (formula)
+- Approximation: 
+	- $\text{Sigmoid}(x) = \left( x \oplus 8000_{16} \right) \gg 2$
+	- $\text{PositTanh}(x) = 2 \cdot \text{Sigmoid}(2x) - 1$
 - Correction: Set threshold and bias, and add up the quantity
 ![center](posit_gan_image/tanh_approx.png)
 ---
