@@ -16,7 +16,8 @@
 		- While MLIR has to support posit.
 	- Value:
 		- The raw data is convert in custom posit converter.
-# Quantize inspiration
+# How to quantize?
+
 
 - `Tensorflow` inspiration:
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
