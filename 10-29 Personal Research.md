@@ -187,7 +187,7 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 	- https://discourse.llvm.org/t/rfc-removing-the-ops-from-the-quant-dialect/3643
 		- 
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
-		- Take quantize for example, 
+		- Take quantize conv2D for example, it convert the weight and the input to `tfl.pseudo_const` with `!quant.uniform<u8:f32, [scale]>` element type.
 	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
 
