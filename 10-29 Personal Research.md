@@ -58,12 +58,14 @@ func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
 ```
 - Explanation:
 	- `tf-opt -xla-hlo-propagate-quant`
-	- Why tensor<2x2xf32>, tensor<2xf32> can add up?
+	- Why `tensor<2x2xf32>`, `tensor<2xf32>` can add up?
 		- [broadcast](https://openxla.org/xla/broadcasting)allows it.
 		- `[[1, 2, 3], [4, 5, 6]] + [1, 2, 3] = [[2, 4, 6], [5, 7, 9]]`
 	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
 	- Insert `qcast` and `dcast` to function as a quantize abstraction.
-- `Tensorflow` inspiration:
+- For quantize abstraction, normally framework implement themselves
+	- 1 month ago, LLVM pull request has support of converting to equivalent ops.
+- Other Refernce
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 	- https://github.com/agramesh1/intel-quant-dialect/blob/376cec258914494ca6047b7fc7b6705cec8ec3c3/test/Quantizer/conv2d.mlir#L89
 	- Note: Currently `tensorflow` seems like it does not do the quantization using MLIR. (?)
