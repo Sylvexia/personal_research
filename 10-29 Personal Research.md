@@ -19,10 +19,14 @@
 # How to quantize?
 
 - Now we are trying to find what project use LLVM quant dialect.
+	- Important specification:
+		- `qcast`:
+		- `scast`:
+		- `dcast`:
 - Most the project currently only use quant dialect as abstraction.
 	- Real implementation is tailored custom.
 - How to find the project using LLVM quantize: (Very inspirational)
-	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on github
+	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 - Example project: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
 	- [Test case](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
 ```cpp
@@ -47,10 +51,8 @@ func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
 }
 ```
 - Explanation:
-	- Lower the `xla_hlo` dialect to llvm quant dialect
-	- Especially lower the add.
+	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
 	- 
-
 - `Tensorflow` inspiration:
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 	- https://github.com/agramesh1/intel-quant-dialect/blob/376cec258914494ca6047b7fc7b6705cec8ec3c3/test/Quantizer/conv2d.mlir#L89
