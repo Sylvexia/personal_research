@@ -22,9 +22,11 @@
 	- Type:
 		- `!quant.uniform<u16<0:1023>:f32, 1.23:512>`
 			- This is not an operation, THIS IS A TYPE
-			- Uniform layer quantization from `f32` to `u16`, the u16 value is bound `[0, 1023]`, which only 10 bit are used
+			- Uniform **Per Layer** quantization from `f32` to `u16`, the u16 value is bound `[0, 1023]`, which only 10 bit are used
 			- scale is 1.23, zero point is 512.
-		- 
+		- `tensor<2x3x4x!quant.uniform<i8:f32:1, {3.0:1, 4.0:2, 5.0:3}>>`
+			- Uniform **Per Channel** quantization from f32 to i8
+			- Scale on dimension 1 (0-indexed), by (3, 4, 5)
 	- Operations:
 		- `qcast`: Convert a floating-point value to a quantized type
 		- `dcast`: Convert a quantized value back floating-point value.
