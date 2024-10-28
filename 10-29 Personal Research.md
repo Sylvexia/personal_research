@@ -19,10 +19,10 @@
 # How to quantize?
 
 - Now we are trying to find what project use LLVM quant dialect.
-- 
+- Most the project currently only use quant dialect as abstraction.
+	- Real implementation is tailored custom.
 - How to find the project using LLVM quantize: (Very inspirational)
-	- Search for `CHECK-NEXT` and `quant.qcast` match the same time
-- 
+	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on github
 - Example project: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
 	- [Test case](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
 ```cpp
