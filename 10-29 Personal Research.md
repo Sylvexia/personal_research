@@ -24,7 +24,9 @@
 		- `scast`:
 		- `dcast`:
 	- Pass:
-		- 
+		- `--lower-quant-ops`:
+			- Expand `qcast`, `dcast`, with `scast` at the end for type casting.
+		- `--strip-func-quant-types`
 - Most the project currently only use quant dialect as abstraction.
 	- Real implementation is tailored custom.
 - How to find the project using LLVM quantize: (Very inspirational)
