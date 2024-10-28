@@ -47,7 +47,7 @@ Author: Sylvex Hung
 			- `%result = quant.scast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xi8>`
 	- Passes:
 		- `--lower-quant-ops`:
-			- Expand `qcast`, `dcast` to core dialects operations
+			- Lowering `qcast`, `dcast` to core dialects operations.
 			- With `scast` at the end for type casting.
 		- `--strip-func-quant-types`
 			- Replace `!quant.uniform` types in function input/output with its storage type.
@@ -95,7 +95,9 @@ Author: Sylvex Hung
 		}
 	```
 - `--strip-func-quant-types`:
-	- 
+```cpp
+
+```
 - How to find the project using LLVM quant dialect?
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 	- Mostly, it is just a abstraction of the quantization, but the conversion is somewhere else.
