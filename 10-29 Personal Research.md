@@ -182,6 +182,7 @@ func.func @predict(%arg0: tensor<3x!qalias>, %arg1: tensor<3x!qalias>)
 			- Modify the return type.
 - This week:
 	- Lowering `memref.alloc` and `memref.alloca`type.
+- Trying to 
 
 No issue:
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
