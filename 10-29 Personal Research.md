@@ -1,5 +1,3 @@
-
-
 # Quantize inspiration
 
 - `Tensorflow` inspiration:
