@@ -44,9 +44,10 @@ Author: Sylvex Hung
 			- `%result = quant.scast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xi8>`
 	- Passes:
 		- `--lower-quant-ops`:
-			- Expand `qcast`, `dcast`, with `scast` at the end for type casting.
+			- Expand `qcast`, `dcast` to core dialects operations
+			- With `scast` at the end for type casting.
 		- `--strip-func-quant-types`
-			- replace `!quant.uniform` types in function input/output with its storage type.
+			- Replace `!quant.uniform` types in function input/output with its storage type.
 - `--lower-quant-ops` example:
 	- Input:
 	```cpp
