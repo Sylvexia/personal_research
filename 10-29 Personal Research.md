@@ -21,12 +21,13 @@
 - Now we are trying to find what project use LLVM quant dialect.
 	- Operations:
 		- `qcast`:
-		- `scast`:
 		- `dcast`:
+		- `scast`:
 	- Pass:
 		- `--lower-quant-ops`:
 			- Expand `qcast`, `dcast`, with `scast` at the end for type casting.
 		- `--strip-func-quant-types`
+			- replace `!quant.uniform` types in function input/output with its storage type.
 - Most the project currently only use quant dialect as abstraction.
 	- Real implementation is tailored custom.
 - How to find the project using LLVM quantize: (Very inspirational)
