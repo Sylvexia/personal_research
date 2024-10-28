@@ -179,6 +179,7 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 	- https://discourse.llvm.org/t/rfc-removing-the-ops-from-the-quant-dialect/3643
 		- 
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
+	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 	- https://github.com/agramesh1/intel-quant-dialect/blob/376cec258914494ca6047b7fc7b6705cec8ec3c3/test/Quantizer/conv2d.mlir#L89
 - Keywords
 	- `llvm`
@@ -204,7 +205,8 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 			- Modify the return type.
 - This week:
 	- Lowering `memref.alloc` and `memref.alloca`type.
-- Trying to 
+- Trying to lower other `memref` ops like `memref.store/load`
+- Affine dialect is still not handled but it should relatively simple.
 
 No issue:
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
