@@ -176,7 +176,12 @@ func.func @predict(%arg0: tensor<3x!qalias>, %arg1: tensor<3x!qalias>)
 - Review:
 	- We can lower the following:
 		- `arith.add`: map the add to posit function call/symbol
-		- `arith.const`: 
+		- `arith.const`: Lowering the scalar data to `signless raw data`
+		- `Krnl.global`: Where the giant model weight is located.
+			- Modify the value attribute tensor data and type
+			- Modify the return type.
+- This week:
+	- Lowering `memref.alloc` and `memref.alloca`type.
 
 No issue:
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
