@@ -1,6 +1,7 @@
 # Summary:
 
-
+- Based on the MNIST model, we try to see what operation we need to convert.
+- Our whole project
 # Quantize inspiration
 
 - `Tensorflow` inspiration:
