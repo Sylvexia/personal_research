@@ -46,14 +46,33 @@ func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
 	// CHECK-NEXT: return %[[add]] : tensor<2x2xf32>
   %b = constant dense<1.0> : tensor<2xf32>
   %add = "xla_hlo.add"(%arg0, %b) {broadcast_dimensions = dense<1> :
-	  tensor<1xi64>} : (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
+	  tensor<1xi64>} : (tensor<2x2xf32>, tensor<2xf32>) -> 
+		  tensor<2x2xf32>
   return %add: tensor<2x2xf32>
 }
 ```
 - Output:
-	- 
+```cpp
+func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
+	%b0 = constant dense<1.000000e+00> : tensor<2xf32>
+	
+	%q0 = "quant.qcast"(%b0) : (tensor<2xf32>) -> 
+		tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>
+		
+	%dq0 = "quant.dcast"(%q0)
+		: (tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>)
+			-> tensor<2xf32>
+			
+	%add0 = "xla_hlo.add"(%arg0, %dq0)
+		{broadcast_dimensions = dense<1> : tensor<1xi64>} 
+			: (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
+}
+```
 - Explanation:
 	- `tf-opt -xla-hlo-propagate-quant`
+	- Why tensor<2x2xf32>, tensor<2xf32> can add up?
+		- [broadcast](https://openxla.org/xla/broadcasting)allows it.
+		- 
 	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
 	- Insert qcast and dcast to
 - `Tensorflow` inspiration:
