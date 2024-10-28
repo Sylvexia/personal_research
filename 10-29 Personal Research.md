@@ -185,11 +185,11 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 - If the newly added quant lowering support chip in, it can expand `qcast` and `dcast`, further lower to `quant.scast` for more handling.
 - Other Reference
 	- https://discourse.llvm.org/t/rfc-removing-the-ops-from-the-quant-dialect/3643
-		- 
+		- quant dialect was not actively developed.
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 		- Take quantize conv2D for example, it convert the weight and the input to `tfl.pseudo_const` with `!quant.uniform<u8:f32, [scale]>` element type.
 	- https://github.com/tensorflow/tensorflow/blob/6f5a9d7bb17bbc28c5d11984bdd6d09c69e99892/tensorflow/compiler/mlir/lite/tests/mlir2flatbuffer/quantization.mlir#L179
-		- Those
+		- Those `!quant.uniform<>` type can be consume into `tensorflow flatbuffer`
 	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
 
