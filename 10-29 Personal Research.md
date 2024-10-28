@@ -1,3 +1,4 @@
+Author: Sylvex Hung
 # Summary:
 
 - Based on the MNIST model, we try to see what operation we need to convert.
@@ -8,22 +9,25 @@
 		- The scalar and tensor value raw data can be modified in MLIR.
 - Current Status:
 	- Still implementing all the operation that touch f32 one by one in MNIST model.
-	- Trying to get MNIST model running with posit operation 
+	- Trying to get MNIST model running with posit operation
+		- For verifying swapping all operation to equivalent function call works!
 	- Then we can move all the interface out.
 - The ultimate goal:
 	- Type:
 		- ONNX model with posit type
 		- While MLIR has to support posit.
 	- Value:
-		- The raw data is convert in custom posit converter.
+		- The raw data is convert in custom python posit converter instead of MLIR.
 # How to quantize?
 
+- For quantize abstraction, normally framework implement themselves
+	- 1 month ago, LLVM pull request has **quant lowering** support of converting to equivalent ops.
 - Now we are trying to find what project use LLVM quant dialect.
 	- Type:
 		- `!quant.uniform<u16<0:1023>:f32, 1.23:512>`
 			- This is not an operation, THIS IS A TYPE
-			- Uniform **Per Layer** quantization from `f32` to `u16`, the u16 value is bound `[0, 1023]`, which only 10 bit are used
-			- scale is 1.23, zero point is 512.
+			- Uniform **Per Layer** quantization from `f32` to `u16`, the `u16` value is bound `[0, 1023]`, which only 10 bit are used
+			- scale is `1.23`, zero point is `512`.
 		- `tensor<2x3x4x!quant.uniform<i8:f32:1, {3.0:1, 4.0:2, 5.0:3}>>`
 			- Uniform **Per Channel** quantization from f32 to i8
 			- The channel is on dimension 1 (0-indexed)
@@ -40,39 +44,83 @@
 			- Expand `qcast`, `dcast`, with `scast` at the end for type casting.
 		- `--strip-func-quant-types`
 			- replace `!quant.uniform` types in function input/output with its storage type.
-- How to find the project using LLVM quantize: (Very inspirational)
-	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
-- Example project: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
-	- [Test case](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
-- Input:
-```cpp
-func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
-	%b = constant dense<1.0> : tensor<2xf32>
-	
-	%add = "xla_hlo.add"(%arg0, %b) {broadcast_dimensions = dense<1> :
-		tensor<1xi64>} : (tensor<2x2xf32>, tensor<2xf32>) -> 
-			tensor<2x2xf32>
-			
-	return %add: tensor<2x2xf32>
-}
-```
-- Output:
-```cpp
-func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
-	%b = constant dense<1.000000e+00> : tensor<2xf32>
-	
-	%q = "quant.qcast"(%b) : (tensor<2xf32>) -> 
-		tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>
+- `--lower-quant-ops` example:
+	- Input:
+	```cpp
+	!qalias = !quant.uniform<i8<-8:7>:f32, 2.0:10>
+	func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
+		%0 = quant.qcast %arg0 : tensor<3x5xf32> to tensor<3x5x!qalias>
+		return %0 : tensor<3x5x!qalias>
+	}
+	```
+	- Output:
+	```cpp
+	func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
+		// Create scale tensor.
+		%cst = arith.constant 2.000000e+00 : f32
+		%splat = tensor.splat %cst : tensor<3x5xf32>
 		
-	%dq = "quant.dcast"(%q)
-		: (tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>)
-			-> tensor<2xf32>
+		// Divide by scale
+		%0 = arith.divf %arg0, %splat : tensor<3x5xf32>
+		
+		// Create zero point float tensor
+		%c10_i8 = arith.constant 10 : i8
+		%splat_0 = tensor.splat %c10_i8 : tensor<3x5xi8>
+		%1 = arith.sitofp %splat_0 : tensor<3x5xi8> to tensor<3x5xf32>
+		
+		// Add zero point
+		%2 = arith.addf %0, %1 : tensor<3x5xf32>
+		
+		// Convert stored value to integer
+		%3 = arith.fptosi %2 : tensor<3x5xf32> to tensor<3x5xi8>
+		
+		// Clamp stored value
+		%c-8_i8 = arith.constant -8 : i8
+		%c7_i8 = arith.constant 7 : i8
+		%splat_1 = tensor.splat %c-8_i8 : tensor<3x5xi8>
+		%splat_2 = tensor.splat %c7_i8 : tensor<3x5xi8>
+		%4 = arith.maxsi %3, %splat_1 : tensor<3x5xi8>
+		%5 = arith.minsi %4, %splat_2 : tensor<3x5xi8>
+		
+		// Cast stored value to quantized type
+		%6 = quant.scast %5 : tensor<3x5xi8> to tensor<3x5x!qalias>
+		return %6 : tensor<3x5x!qalias>
+		}
+	```
+- How to find the project using LLVM quant dialect?
+	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
+	- This is very inspiration actually.
+- Example project using LLVM quant dialect: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
+	- [Test case source](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
+	- Input:
+		```cpp
+		func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
+			%b = constant dense<1.0> : tensor<2xf32>
 			
-	%add = "xla_hlo.add"(%arg0, %dq)
-		{broadcast_dimensions = dense<1> : tensor<1xi64>} 
-			: (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
-}
-```
+			%add = "xla_hlo.add"(%arg0, %b) {broadcast_dimensions = dense<1> :
+				tensor<1xi64>} : (tensor<2x2xf32>, tensor<2xf32>) -> 
+					tensor<2x2xf32>
+					
+			return %add: tensor<2x2xf32>
+		}
+		```
+	- Output:
+		```cpp
+		func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
+			%b = constant dense<1.000000e+00> : tensor<2xf32>
+			
+			%q = "quant.qcast"(%b) : (tensor<2xf32>) -> 
+				tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>
+				
+			%dq = "quant.dcast"(%q)
+				: (tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>)
+					-> tensor<2xf32>
+					
+			%add = "xla_hlo.add"(%arg0, %dq)
+				{broadcast_dimensions = dense<1> : tensor<1xi64>} 
+					: (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
+		}
+		```
 - Explanation:
 	- `tf-opt -xla-hlo-propagate-quant`
 	- Why `tensor<2x2xf32>`, `tensor<2xf32>` can add up?
@@ -80,64 +128,10 @@ func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
 		- `[[1, 2, 3], [4, 5, 6]] + [1, 2, 3] = [[2, 4, 6], [5, 7, 9]]`
 	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
 	- Insert `qcast` and `dcast` to function as a quantize abstraction.
-- For quantize abstraction, normally framework implement themselves
-	- 1 month ago, LLVM pull request has support of converting to equivalent ops.
-- Other Refernce
+- If the newly added quant lowering support chip in, it can lower to `quant.scast` for further handling.
+- Other Reference
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 	- https://github.com/agramesh1/intel-quant-dialect/blob/376cec258914494ca6047b7fc7b6705cec8ec3c3/test/Quantizer/conv2d.mlir#L89
-	- Note: Currently `tensorflow` seems like it does not do the quantization using MLIR. (?)
-	- [RFC](https://discourse.llvm.org/t/rfc-improvements-in-the-quant-dialect/79942)
-		- Lowering `qcast`, `scast`, `dcast`
-		- https://github.com/llvm/llvm-project/pull/100667
-		- example: (Pass `--lower-quant-ops`)
-			```cpp
-			!qalias = !quant.uniform<i8<-8:7>:f32, 2.0:10>
-			func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
-				%0 = quant.qcast %arg0 : tensor<3x5xf32> to tensor<3x5x!qalias>
-				return %0 : tensor<3x5x!qalias>
-			}
-			```
-			- types: `!qalias`
-			- map to: i8
-				- range: -8 ~ 7
-			- original: f32
-			- scaling factor: 2.0, zero point: 10
-		- output:
-			```cpp
-			func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
-			    // Create scale tensor.
-				// NOTE: All 'arith.constant' + 'tensor.splat' ops will be canonicalized into
-				// a single 'arith.constant' for statically shaped tensors.
-				%cst = arith.constant 2.000000e+00 : f32
-				%splat = tensor.splat %cst : tensor<3x5xf32>
-				
-				// Divide by scale
-				%0 = arith.divf %arg0, %splat : tensor<3x5xf32>
-				
-				// Create zero point float tensor
-				%c10_i8 = arith.constant 10 : i8
-				%splat_0 = tensor.splat %c10_i8 : tensor<3x5xi8>
-				%1 = arith.sitofp %splat_0 : tensor<3x5xi8> to tensor<3x5xf32>
-				
-				// Add zero point
-				%2 = arith.addf %0, %1 : tensor<3x5xf32>
-				
-				// Convert stored value to integer
-				%3 = arith.fptosi %2 : tensor<3x5xf32> to tensor<3x5xi8>
-				
-				// Clamp stored value
-				%c-8_i8 = arith.constant -8 : i8
-				%c7_i8 = arith.constant 7 : i8
-				%splat_1 = tensor.splat %c-8_i8 : tensor<3x5xi8>
-				%splat_2 = tensor.splat %c7_i8 : tensor<3x5xi8>
-				%4 = arith.maxsi %3, %splat_1 : tensor<3x5xi8>
-				%5 = arith.minsi %4, %splat_2 : tensor<3x5xi8>
-				
-				// Cast stored value to quantized type
-				%6 = quant.scast %5 : tensor<3x5xi8> to tensor<3x5x!qalias>
-				return %6 : tensor<3x5x!qalias>
-				}
-			```
 - Keywords
 	- `llvm`
 		- `quantizeFloatToInt`
