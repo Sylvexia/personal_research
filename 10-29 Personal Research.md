@@ -1,11 +1,18 @@
 # Summary:
 
 - Based on the MNIST model, we try to see what operation we need to convert.
-- Our whole project can be reduced 2 parts
-	- Modify type: We are forcing all the f32 to integer type. Now we modify all the 
-	- Modify value: The scalar and tensor value raw data can be modified in MLIR.
+- Our whole project can be reduced 2 parts, currently:
+	- Modify type: 
+		- We are forcing all the f32 to target integer type.
+	- Modify value: 
+		- The scalar and tensor value raw data can be modified in MLIR.
+	- Current Status:
+		- Implementing all the operation that touch f32 one by one in MNIST model.
+		- 
 - The ultimate goal:
-	- 
+	- Type:
+		- ONNX model with posit type, while MLIR has to support posit
+		- 
 # Quantize inspiration
 
 - `Tensorflow` inspiration:
