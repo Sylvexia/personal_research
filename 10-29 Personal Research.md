@@ -20,14 +20,16 @@
 
 - Now we are trying to find what project use LLVM quant dialect.
 	- Operations:
-		- `qcast`:
-		- `dcast`:
-		- `scast`:
+		- `qcast`: Convert a floating-point value to a quantized type
+		- `dcast`: Convert a quantized value back floating-point value.
+		- `scast`: Convert between a quantized type and `signless` integer storage type. This does not manipulate value!
 	- Pass:
 		- `--lower-quant-ops`:
 			- Expand `qcast`, `dcast`, with `scast` at the end for type casting.
 		- `--strip-func-quant-types`
 			- replace `!quant.uniform` types in function input/output with its storage type.
+- Flow:
+	- 
 - Most the project currently only use quant dialect as abstraction.
 	- Real implementation is tailored custom.
 - How to find the project using LLVM quantize: (Very inspirational)
