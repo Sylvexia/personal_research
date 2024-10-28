@@ -1,4 +1,4 @@
-Author: Sylvex Hung
+Author: 洪祐鈞
 # Summary:
 
 - Based on the MNIST model, we would like try to see what operation we need to convert.
@@ -7,7 +7,7 @@ Author: Sylvex Hung
 - In this note, we also see how does affine dialect works
 - Our whole project can be reduced 2 parts, currently:
 	- Modify type: 
-		- We are forcing all the `f32` to the target integer type.
+		- We are forcing all the `f32` converted to the target integer type.
 	- Modify value: 
 		- The scalar and tensor value raw data can be modified in MLIR.
 - Current Status:
@@ -181,19 +181,6 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir 
 	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
-- Keywords
-	- `llvm`
-		- `quantizeFloatToInt`
-		- `quant-convert-const`
-	- `tpu-mlir`
-		```cpp
-		quant::UniformQuantizedType getUniformQuantizedType(Value v) {
-		  return v.getType()
-		      .cast<RankedTensorType>()
-		      .getElementType()
-		      .cast<quant::UniformQuantizedType>();
-		}
-		```
 
 ## Lowering `Affine` and `Memref` operation
 - Review:
