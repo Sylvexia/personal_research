@@ -1,3 +1,6 @@
+# Summary:
+
+
 # Quantize inspiration
 
 - `Tensorflow` inspiration:
@@ -106,7 +109,7 @@ Try to get work:
 	- `()` means dimension, `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
 		- Always index type.
-	- `affine.apply` must be 1 D
+	- `affine.apply` must be 1D
 	- First example:
 		- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
 			- Map 2D to 1D, output 1D `d0 * 64 + d1`
