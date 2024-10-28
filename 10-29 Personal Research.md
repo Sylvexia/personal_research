@@ -18,6 +18,35 @@
 		- The raw data is convert in custom posit converter.
 # How to quantize?
 
+- How to find the project using LLVM quantize: (Very inspirational)
+	- Search for `CHECK-NEXT` and `quant.qcast` match the same time
+- Example project: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
+	- [Test case](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
+```cpp
+func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
+	// CHECK: %[[b:.*]] = constant dense<1.000000e+00> 
+		//: tensor<2xf32>
+	// CHECK-NEXT: %[[q:.*]] = "quant.qcast"(%[[b]]) : 
+		// (tensor<2xf32>) -> 
+			// tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>
+	// CHECK-NEXT: %[[dq:.*]] 
+		// = "quant.dcast"(%[[q]]) 
+			// : (tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>)
+				// -> tensor<2xf32>
+	// CHECK-NEXT: %[[add:.*]] = "xla_hlo.add"(%arg0, %[[dq]]) 
+		// {broadcast_dimensions = dense<1> : tensor<1xi64>} 
+			// : (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
+	// CHECK-NEXT: return %[[add]] : tensor<2x2xf32>
+  %b = constant dense<1.0> : tensor<2xf32>
+  %add = "xla_hlo.add"(%arg0, %b) {broadcast_dimensions = dense<1> :
+	  tensor<1xi64>} : (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
+  return %add: tensor<2x2xf32>
+}
+```
+- Explanation:
+	- Lower the `xla_hlo` dialect to llvm quant dialect
+	- Especially lower the add.
+	- 
 
 - `Tensorflow` inspiration:
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
