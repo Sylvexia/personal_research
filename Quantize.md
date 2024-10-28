@@ -12,7 +12,7 @@ What do we mean by quantization?
 Not all the operator can be quantized: 
 
 Pytorch Example:
-![[pytorch_quantize.png]]
+![[note_image/pytorch_quantize.png]]
 
 [ONNX quantize article](https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html)
 

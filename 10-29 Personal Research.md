@@ -1,4 +1,12 @@
 Author: 洪祐鈞
+
+# Architecture:
+- We are currently on the circle brown part.
+- Black means existing solution.
+- Green means needs to extend.
+- Red means haven't touched
+- Blue means kind of verify it works.
+![](note_image/posit_arch.png)
 # Summary:
 
 - Based on the MNIST model, we would like try to see what operation we need to convert.
@@ -178,7 +186,8 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 - Other Reference
 	- https://discourse.llvm.org/t/rfc-removing-the-ops-from-the-quant-dialect/3643
 		- 
-	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir 
+	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
+		- Take quantize for example, 
 	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
 

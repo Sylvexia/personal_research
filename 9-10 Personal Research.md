@@ -2,7 +2,7 @@
 
 ![[Posit_Architecture.excalidraw]]
 
-![[Pasted image 20240903220907.png]]
+![[note_image/Pasted image 20240903220907.png]]
 
 ## Legal Dialect
 

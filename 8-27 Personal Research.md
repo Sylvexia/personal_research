@@ -13,7 +13,7 @@ Original posit paper states that posit<8,0> is good for deep learning applicatio
 
 - posit<bit, es>
 
-![[orig_posit_nn_training.png]]
+![[note_image/orig_posit_nn_training.png]]
 
 in "Study of Posit Numeric in Speech Recognition Neural Inference"
 We have good result:
@@ -22,10 +22,10 @@ We have good result:
 but in "Rethinking floating point for deep learning"
 The dynamic range of posit<8,0> is not enough:
 
-![[Pasted image 20240827095150.png]]
+![[note_image/Pasted image 20240827095150.png]]
 
 Distribution of model parameters:
-![[weight_distribution.png]]
+![[note_image/weight_distribution.png]]
 
 If we were to map the value, how do we do this?
 
@@ -35,7 +35,7 @@ In order to have posit type attribute, we need LLVM APFloat interface, and MLIR 
 
 Current in LLVM APFloat implement way:
 
-![[APFloat_impl.png]]
+![[note_image/APFloat_impl.png]]
 
 - Currently if we were to add other es value posit, e.g. posit<8, 2>, we cannot simply use parameter and template object to generate the type. (it would be hard)
 	- We probably only be able to do:
@@ -109,4 +109,4 @@ round
 Conv->QConv
 
 ONNX dialect -> pass -> krnl (loop representation)
-![[Pasted image 20240827130018.png]]
+![[note_image/Pasted image 20240827130018.png]]

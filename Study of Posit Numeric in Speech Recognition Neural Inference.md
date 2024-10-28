@@ -286,13 +286,13 @@ Observation:
 	- ref: [Rethinking floating point for deep learning](https://arxiv.org/abs/1811.01721)
 		- batch normalization fused into affine layers.
 		- float32 parameters and network input are converted to our formats via round-to-nearest-even
-		![[Pasted image 20240826232322.png]]
+		![[note_image/Pasted image 20240826232322.png]]
 	- ref: Deep PeNSieve: a Deep learning framework based on the Posit Number System
 		- Linear mapping quantization
-		- ![[Pasted image 20240826235843.png]]
+		- ![[note_image/Pasted image 20240826235843.png]]
 	- Analyze different weight distribution on different operator and different model?
 		- https://www.researchgate.net/publication/329798596_Fast_Adjustable_Threshold_For_Uniform_Neural_Network_Quantization
-			![[weight_distribution.png]]
+			![[note_image/weight_distribution.png]]
 			- Distribution of weights of ResNet-50 neural network before the quantization procedure (on the left) and after it (on the right).
 - Different quantize ways, like how it maps to uint8.
 	- Dynamic/Static ways. (w/ and w/o callibration)
@@ -302,6 +302,6 @@ Observation:
 
 - You can make your whole model binary as long as your network has enough number of nodes:
 	- [Binarized Neural Networks: Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1](https://arxiv.org/abs/1602.02830)
-	- ![[Pasted image 20240827031644.png]]
+	- ![[note_image/Pasted image 20240827031644.png]]
 - You can 1-bit LLM, if you do quantization every linear layer and good at math:
-	- ![[Pasted image 20240826233140.png]]
+	- ![[note_image/Pasted image 20240826233140.png]]
