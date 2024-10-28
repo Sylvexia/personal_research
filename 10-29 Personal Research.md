@@ -19,10 +19,12 @@
 # How to quantize?
 
 - Now we are trying to find what project use LLVM quant dialect.
-	- Important specification:
+	- Operations:
 		- `qcast`:
 		- `scast`:
 		- `dcast`:
+	- Pass:
+		- 
 - Most the project currently only use quant dialect as abstraction.
 	- Real implementation is tailored custom.
 - How to find the project using LLVM quantize: (Very inspirational)
