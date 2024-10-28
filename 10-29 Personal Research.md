@@ -18,8 +18,11 @@
 		- The raw data is convert in custom posit converter.
 # How to quantize?
 
+- Now we are trying to find what project use LLVM quant dialect.
+- 
 - How to find the project using LLVM quantize: (Very inspirational)
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time
+- 
 - Example project: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
 	- [Test case](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
 ```cpp
