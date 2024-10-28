@@ -186,6 +186,9 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 - Other Reference
 	- https://discourse.llvm.org/t/rfc-removing-the-ops-from-the-quant-dialect/3643
 		- quant dialect was not actively developed.
+		- For TOSA dialect
+			- It use the `QuantizedType` to express quantized data specs.
+			- It does not use the `dcast`, `qcast`, `scast`, but use its own rescale and cast.
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 		- Take quantize conv2D for example, it convert the weight and the input to `tfl.pseudo_const` with `!quant.uniform<u8:f32, [scale]>` element type.
 	- https://github.com/tensorflow/tensorflow/blob/6f5a9d7bb17bbc28c5d11984bdd6d09c69e99892/tensorflow/compiler/mlir/lite/tests/mlir2flatbuffer/quantization.mlir#L179
