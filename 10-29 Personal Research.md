@@ -21,7 +21,10 @@
 - Now we are trying to find what project use LLVM quant dialect.
 	- Type:
 		- `!quant.uniform<u16<0:1023>:f32, 1.23:512>`
-			- 
+			- This is not an operation, THIS IS A TYPE
+			- Uniform layer quantization from `f32` to `u16`, the u16 value is bound `[0, 1023]`, which only 10 bit are used
+			- scale is 1.23, zero point is 512.
+		- 
 	- Operations:
 		- `qcast`: Convert a floating-point value to a quantized type
 		- `dcast`: Convert a quantized value back floating-point value.
