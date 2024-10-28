@@ -10,7 +10,7 @@ Author: Sylvex Hung
 - Current Status:
 	- Still implementing all the operation that touch f32 one by one in MNIST model.
 	- Trying to get MNIST model running with posit operation
-		- For verifying swapping all operation to equivalent function call works!
+		- For verifying swapping all `arith` operation to equivalent function call works!
 	- Then we can move all the interface out.
 - The ultimate goal:
 	- Type:
@@ -37,7 +37,8 @@ Author: Sylvex Hung
 			- `%result = quant.qcast %input : tensor<?xf32> to tensor<?x!quant.uniform<i8:f32, 2.0>>`
 		- `dcast`: Convert a quantized value back floating-point value.
 			- `%result = quant.dcast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xf32>`
-		- `scast`: Convert between a quantized type and `signless` integer storage type. This does not manipulate value!
+		- `scast`: Convert between a quantized type and `signless` integer storage type. 
+			- This does not used to manipulate value!
 			- `%result = quant.scast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xi8>`
 	- Passes:
 		- `--lower-quant-ops`:
@@ -87,12 +88,14 @@ Author: Sylvex Hung
 		return %6 : tensor<3x5x!qalias>
 		}
 	```
+- `--strip-func-quant-types`:
+	- 
 - How to find the project using LLVM quant dialect?
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
-	- Mostly, 
-	- This is very inspiration actually.
+	- Mostly, it is just a abstraction of the quantization, but the conversion is somewhere else.
+	- This is very inspirational actually.
 - Example project using LLVM quant dialect: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
-	- [Test case source](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
+	- [Test case source code](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
 	- Input:
 		```cpp
 		func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
@@ -129,8 +132,10 @@ Author: Sylvex Hung
 		- `[[1, 2, 3], [4, 5, 6]] + [1, 2, 3] = [[2, 4, 6], [5, 7, 9]]`
 	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
 	- Insert `qcast` and `dcast` to function as a quantize abstraction.
-- If the newly added quant lowering support chip in, it can lower to `quant.scast` for further handling.
+- If the newly added quant lowering support chip in, it can expand `qcast` and `dcast`, further lower to `quant.scast` for more handling.
 - Other Reference
+	- https://discourse.llvm.org/t/rfc-removing-the-ops-from-the-quant-dialect/3643
+		- 
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 	- https://github.com/agramesh1/intel-quant-dialect/blob/376cec258914494ca6047b7fc7b6705cec8ec3c3/test/Quantizer/conv2d.mlir#L89
 - Keywords
