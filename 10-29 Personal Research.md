@@ -95,9 +95,20 @@ Author: Sylvex Hung
 		}
 	```
 - `--strip-func-quant-types`:
+	- Input:
 ```cpp
+!qalias = !quant.uniform<i8:f32, 1.0>
 
+func.func @predict(%arg0: tensor<3x!qalias>, %arg1: tensor<3x!qalias>) 
+	-> tensor<3x!qalias> {
+	
+	%sum = "ml.add"(%arg0, %arg1) : (tensor<3x!qalias>, tensor<3x!qalias>) 
+		-> tensor<3x!qalias>
+		
+	return %sum : tensor<3x!qalias>
+}
 ```
+
 - How to find the project using LLVM quant dialect?
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 	- Mostly, it is just a abstraction of the quantization, but the conversion is somewhere else.
