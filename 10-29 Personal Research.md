@@ -29,6 +29,7 @@
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 - Example project: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
 	- [Test case](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
+- Input:
 ```cpp
 func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
 	// CHECK: %[[b:.*]] = constant dense<1.000000e+00> 
@@ -36,10 +37,9 @@ func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
 	// CHECK-NEXT: %[[q:.*]] = "quant.qcast"(%[[b]]) : 
 		// (tensor<2xf32>) -> 
 			// tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>
-	// CHECK-NEXT: %[[dq:.*]] 
-		// = "quant.dcast"(%[[q]]) 
-			// : (tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>)
-				// -> tensor<2xf32>
+	// CHECK-NEXT: %[[dq:.*]]  = "quant.dcast"(%[[q]]) 
+		// : (tensor<2x!quant.uniform<u8:f32, 0.0039215686274509803>>)
+			// -> tensor<2xf32>
 	// CHECK-NEXT: %[[add:.*]] = "xla_hlo.add"(%arg0, %[[dq]]) 
 		// {broadcast_dimensions = dense<1> : tensor<1xi64>} 
 			// : (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
@@ -50,9 +50,12 @@ func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
   return %add: tensor<2x2xf32>
 }
 ```
-- Explanation:
-	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
+- Output:
 	- 
+- Explanation:
+	- `tf-opt -xla-hlo-propagate-quant`
+	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
+	- Insert qcast and dcast to
 - `Tensorflow` inspiration:
 	- https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir
 	- https://github.com/agramesh1/intel-quant-dialect/blob/376cec258914494ca6047b7fc7b6705cec8ec3c3/test/Quantizer/conv2d.mlir#L89
