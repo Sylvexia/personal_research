@@ -6,16 +6,16 @@
 		- We are forcing all the f32 to target integer type.
 	- Modify value: 
 		- The scalar and tensor value raw data can be modified in MLIR.
-	- Current Status:
-		- Still implementing all the operation that touch f32 one by one in MNIST model.
-		- Trying to get MNIST model running with posit operation 
-		- Then we can move all the interface out.
+- Current Status:
+	- Still implementing all the operation that touch f32 one by one in MNIST model.
+	- Trying to get MNIST model running with posit operation 
+	- Then we can move all the interface out.
 - The ultimate goal:
 	- Type:
 		- ONNX model with posit type
 		- While MLIR has to support posit.
 	- Value:
-		- 
+		- The raw data is convert in custom posit converter.
 # Quantize inspiration
 
 - `Tensorflow` inspiration:
