@@ -108,7 +108,30 @@ func.func @predict(%arg0: tensor<3x!qalias>, %arg1: tensor<3x!qalias>)
 	return %sum : tensor<3x!qalias>
 }
 ```
+	- output
+```cpp
+!qalias = !quant.uniform<i8:f32, 1.0>
 
+func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>) 
+	-> tensor<3xi8> {
+
+	// Conversion of function arguments
+	%arg0 = "quant.scast"(%arg0_stripped): (tensor<3xi8>) 
+		-> tensor<3x!qalias>
+	%arg1 = "quant.scast"(%arg1_stripped): (tensor<3xi8>) 
+		-> tensor<3x!qalias>
+
+	// Function body
+	%sum = "ml.add"(%arg0, %arg1) : (tensor<3x!qalias>, tensor<3x!qalias>) 
+		-> tensor<3x!qalias>
+
+	// Conversion of return values
+	%sum_stripped = "quant.scast"(%sum): (tensor<3x!qalias>) 
+		-> tensor<3xi8>
+	  
+	  return %sum_stripped : tensor<3xi8>
+}
+```
 - How to find the project using LLVM quant dialect?
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 	- Mostly, it is just a abstraction of the quantization, but the conversion is somewhere else.
@@ -172,7 +195,6 @@ func.func @predict(%arg0: tensor<3x!qalias>, %arg1: tensor<3x!qalias>)
 		```
 
 ## Lowering `Affine` and `Memref` operation
-
 - Review:
 	- We can lower the following:
 		- `arith.add`: map the add to posit function call/symbol
