@@ -34,3 +34,5 @@ Two ways to represent quantized ONNX model:
 - Quantization Aware Training (QAT)
 	- Training with additional epoch while quantizing.
 	- Inserting fake quantize node to simulate the precision loss, for more accurate result.
+
+https://b10515007.medium.com/tensorflow-lite-model-quantization-2b538eb5bc04
