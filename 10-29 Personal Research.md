@@ -1,7 +1,8 @@
 Author: Sylvex Hung
 # Summary:
 
-- Based on the MNIST model, we try to see what operation we need to convert.
+- Based on the MNIST model, we would like try to see what operation we need to convert.
+	- Now we are converting `memref`, `affine` operations' types.
 - Our whole project can be reduced 2 parts, currently:
 	- Modify type: 
 		- We are forcing all the f32 to target integer type.
@@ -30,7 +31,8 @@ Author: Sylvex Hung
 			- scale is `1.23`, zero point is `512`.
 		- `tensor<2x3x4x!quant.uniform<i8:f32:1, {3.0:1, 4.0:2, 5.0:3}>>`
 			- Uniform **Per Channel** quantization from f32 to i8
-			- The channel is on dimension 1 (0-indexed)
+			- The channel is on index 1 dimension (0-indexed).
+				- `tensor<2x"3"x4>`
 			- scale is `(3, 4, 5)` and zero point is `(1, 2, 3)`
 	- Operations:
 		- `qcast`: Convert a floating-point value to a quantized type
@@ -181,15 +183,15 @@ Try to get work:
 			- `%14 = arg6 + arg2`
 	- Third example:
 		- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
-			- map 1D to 4D
+			- map 1D to 4D, now we annotate the 4D result as `[r0, r1, r2, r3]`
 		- `affine.for %arg5 = 0 to min #map8(%arg3)[%c28, %c2, %c0, %c2, %c1]`
-			- After Mapping, `%min_res = min(d0, d1, d2, d3)` and the `%arg5` is from 0 to `%min_res`
+			- After Mapping, `%min_res = min(r0, r1, r2, r3)` and the `%arg5` is from 0 to `%min_res`
 - Affine for loop construct:
 	- `iter_args(%arg7 = %cst_0)` must have correspond yield.
 		- Example:
 			```cpp
 			%cst_0 = arith.constant 0.000000e+00 : f32
-			%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32) 
+			%9 = affine.for %arg6 = 0 to 30 iter_args(%arg7 = %cst_0) -> (f32) 
 			{
 				...
 				affine.yield %12 : f32
@@ -197,7 +199,7 @@ Try to get work:
 			```
 		- Initialize `%arg7` to `%cst_0` which is `0`
 		- `%arg7 = %12` at the end of the loop
-		- After `1` iteration, return the `%12` result.
+		- After `30` iteration, return the `%12` result.
 
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
 - `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
