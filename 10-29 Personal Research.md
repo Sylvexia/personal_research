@@ -3,13 +3,15 @@ Author: Sylvex Hung
 
 - Based on the MNIST model, we would like try to see what operation we need to convert.
 	- Now we are converting `memref`, `affine` operations' types.
+- In this note, we also see how a simple quantization get lowered with newly proposed quant dialect lowering
+- In this note, we also see how does affine dialect works
 - Our whole project can be reduced 2 parts, currently:
 	- Modify type: 
-		- We are forcing all the f32 to target integer type.
+		- We are forcing all the `f32` to the target integer type.
 	- Modify value: 
 		- The scalar and tensor value raw data can be modified in MLIR.
 - Current Status:
-	- Still implementing all the operation that touch f32 one by one in MNIST model.
+	- Still implementing all the operation that touch `f32` one by one in MNIST model.
 	- Trying to get MNIST model running with posit operation
 		- For verifying swapping all `arith` operation to equivalent function call works!
 	- Then we can move all the interface out.
@@ -23,6 +25,7 @@ Author: Sylvex Hung
 
 - For quantize abstraction, normally framework implement themselves
 	- 1 month ago, LLVM pull request has **quant lowering** support of converting to equivalent ops.
+	- The RFC is here: [Link](https://discourse.llvm.org/t/rfc-improvements-in-the-quant-dialect/79942)
 - Main concept of LLVM quant dialect: Types, Operations, Passes
 	- Types:
 		- `!quant.uniform<u16<0:1023>:f32, 1.23:512>`
@@ -98,7 +101,7 @@ Author: Sylvex Hung
 	- Mostly, it is just a abstraction of the quantization, but the conversion is somewhere else.
 	- This is very inspirational actually.
 - Example project using LLVM quant dialect: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
-	- [Test case source code](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
+	- [Testcase source code link](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
 	- Input:
 		```cpp
 		func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
@@ -154,6 +157,13 @@ Author: Sylvex Hung
 		      .cast<quant::UniformQuantizedType>();
 		}
 		```
+
+## Lowering `Affine` and `Memref` operation
+
+- Review:
+	- We can lower the following:
+		- `arith.add`: map the add to posit function call/symbol
+		- `arith.const`: 
 
 No issue:
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
