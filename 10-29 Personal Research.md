@@ -26,20 +26,20 @@
 			- scale is 1.23, zero point is 512.
 		- `tensor<2x3x4x!quant.uniform<i8:f32:1, {3.0:1, 4.0:2, 5.0:3}>>`
 			- Uniform **Per Channel** quantization from f32 to i8
-			- Scale on dimension 1 (0-indexed), by (3, 4, 5)
+			- The channel is on dimension 1 (0-indexed)
+			- scale is `(3, 4, 5)` and zero point is `(1, 2, 3)`
 	- Operations:
 		- `qcast`: Convert a floating-point value to a quantized type
+			- `%result = quant.qcast %input : tensor<?xf32> to tensor<?x!quant.uniform<i8:f32, 2.0>>`
 		- `dcast`: Convert a quantized value back floating-point value.
+			- `%result = quant.dcast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xf32>`
 		- `scast`: Convert between a quantized type and `signless` integer storage type. This does not manipulate value!
+			- `%result = quant.scast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xi8>`
 	- Pass:
 		- `--lower-quant-ops`:
 			- Expand `qcast`, `dcast`, with `scast` at the end for type casting.
 		- `--strip-func-quant-types`
 			- replace `!quant.uniform` types in function input/output with its storage type.
-- Flow:
-	- 
-- Most the project currently only use quant dialect as abstraction.
-	- Real implementation is tailored custom.
 - How to find the project using LLVM quantize: (Very inspirational)
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 - Example project: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
@@ -48,9 +48,11 @@
 ```cpp
 func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
 	%b = constant dense<1.0> : tensor<2xf32>
+	
 	%add = "xla_hlo.add"(%arg0, %b) {broadcast_dimensions = dense<1> :
 		tensor<1xi64>} : (tensor<2x2xf32>, tensor<2xf32>) -> 
 			tensor<2x2xf32>
+			
 	return %add: tensor<2x2xf32>
 }
 ```
