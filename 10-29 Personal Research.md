@@ -1,7 +1,11 @@
 # Summary:
 
 - Based on the MNIST model, we try to see what operation we need to convert.
-- Our whole project
+- Our whole project can be reduced 2 parts
+	- Modify type: We are forcing all the f32 to integer type. Now we modify all the 
+	- Modify value: The scalar and tensor value raw data can be modified in MLIR.
+- The ultimate goal:
+	- 
 # Quantize inspiration
 
 - `Tensorflow` inspiration:
