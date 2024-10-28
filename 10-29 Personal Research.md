@@ -22,8 +22,8 @@ Author: Sylvex Hung
 
 - For quantize abstraction, normally framework implement themselves
 	- 1 month ago, LLVM pull request has **quant lowering** support of converting to equivalent ops.
-- Now we are trying to find what project use LLVM quant dialect.
-	- Type:
+- Main concept of LLVM quant dialect: Types, Operations, Passes
+	- Types:
 		- `!quant.uniform<u16<0:1023>:f32, 1.23:512>`
 			- This is not an operation, THIS IS A TYPE
 			- Uniform **Per Layer** quantization from `f32` to `u16`, the `u16` value is bound `[0, 1023]`, which only 10 bit are used
@@ -39,7 +39,7 @@ Author: Sylvex Hung
 			- `%result = quant.dcast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xf32>`
 		- `scast`: Convert between a quantized type and `signless` integer storage type. This does not manipulate value!
 			- `%result = quant.scast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xi8>`
-	- Pass:
+	- Passes:
 		- `--lower-quant-ops`:
 			- Expand `qcast`, `dcast`, with `scast` at the end for type casting.
 		- `--strip-func-quant-types`
@@ -89,6 +89,7 @@ Author: Sylvex Hung
 	```
 - How to find the project using LLVM quant dialect?
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
+	- Mostly, 
 	- This is very inspiration actually.
 - Example project using LLVM quant dialect: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
 	- [Test case source](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
