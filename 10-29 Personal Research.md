@@ -1,6 +1,7 @@
 Author: 洪祐鈞
 
 # Architecture:
+
 - We are currently on the brown circle part.
 - Black means existing solution.
 - Green means needs to extend.
@@ -18,17 +19,17 @@ Author: 洪祐鈞
 		- We are forcing all the `f32` converted to the target integer type.
 	- Modify value: 
 		- The scalar and tensor value raw data can be modified in MLIR.
-- Current Status:
-	- Still implementing all the operation that touch `f32` one by one in MNIST model.
-	- Trying to get MNIST model running with posit operation
-		- For verifying swapping all `arith` operation to equivalent function call works!
-	- Then we can move all the interface out.
 - The ultimate goal:
 	- Type:
 		- ONNX model with posit type
 		- While MLIR has to support posit.
 	- Value:
-		- The raw data is convert in custom python posit converter instead of MLIR.
+		- The raw data is converted in custom python posit converter instead of MLIR.
+- Current Status:
+	- Still implementing all the operation that touch `f32` one by one in MNIST model.
+	- Trying to get MNIST model running with posit operation
+		- For verifying swapping all `arith` operation to equivalent function call works!
+	- Then we can move all the interface out.
 # How to quantize?
 
 - For quantize abstraction, normally framework implement themselves
@@ -221,14 +222,7 @@ Author: 洪祐鈞
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 
-No issue:
-`./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
 
-TBD:
-`./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test.mlir`
-
-Try to get work:
-`./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
 
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
