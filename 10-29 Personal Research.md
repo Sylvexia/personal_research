@@ -50,11 +50,11 @@ Author: 洪祐鈞
 			- So far all our custom pass `--convert-arith-to-posit-func` is tested here.
 		- `onnx-mlir`: 
 			- Main tool, for consuming the `.onnx` model and output the `.so` model.
-			- Our current goal is port our `--convert-arith-to-posit-func` to this and run without any issue.
+			- Our current goal is port our `--convert-arith-to-posit-func` pass to this and run without any issue.
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
-
-
+- Experiment:
+	- 
 # How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
@@ -284,6 +284,5 @@ Author: 洪祐鈞
 - `%9 = arith.cmpf oge, %8, %cst_0 : f32`
 	- What is `oge`?
 		- https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean
-
 # MISC
 https://discourse.llvm.org/t/question-use-or-with-an-operation/82648/4
