@@ -15,3 +15,27 @@ No issue:
 
 Try to get work:
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+
+# Materialization
+
+```cpp
+addSourceMaterialization([&](OpBuilder &builder, Type resultType,
+						   ValueRange inputs,
+						   Location loc) -> std::optional<Value> {
+if (inputs.size() != 1)
+  return std::nullopt;
+
+return builder.create<UnrealizedConversionCastOp>(loc, resultType, inputs)
+	.getResult(0);
+});
+
+addTargetMaterialization([&](OpBuilder &builder, Type resultType,
+						   ValueRange inputs,
+						   Location loc) -> std::optional<Value> {
+if (inputs.size() != 1)
+  return std::nullopt;
+
+return builder.create<UnrealizedConversionCastOp>(loc, resultType, inputs)
+	.getResult(0);
+});
+```
