@@ -200,8 +200,10 @@ Author: 洪祐鈞
 - Review:
 	- We can lower the following:
 		- `arith.add`: map the add to posit function call/symbol
+			- We probably need a better way to template for `sub`, `mul`, `div`.
 		- `arith.const`: Lowering the scalar data to `signless raw data`
-		- `Krnl.global`: Where the giant model weight is located.
+			- Do we need to support tensor type? (Haven't seen in the converted model)
+		- `Krnl.global`: Where the model weight and bias is located.
 			- Modify the value attribute tensor data and type
 			- Modify the return type.
 - This week:
@@ -212,9 +214,10 @@ Author: 洪祐鈞
 	- There are 2 main cli tool in `onnx-mlir` project
 		- `onnx-mlir-opt`: 
 			- For separating or testing the pass in the project.
-			- So far all our custom pass is tested here
+			- So far all our custom pass `--convert-arith-to-posit-func` is tested here.
 		- `onnx-mlir`: 
 			- Main tool, for consuming the `.onnx` model and output the `.so` model.
+			- Our current goal is put our `--convert-arith-to-posit-func` to this and run without any issue.
 
 No issue:
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
