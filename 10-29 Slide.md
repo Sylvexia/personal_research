@@ -4,7 +4,9 @@ theme: default
 paginate: true
 header: 
 footer: 
-style: "h1, h2, h3 {\r  text-align: center;\r}\r
+style: "h1, h2, h3 {\r  text-align: center;\r}
+
+  pre, code {\r  background-color: #ffffff;\r    \r  color: #2d2d2d; \r  \r  font-size: auto;\r }\r
 
   section {\r  font-size: auto;\r}\r
 
