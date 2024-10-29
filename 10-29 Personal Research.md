@@ -1,5 +1,4 @@
 Author: 洪祐鈞
-
 # Architecture:
 - We are currently on the brown circle part.
 - Black means existing solution.
@@ -54,7 +53,20 @@ Author: 洪祐鈞
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 - Experiment:
-	- 
+```cpp
+func.func @test_memrefAlloca(%arg0: memref<8x64xi8>) -> memref<8x64xi8> {
+	%alloca = memref.alloca() : memref<8x64xi8>
+	return %alloca : memref<8x64xi8>
+}
+func.func @test_memrefAlloca2(%arg0: memref<i32>) -> memref<i32> {
+	%alloca = memref.alloca() : memref<i32>
+	return %alloca : memref<i32>
+}
+func.func @test_memrefAlloc(%arg0: memref<8x64xi8>) -> memref<8x64xi8> {
+	%alloc = memref.alloc() : memref<8x64xi8>
+	return %alloc : memref<8x64xi8>
+}
+```
 # How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
