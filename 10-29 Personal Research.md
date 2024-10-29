@@ -94,6 +94,10 @@ Author: 洪祐鈞
 	- Command: 
 		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' test_memref.mlir`
 	- Explanation:
+		- For the first and third, we can see `alloca` and `alloc`return type get modified to i8
+		- For second testcase, since it's
+			- It would have conversion error in the past.
+		- Both operator share the same builder method, so I use one template to convert both of them.
 # How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
