@@ -158,7 +158,9 @@ Author: 洪祐鈞
 		- `%arg7 = %12` at the end of the loop
 		- After `30` iteration, return the `%12` result.
 - Main takeaway:
-	- For the affine operator, 
+	- For the affine operator, the memory access is all by index, which is independent on the data type.
+	- This means for functionality, it probably work when just modify the type.
+	- We should take a moment to find where does the affine mapping came from, personally I think modifying the datatype length should be having the effect on it.
 # How to quantize?
 - For quantize abstraction, normally framework implement themselves
 	- 1 month ago, LLVM pull request has **quant lowering** support of converting to equivalent ops.
@@ -324,7 +326,10 @@ Author: 洪祐鈞
 		- Those `!quant.uniform<>` type can be consume into `tensorflow flatbuffer`
 	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
-
+- Main takeaway:
+	- For the quantization on MLIR level, for our case study, I think it just inject the information need (like type mapping, scale, zero point...) to **type**
+	- After we have the type as abstraction, let the library or pass to deal with the abstraction.
+	- From the discussion I saw, there's no a singular unified way to quantize all the operator.
 # Collection of operation that still need to be handled
 - Under construction, I just put all of the operations to keep track of.
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
