@@ -225,9 +225,9 @@ Author: 洪祐鈞
 - Motivation:
 	- Since we might need to handle the affine operation, it's probably good to figure out what 
 - Affine Dialect Polyhedral Structure:
-	- `()` means dimension, `[]` means symbol
+	- element inside `()` means dimension, while inside of `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
-			- For what I can tell
+			- For what I can tell, dimension is mostly loop index
 			- 
 		- Always index type.
 	- `affine.apply` must be 1D
