@@ -222,13 +222,14 @@ Author: 洪祐鈞
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 
+# How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation, it's probably good to figure out what 
 - Affine Dialect Polyhedral Structure:
 	- element inside `()` means dimension, while inside of `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
-			- For what I can tell, dimension is mostly loop index
-			- 
+		- If you have 3D tensor to iterate, the index that iterate them is dimensional identifier.
+		- Else it might be symbolic identifier, I'm not really sure.
 		- Always index type.
 	- `affine.apply` must be 1D
 	- First example:
