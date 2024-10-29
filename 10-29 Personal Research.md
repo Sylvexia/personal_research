@@ -1,7 +1,7 @@
 Author: 洪祐鈞
 
 # Architecture:
-- We are currently on the circle brown part.
+- We are currently on the brown circle part.
 - Black means existing solution.
 - Green means needs to extend.
 - Red means haven't touched
@@ -9,7 +9,7 @@ Author: 洪祐鈞
 ![](note_image/posit_arch.png)
 # Summary:
 
-- Based on the MNIST model, we would like try to see what operation we need to convert.
+- Based on the MNIST model, we would like to try to see what operation we need to convert.
 	- Now we are converting `memref`, `affine` operations' types.
 - In this note, we also see how a simple quantization get lowered with newly proposed quant dialect lowering
 - In this note, we also see how does affine dialect works
@@ -51,7 +51,7 @@ Author: 洪祐鈞
 		- `dcast`: Convert a quantized value back floating-point value.
 			- `%result = quant.dcast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xf32>`
 		- `scast`: Convert between a quantized type and `signless` integer storage type. 
-			- This does not used to manipulate value!
+			- This does not manipulate value!
 			- `%result = quant.scast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xi8>`
 	- Passes:
 		- `--lower-quant-ops`:
@@ -104,42 +104,42 @@ Author: 洪祐鈞
 	```
 - `--strip-func-quant-types`:
 	- Input:
-```cpp
-!qalias = !quant.uniform<i8:f32, 1.0>
-
-func.func @predict(%arg0: tensor<3x!qalias>, %arg1: tensor<3x!qalias>) 
-	-> tensor<3x!qalias> {
+	```cpp
+	!qalias = !quant.uniform<i8:f32, 1.0>
 	
-	%sum = "ml.add"(%arg0, %arg1) : (tensor<3x!qalias>, tensor<3x!qalias>) 
-		-> tensor<3x!qalias>
+	func.func @predict(%arg0: tensor<3x!qalias>, %arg1: tensor<3x!qalias>) 
+		-> tensor<3x!qalias> {
 		
-	return %sum : tensor<3x!qalias>
-}
-```
+		%sum = "ml.add"(%arg0, %arg1) : (tensor<3x!qalias>, tensor<3x!qalias>) 
+			-> tensor<3x!qalias>
+			
+		return %sum : tensor<3x!qalias>
+	}
+	```
 	- output
-```cpp
-!qalias = !quant.uniform<i8:f32, 1.0>
-
-func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>) 
-	-> tensor<3xi8> {
-
-	// Conversion of function arguments
-	%arg0 = "quant.scast"(%arg0_stripped): (tensor<3xi8>) 
-		-> tensor<3x!qalias>
-	%arg1 = "quant.scast"(%arg1_stripped): (tensor<3xi8>) 
-		-> tensor<3x!qalias>
-
-	// Function body
-	%sum = "ml.add"(%arg0, %arg1) : (tensor<3x!qalias>, tensor<3x!qalias>) 
-		-> tensor<3x!qalias>
-
-	// Conversion of return values
-	%sum_stripped = "quant.scast"(%sum): (tensor<3x!qalias>) 
-		-> tensor<3xi8>
-	  
-	  return %sum_stripped : tensor<3xi8>
-}
-```
+	```cpp
+	!qalias = !quant.uniform<i8:f32, 1.0>
+	
+	func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>) 
+		-> tensor<3xi8> {
+	
+		// Conversion of function arguments
+		%arg0 = "quant.scast"(%arg0_stripped): (tensor<3xi8>) 
+			-> tensor<3x!qalias>
+		%arg1 = "quant.scast"(%arg1_stripped): (tensor<3xi8>) 
+			-> tensor<3x!qalias>
+	
+		// Function body
+		%sum = "ml.add"(%arg0, %arg1) : (tensor<3x!qalias>, tensor<3x!qalias>) 
+			-> tensor<3x!qalias>
+	
+		// Conversion of return values
+		%sum_stripped = "quant.scast"(%sum): (tensor<3x!qalias>) 
+			-> tensor<3xi8>
+		  
+		  return %sum_stripped : tensor<3xi8>
+	}
+	```
 - How to find the project using LLVM quant dialect?
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 	- Mostly, it is just a abstraction of the quantization, but the conversion is somewhere else.
@@ -180,7 +180,7 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 	- Why `tensor<2x2xf32>`, `tensor<2xf32>` can add up?
 		- [broadcast](https://openxla.org/xla/broadcasting)allows it.
 		- `[[1, 2, 3], [4, 5, 6]] + [1, 2, 3] = [[2, 4, 6], [5, 7, 9]]`
-	- Lower the `xla_hlo` dialect to LLVM quant dialect, use add for example.
+	- Lower the `xla_hlo` dialect to MLIR quant dialect, use add for example.
 	- Insert `qcast` and `dcast` to function as a quantize abstraction.
 - If the newly added quant lowering support chip in, it can expand `qcast` and `dcast`, further lower to `quant.scast` for more handling.
 - Other Reference
@@ -208,6 +208,13 @@ func.func @predict(%arg0_stripped: tensor<3xi8>, %arg1_stripped: tensor<3xi8>)
 	- Lowering `memref.alloc` and `memref.alloca`type.
 - Trying to lower other `memref` ops like `memref.store/load`
 - Affine dialect is still not handled but it should relatively simple.
+- Recent Goals:
+	- There are 2 main cli tool in `onnx-mlir` project
+		- `onnx-mlir-opt`: 
+			- For separating or testing the pass in the project.
+			- So far all our custom pass is tested here
+		- `onnx-mlir`: 
+			- Main tool, for consuming the `.onnx` model and output the `.so` model.
 
 No issue:
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
@@ -279,5 +286,5 @@ Try to get work:
 	- ordered v.s unordered
 		- https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean
 
-
+# MISC
 https://discourse.llvm.org/t/question-use-or-with-an-operation/82648/4
