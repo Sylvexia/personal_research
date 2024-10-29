@@ -30,8 +30,49 @@ Author: 洪祐鈞
 	- Trying to get MNIST model running with posit operation
 		- For verifying swapping all `arith` operation to equivalent function call works!
 	- Then we can move all the interface out.
+# How does affine works?
+- Motivation:
+	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
+	- Affine dialect focus on using polyhedral model to transform loop for optimization.
+	- By doing this, it can enable parallelism like multi-core or vectorization.
+- Affine Dialect Polyhedral Structure:
+	- element inside `()` means dimension, while inside of `[]` means symbol
+		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
+		- If you have 3D tensor to iterate, the index that iterate them is dimensional identifier.
+		- Else it might be symbolic identifier, I'm not really sure. 
+			- I need professional advice.
+		- Always index type.
+	- `affine.apply` must be 1D
+	- First example:
+		- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
+			- Map 2D to 1D, output 1D `d0 * 64 + d1`
+		- `%8 = affine.apply #map9(%arg2, %arg3)`
+			- `%8 = %arg2 * 64 + %arg3`
+	- Second example:
+		- `#map5 = affine_map<(d0)[s0] -> (d0 + s0)>`
+			- Map 1D to 1D. output 1D `d0 + s0`
+		- `%14 = affine.apply #map5(%arg6)[%arg2]`
+			- `%14 = arg6 + arg2`
+	- Third example:
+		- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
+			- map 1D to 4D, now we annotate the 4D result as `[r0, r1, r2, r3]`
+		- `affine.for %arg5 = 0 to min #map8(%arg3)[%c28, %c2, %c0, %c2, %c1]`
+			- After Mapping, `%min_res = min(r0, r1, r2, r3)` and the `%arg5` is from 0 to `%min_res`
+- Affine for loop construct:
+	- `iter_args(%arg7 = %cst_0)` must have correspond yield.
+		- Example:
+			```cpp
+			%cst_0 = arith.constant 0.000000e+00 : f32
+			%9 = affine.for %arg6 = 0 to 30 iter_args(%arg7 = %cst_0) -> (f32) 
+			{
+				...
+				affine.yield %12 : f32
+			}
+			```
+		- Initialize `%arg7` to `%cst_0` which is `0`
+		- `%arg7 = %12` at the end of the loop
+		- After `30` iteration, return the `%12` result.
 # How to quantize?
-
 - For quantize abstraction, normally framework implement themselves
 	- 1 month ago, LLVM pull request has **quant lowering** support of converting to equivalent ops.
 	- The RFC is here: [Link](https://discourse.llvm.org/t/rfc-improvements-in-the-quant-dialect/79942)
@@ -209,9 +250,10 @@ Author: 洪祐鈞
 			- Modify the return type.
 - This week:
 	- Lowering `memref.alloc` and `memref.alloca`type.
-- Trying to lower other `memref` ops like `memref.store/load`
-- Affine dialect is still not handled but it should relatively simple.
 - Recent Goals:
+	- Trying to lower other `memref` ops like `memref.store/load`
+	- Affine dialect is still not handled but it should relatively simple.
+	- The above 2 might potentially have templated way to convert all, I'm
 	- There are 2 main cli tool in `onnx-mlir` project
 		- `onnx-mlir-opt`: 
 			- For separating or testing the pass in the project.
@@ -221,58 +263,12 @@ Author: 洪祐鈞
 			- Our current goal is port our `--convert-arith-to-posit-func` to this and run without any issue.
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
+# Collection of operation that still need to be handled
 
-# How does affine works?
-- Motivation:
-	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
-	- Affine dialect focus on using polyhedral model to transform loop for optimization.
-	- By doing this, it can enable parallelism like multi-core or vectorization.
-- Affine Dialect Polyhedral Structure:
-	- element inside `()` means dimension, while inside of `[]` means symbol
-		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
-		- If you have 3D tensor to iterate, the index that iterate them is dimensional identifier.
-		- Else it might be symbolic identifier, I'm not really sure. 
-			- I need professional advice.
-		- Always index type.
-	- `affine.apply` must be 1D
-	- First example:
-		- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
-			- Map 2D to 1D, output 1D `d0 * 64 + d1`
-		- `%8 = affine.apply #map9(%arg2, %arg3)`
-			- `%8 = %arg2 * 64 + %arg3`
-	- Second example:
-		- `#map5 = affine_map<(d0)[s0] -> (d0 + s0)>`
-			- Map 1D to 1D. output 1D `d0 + s0`
-		- `%14 = affine.apply #map5(%arg6)[%arg2]`
-			- `%14 = arg6 + arg2`
-	- Third example:
-		- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
-			- map 1D to 4D, now we annotate the 4D result as `[r0, r1, r2, r3]`
-		- `affine.for %arg5 = 0 to min #map8(%arg3)[%c28, %c2, %c0, %c2, %c1]`
-			- After Mapping, `%min_res = min(r0, r1, r2, r3)` and the `%arg5` is from 0 to `%min_res`
-- Affine for loop construct:
-	- `iter_args(%arg7 = %cst_0)` must have correspond yield.
-		- Example:
-			```cpp
-			%cst_0 = arith.constant 0.000000e+00 : f32
-			%9 = affine.for %arg6 = 0 to 30 iter_args(%arg7 = %cst_0) -> (f32) 
-			{
-				...
-				affine.yield %12 : f32
-			}
-			```
-		- Initialize `%arg7` to `%cst_0` which is `0`
-		- `%arg7 = %12` at the end of the loop
-		- After `30` iteration, return the `%12` result.
-
-# Collection of operation that need to be lowered
+- Under construction, I just put all of this to keep track of.
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
-- `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
-	- `getType()`
-- `%alloca_6 = memref.alloca() : memref<f32>`
-	- `getType()`
 - `%13 = memref.load %alloc_4[%arg1, %arg2, %11, %12] : memref<1x64x14x14xf32>`
 	- `getType()`
 - no `memref.store`??
