@@ -1,16 +1,40 @@
-Author: 洪祐鈞
+---
+marp: true
+theme: default
+paginate: true
+header: 
+footer: 
+style: "h1, h2, h3 {\r  text-align: center;\r}\r
+
+  section {\r  font-size: auto;\r}\r
+
+  img[alt~=\"center\"]\ 
+
+  {\r  display: block;\r  margin: 0 auto;\r}"
+---
+
+# 10-29 Personal Research
+
+---
 # Architecture:
-![](note_image/posit_arch_horizontal.png)
+
 - We are currently on the brown circle part.
 - Black means existing solution.
 - Green means needs to extend.
 - Red means haven't touched
 - Blue means have implement small prototype, not sure if it works.
+![h:320 center](note_image/posit_arch_horizontal.png)
+
+---
 # Summary:
 - Based on the MNIST model, we would like to try to see what operation we need to convert.
 	- Now we are converting `memref`, `affine` operations' types.
 - In this note, we also see how a simple quantization get lowered with newly proposed quant dialect lowering
 - In this note, we also see how does affine dialect works.
+
+---
+# Summary:
+
 - Our whole project can be reduced 2 parts, currently:
 	- Modify type: 
 		- We are forcing all the `f32` converted to the target integer type.
@@ -22,11 +46,17 @@ Author: 洪祐鈞
 		- While MLIR has to support posit.
 	- Value:
 		- The raw data is converted in custom python posit converter instead of MLIR.
+
+---
+# Summary:
+
 - Current Status:
 	- Still implementing all the operation that touch `f32` one by one in MNIST model.
 	- Trying to get MNIST model running with posit operation
 		- For verifying swapping all `arith` operation to equivalent function call works!
 	- Then we can move all the interface out.
+
+---
 # Lowering `Affine` and `Memref` operation
 - Review:
 	- We had lowered the following:
@@ -34,15 +64,27 @@ Author: 洪祐鈞
 			- Probably need to use `c++` template for `sub`, `mul`, `div`. for binary operation map to universal library function call.
 		- `arith.const`: Lowering the scalar data to `signless raw data`
 			- Do we need to support tensor type? (Haven't seen in the converted model)
+
+---
+
+# Lowering `Affine` and `Memref` operation
+- Review:
+	- We had lowered the following:
 		- `Krnl.global`: Where the model weight and bias is located.
 			- Modify the value attribute tensor data and type
 			- Modify the return type.
+
+---
+# Lowering `Affine` and `Memref` operation
 - This week:
 	- Lowering `memref.alloc` and `memref.alloca`type.
 - Recent Goals:
 	- Trying to lower other `memref` ops like `memref.store/load`
 	- Affine dialect is still not handled but it should relatively simple.
 	- The above 2 might potentially have templated way to convert all, I'm currently learn how to write `c++` template
+---
+# Lowering `Affine` and `Memref` operation
+- Recent Goals:
 	- There are 2 main cli tool in `onnx-mlir` project
 		- `onnx-mlir-opt`: 
 			- For separating or testing the pass in the project.
@@ -50,8 +92,13 @@ Author: 洪祐鈞
 		- `onnx-mlir`: 
 			- Main tool, for consuming the `.onnx` model and output the `.so` model.
 			- Our current goal is port our `--convert-arith-to-posit-func` pass to this and run without any issue.
+---
+# Lowering `Affine` and `Memref` operation
+- Recent Goals:
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
+---
+# Lowering `Affine` and `Memref` operation
 - Experiment:
 	- Input:
 		```cpp
@@ -73,6 +120,9 @@ Author: 洪祐鈞
 		  return %0 : memref<8x64xf32>
 		}
 		```
+---
+# Lowering `Affine` and `Memref` operation
+- Experiment:
 	- Output:
 		```cpp
 		func.func @test_memrefAlloca(%arg0: memref<8x64xi8>) 
@@ -91,35 +141,51 @@ Author: 洪祐鈞
 			return %alloc : memref<8x64xi8>
 		}
 		```
-	- Command: 
-		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' test_memref.mlir`
-	- Explanation:
-		- For the first and third, we can see `alloca` and `alloc`return type get modified to i8
-		- For second testcase, since it's not f32, it would not convert
-			- It would have legalization error in the past.
-			- How it get fix is now the legalize is all from `typeconverter.isLegal()`, but not my custom type verifier.
-		- Both operator share the same builder method, so I use one template to convert both of them.
-			- `c++` template syntax is weird:
-				```cpp
-				template <typename... Ops>
-				void populateMemRefNoOprandToIntPattern(
-					RewritePatternSet &patterns, 
-					TypeConverter &typeConverter) 
-				{
-					MLIRContext *ctx = patterns.getContext();
-					
-					(patterns.add<MemRefNoOprandToIntPattern<Ops>>
-						(typeConverter, ctx), ...);
-				}
-				```
+
+---
+
+# Lowering `Affine` and `Memref` operation
+- Explanation:
+	- For the first and third testcase: 
+		- we can see `alloca` and `alloc` return type get modified to i8
+	- For second testcase:
+		- since it's not f32, it would not convert
+		- It would have legalization error in the past.
+		- How it get fix is now the legalize is all from `typeconverter.isLegal()`, but not my custom type verifier.
+---
+# Lowering `Affine` and `Memref` operation
+
+- Explanation:
+	- Both operator share the same builder method, so I use one template to convert both of them.
+		- `c++` template syntax is weird:
+			```cpp
+			template <typename... Ops>
+			void populateMemRefNoOprandToIntPattern(
+				RewritePatternSet &patterns, 
+				TypeConverter &typeConverter) 
+			{
+				MLIRContext *ctx = patterns.getContext();
+				
+				(patterns.add<MemRefNoOprandToIntPattern<Ops>>
+					(typeConverter, ctx), ...);
+			}
+			```
+---
+# Lowering `Affine` and `Memref` operation
+
 - MISC:
 	- Refactor some code, to make the same thing have unified interface.
 		- Still messy though.
+---
 # How does affine works?
+
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
 	- Affine dialect focus on using polyhedral model to transform loop for optimization.
 	- By doing this, it can enable parallelism like multi-core or vectorization.
+---
+# How does affine works?
+
 - Affine Dialect Polyhedral Structure:
 	- element inside `()` means dimension, while inside of `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
@@ -128,6 +194,10 @@ Author: 洪祐鈞
 			- I need professional advice.
 		- Always index type.
 	- `affine.apply` must be 1D
+---
+# How does affine works?
+- Affine Dialect Polyhedral Structure:
+	- Following example is in our MNIST model.
 	- First example:
 		- `#map9 = affine_map<(d0, d1) -> (d0 * 64 + d1)>`
 			- Map 2D to 1D, output 1D `d0 * 64 + d1`
@@ -138,11 +208,16 @@ Author: 洪祐鈞
 			- Map 1D to 1D. output 1D `d0 + s0`
 		- `%14 = affine.apply #map5(%arg6)[%arg2]`
 			- `%14 = arg6 + arg2`
+---
+# How does affine works?
+- Affine Dialect Polyhedral Structure:
 	- Third example:
 		- `#map8 = affine_map<(d0)[s0, s1, s2, s3, s4] -> (s0 - ((s2 ceildiv s4) * s4 - s2), -(d0 * s3 - s2) + s0, d0 * s3 + (s1 - 1) * s4 - s2 - ((s2 ceildiv s4) * s4 - s2) + 1, d0 * s3 + (s1 - 1) * s4 - s2 - (d0 * s3 - s2) + 1)>`
 			- map 1D to 4D, now we annotate the 4D result as `[r0, r1, r2, r3]`
 		- `affine.for %arg5 = 0 to min #map8(%arg3)[%c28, %c2, %c0, %c2, %c1]`
 			- After Mapping, `%min_res = min(r0, r1, r2, r3)` and the `%arg5` is from 0 to `%min_res`
+---
+# How does affine works?
 - Affine for loop construct:
 	- `iter_args(%arg7 = %cst_0)` must have correspond yield.
 		- Example:
@@ -157,14 +232,19 @@ Author: 洪祐鈞
 		- Initialize `%arg7` to `%cst_0` which is `0`
 		- `%arg7 = %12` at the end of the loop
 		- After `30` iteration, return the `%12` result.
+---
+# How does affine works?
 - Main takeaway:
 	- For the affine operator, the memory access is all by index, which is independent on the data type.
 	- This means for functionality, it probably work when just modify the type.
 	- We should take a moment to find where does the affine mapping came from, personally I think modifying the datatype length should be having the effect on it.
+---
 # How to quantize?
 - For quantize abstraction, normally framework implement themselves
 	- 1 month ago, LLVM pull request has **quant lowering** support of converting to equivalent ops.
 	- The RFC is here: [Link](https://discourse.llvm.org/t/rfc-improvements-in-the-quant-dialect/79942)
+---
+# How to quantize?
 - Main concept of LLVM quant dialect: Types, Operations, Passes
 	- Types:
 		- `!quant.uniform<u16<0:1023>:f32, 1.23:512>`
@@ -176,6 +256,9 @@ Author: 洪祐鈞
 			- The channel is on index 1 dimension (0-indexed).
 				- `tensor<2x"3"x4>`
 			- scale is `(3, 4, 5)` and zero point is `(1, 2, 3)`
+---
+# How to quantize?
+- Main concept of LLVM quant dialect: Types, Operations, Passes
 	- Operations:
 		- `qcast`: Convert a floating-point value to a quantized type
 			- `%result = quant.qcast %input : tensor<?xf32> to tensor<?x!quant.uniform<i8:f32, 2.0>>`
@@ -184,12 +267,17 @@ Author: 洪祐鈞
 		- `scast`: Convert between a quantized type and `signless` integer storage type. 
 			- This does not manipulate value!
 			- `%result = quant.scast %input : tensor<?x!quant.uniform<i8:f32, 2.0>> to tensor<?xi8>`
+---
+# How to quantize?
+- Main concept of LLVM quant dialect: Types, Operations, Passes
 	- Passes:
 		- `--lower-quant-ops`:
 			- Lowering `qcast`, `dcast` to core dialects operations.
 			- With `scast` at the end for type casting.
 		- `--strip-func-quant-types`
 			- Replace `!quant.uniform` types in function input/output with its storage type.
+---
+# How to quantize?
 - `--lower-quant-ops` example:
 	- Input:
 	```cpp
@@ -199,6 +287,9 @@ Author: 洪祐鈞
 		return %0 : tensor<3x5x!qalias>
 	}
 	```
+---
+# How to quantize?
+- `--lower-quant-ops`:
 	- Output:
 	```cpp
 	func.func @f(%arg0: tensor<3x5xf32>) -> tensor<3x5x!qalias> {
@@ -216,7 +307,12 @@ Author: 洪祐鈞
 		
 		// Add zero point
 		%2 = arith.addf %0, %1 : tensor<3x5xf32>
-		
+	```
+---
+# How to quantize?
+- `--lower-quant-ops`:
+	- Output:
+	```cpp
 		// Convert stored value to integer
 		%3 = arith.fptosi %2 : tensor<3x5xf32> to tensor<3x5xi8>
 		
@@ -233,6 +329,8 @@ Author: 洪祐鈞
 		return %6 : tensor<3x5x!qalias>
 		}
 	```
+---
+# How to quantize?
 - `--strip-func-quant-types`:
 	- Input:
 	```cpp
@@ -247,6 +345,9 @@ Author: 洪祐鈞
 		return %sum : tensor<3x!qalias>
 	}
 	```
+---
+# How to quantize?
+- `--strip-func-quant-types`:
 	- output
 	```cpp
 	!qalias = !quant.uniform<i8:f32, 1.0>
@@ -271,10 +372,16 @@ Author: 洪祐鈞
 		  return %sum_stripped : tensor<3xi8>
 	}
 	```
+---
+# How to quantize?
+
 - How to find the project using LLVM quant dialect?
 	- Search for `CHECK-NEXT` and `quant.qcast` match the same time on GitHub
 	- Mostly, it is just a abstraction of the quantization, but the conversion is somewhere else.
 	- This is very inspirational actually.
+---
+# How to quantize?
+
 - Example project using LLVM quant dialect: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
 	- [Testcase source code link](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
 	- Input:
@@ -289,6 +396,11 @@ Author: 洪祐鈞
 			return %add: tensor<2x2xf32>
 		}
 		```
+---
+# How to quantize?
+
+- Example project using LLVM quant dialect: [DeepRec](https://github.com/DeepRec-AI/DeepRec/tree/9e30ab604aa316359f249bc061b5fe87a5773604)
+	- [Testcase source code link](https://github.com/DeepRec-AI/DeepRec/blob/9e30ab604aa316359f249bc061b5fe87a5773604/tensorflow/compiler/mlir/lite/quantization/xla/tests/weight-only.mlir#L6)
 	- Output:
 		```cpp
 		func @add(%arg0: tensor<2x2xf32>) -> tensor<2x2xf32> {
@@ -306,6 +418,9 @@ Author: 洪祐鈞
 					: (tensor<2x2xf32>, tensor<2xf32>) -> tensor<2x2xf32>
 		}
 		```
+---
+# How to quantize?
+
 - Explanation:
 	- `tf-opt -xla-hlo-propagate-quant`
 	- Why `tensor<2x2xf32>`, `tensor<2xf32>` can add up?
@@ -314,6 +429,9 @@ Author: 洪祐鈞
 	- Lower the `xla_hlo` dialect to MLIR quant dialect, use add for example.
 	- Insert `qcast` and `dcast` to function as a quantize abstraction.
 - If the newly added quant lowering support chip in, it can expand `qcast` and `dcast`, further lower to `quant.scast` for more handling.
+---
+# How to quantize?
+
 - Other Reference
 	- [removing quant dialect RFC](https://discourse.llvm.org/t/rfc-removing-the-ops-from-the-quant-dialect/3643)
 		- quant dialect was not actively developed.
@@ -322,24 +440,37 @@ Author: 洪祐鈞
 			- It does not use the `dcast`, `qcast`, `scast`, but use its own rescale and cast.
 	- [tensorflow quantize testcase](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/compiler/mlir/lite/tests/quantize.mlir)
 		- Take quantize conv2D for example, it convert the weight and the input to `tfl.pseudo_const` with `!quant.uniform<u8:f32, [scale]>` element type.
+---
+# How to quantize?
+
+- Other Reference
 	- [mlir to flatbuffer](https://github.com/tensorflow/tensorflow/blob/6f5a9d7bb17bbc28c5d11984bdd6d09c69e99892/tensorflow/compiler/mlir/lite/tests/mlir2flatbuffer/quantization.mlir#L179)
 		- Those `!quant.uniform<>` type can be consume into `tensorflow flatbuffer`
 	- [convert fake quant to qdq](https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4)
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
+---
+# How to quantize?
+
 - Main takeaway:
 	- For the quantization on MLIR level, for our case study, I think it just inject the information need (like type mapping, scale, zero point...) to **type**
 	- After we have the type as abstraction, let the library or pass to deal with the abstraction.
 	- From the discussion I saw, there's no a singular unified way to quantize all the operator.
+---
 # Collection of operation that still need to be handled
 - Under construction, I just put all of the operations to keep track of.
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
+---
+# Collection of operation that still need to be handled
 - `%13 = memref.load %alloc_4[%arg1, %arg2, %11, %12] : memref<1x64x14x14xf32>`
 	- `getType()`
 - no `memref.store`??
 - `%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>`
 	- not sure
+---
+# Collection of operation that still need to be handled
+
 - `%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32)`
 	- not always it has the return type.
 - `affine.yield %20 : f32`
@@ -352,8 +483,9 @@ Author: 洪祐鈞
 	- What is `oge`?
 		- ordered greater equal.
 		- [ordered v.s. unordered](https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean)
+---
 # MISC
-https://discourse.llvm.org/t/question-use-or-with-an-operation/82648/4
+[How is this not dereferencing aaaahh](https://discourse.llvm.org/t/question-use-or-with-an-operation/82648/4)
 ```cpp
 arith::AddFOp op;
 op.getType();
