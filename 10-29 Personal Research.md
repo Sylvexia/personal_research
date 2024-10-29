@@ -345,7 +345,8 @@ Author: 洪祐鈞
 	- not sure.
 - `%9 = arith.cmpf oge, %8, %cst_0 : f32`
 	- What is `oge`?
-		- https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean
+		- ordered greater equal.
+		- [ordered v.s. unordered](https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean)
 # MISC
 https://discourse.llvm.org/t/question-use-or-with-an-operation/82648/4
 ```cpp
