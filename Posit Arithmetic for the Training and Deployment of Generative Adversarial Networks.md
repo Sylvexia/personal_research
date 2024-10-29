@@ -54,20 +54,32 @@ style: |-
 ## What is Posit?
 
 - Environment variables:
-	- `n-bit`: length of bits, `es-val`: max length of exponent.
-	- e.g. `posit<16, 3>`
+	- $\text{n-bit}$: length of bits, $es=3$: max length of exponent.
+	- $es$ would decide $\text{useed} = 2^{2^{es}}$
+	- e.g. $\text{posit<16, 3>}$
 - Format:
-	- sign bit: 0 is +, 1 is -
-	- regime bit: 
-		- resizable bit, decide the $\text{useed} = 2^{2^{es}}$ exponent k
-		- duplicate leading 0/1 and stop with opposite bit.
-		- `110: k = 1`, `10: k = 0`, `01: k = -1`, `001: k = -2`
+	- sign: 0 is $+$, 1 is $-$
+	- regime: 
+		- resizable bit, decide the k scale.
+		- duplicate leading $0/1$ and stop with opposite bit.
+		- $110: k = 1$, $10: k = 0$, $01: k = -1$, $001: k = -2$
+		- This term scale the value $\text{useed}^k = ({2^{2^{es}}})^k$
 	- exponent: same as IEEE754 exponent, but must be positive and no bias.
-	- fraction bit: same as IEEE754 fraction.
+	- fraction: same as IEEE754 fraction.
 ---
 ## What is Posit?
 
-
+- Examples:
+	- `posit<16,3>`, $es = 3$, $\text{useed} = 2^{2^{3}}$
+	- bit 0 means sign is $+$  
+	- regime pattern $0001 \rightarrow$  $k=-3$
+		- regime term is $\text{useed}^k = ({2^{2^{3}}})^{-3} = 2^{-24} = {256}^{-3}$
+	- exponent pattern $bin(101) = 5$
+		- exponent term is $2^5$
+	- fraction term is $1+f_1+f_2+f_3+f_4...$+ while $f_n = 2^{-n}$
+		- $1+0.5+0.25+0.0625...$
+	- multiply the 3 terms to get the final value.
+![center h:240](paper_speech_image/posit_example.png)
 ---
 ## What is Posit?
 
@@ -76,7 +88,7 @@ style: |-
 		- 0,001,111,0 -> 
 		- 0,01,000,00
 		- regime bit shorter, freed one fraction bit.
-	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which mean more precision.
+	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which means more precision.
 	- Under same `es-val`, conversion between n-bits requires only remove/pad zeros. 
 ![center h:240](paper_speech_image/posit_example.png)
 
@@ -223,7 +235,8 @@ style: |-
 	- **During** the gradient calculation, scale by $s$.
 	- After the gradient is calculated, scale the value back.
 	- Use the gradient to update weight.
-	- Loss is a concept, since in back propagation, loss value itself is not used.
+	- Loss is a concept, since in back propagation, **loss value itself is not used**.
+		- k
 - Conventional method: (float)
 	- Increase $s$ until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
@@ -256,7 +269,7 @@ style: |-
 	- The output is then quantize to P16
 - Compare: (specific spec needed)
 	- Nvidia Apex O1: FP16
-	- `QPytorch`: FP8
+	- QPytorch: FP8
 	- This Paper: P8
 
 ---
