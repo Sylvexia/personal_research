@@ -1,19 +1,17 @@
 Author: 洪祐鈞
 
 # Architecture:
-
 - We are currently on the brown circle part.
 - Black means existing solution.
 - Green means needs to extend.
 - Red means haven't touched
-- Blue means kind of verify it works.
+- Blue means have implement small prototype, not sure if it works.
 ![](note_image/posit_arch.png)
 # Summary:
-
 - Based on the MNIST model, we would like to try to see what operation we need to convert.
 	- Now we are converting `memref`, `affine` operations' types.
 - In this note, we also see how a simple quantization get lowered with newly proposed quant dialect lowering
-- In this note, we also see how does affine dialect works
+- In this note, we also see how does affine dialect works.
 - Our whole project can be reduced 2 parts, currently:
 	- Modify type: 
 		- We are forcing all the `f32` converted to the target integer type.
@@ -30,6 +28,33 @@ Author: 洪祐鈞
 	- Trying to get MNIST model running with posit operation
 		- For verifying swapping all `arith` operation to equivalent function call works!
 	- Then we can move all the interface out.
+# Lowering `Affine` and `Memref` operation
+- Review:
+	- We can lower the following:
+		- `arith.add`: map the add to posit function call/declaration
+			- Probably need to use `c++` template for `sub`, `mul`, `div`. for binary operation map to universal library function call.
+		- `arith.const`: Lowering the scalar data to `signless raw data`
+			- Do we need to support tensor type? (Haven't seen in the converted model)
+		- `Krnl.global`: Where the model weight and bias is located.
+			- Modify the value attribute tensor data and type
+			- Modify the return type.
+- This week:
+	- Lowering `memref.alloc` and `memref.alloca`type.
+- Recent Goals:
+	- Trying to lower other `memref` ops like `memref.store/load`
+	- Affine dialect is still not handled but it should relatively simple.
+	- The above 2 might potentially have templated way to convert all, I'm currently learn how to write `c++` template
+	- There are 2 main cli tool in `onnx-mlir` project
+		- `onnx-mlir-opt`: 
+			- For separating or testing the pass in the project.
+			- So far all our custom pass `--convert-arith-to-posit-func` is tested here.
+		- `onnx-mlir`: 
+			- Main tool, for consuming the `.onnx` model and output the `.so` model.
+			- Our current goal is port our `--convert-arith-to-posit-func` to this and run without any issue.
+	- Summarize:
+		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
+
+
 # How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
@@ -238,34 +263,8 @@ Author: 洪祐鈞
 	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
 
-# Lowering `Affine` and `Memref` operation
-- Review:
-	- We can lower the following:
-		- `arith.add`: map the add to posit function call/declaration
-			- Probably need to use `c++` template for `sub`, `mul`, `div`. for binary operation map to universal library function call.
-		- `arith.const`: Lowering the scalar data to `signless raw data`
-			- Do we need to support tensor type? (Haven't seen in the converted model)
-		- `Krnl.global`: Where the model weight and bias is located.
-			- Modify the value attribute tensor data and type
-			- Modify the return type.
-- This week:
-	- Lowering `memref.alloc` and `memref.alloca`type.
-- Recent Goals:
-	- Trying to lower other `memref` ops like `memref.store/load`
-	- Affine dialect is still not handled but it should relatively simple.
-	- The above 2 might potentially have templated way to convert all, I'm
-	- There are 2 main cli tool in `onnx-mlir` project
-		- `onnx-mlir-opt`: 
-			- For separating or testing the pass in the project.
-			- So far all our custom pass `--convert-arith-to-posit-func` is tested here.
-		- `onnx-mlir`: 
-			- Main tool, for consuming the `.onnx` model and output the `.so` model.
-			- Our current goal is port our `--convert-arith-to-posit-func` to this and run without any issue.
-	- Summarize:
-		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 # Collection of operation that still need to be handled
-
-- Under construction, I just put all of this to keep track of.
+- Under construction, I just put all of the operations to keep track of.
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
