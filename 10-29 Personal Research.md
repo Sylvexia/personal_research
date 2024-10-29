@@ -54,6 +54,25 @@ Author: 洪祐鈞
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 - Experiment:
 	- Input:
+		```cpp
+		func.func @test_memrefAlloca(%arg0: memref<8x64xf32>) 
+			-> memref<8x64xf32> {
+		  %0 = memref.alloca() : memref<8x64xf32>
+		  return %0 : memref<8x64xf32>
+		}
+		
+		func.func @test_memrefAlloca2(%arg0: memref<i32>) 
+			-> memref<i32> {
+		  %alloca = memref.alloca() : memref<i32>
+		  return %alloca : memref<i32>
+		}
+		
+		func.func @test_memrefAlloc(%arg0: memref<8x64xf32>) 
+			-> memref<8x64xf32> {
+		  %0 = memref.alloc() : memref<8x64xf32>
+		  return %0 : memref<8x64xf32>
+		}
+		```
 	- Output:
 		```cpp
 		func.func @test_memrefAlloca(%arg0: memref<8x64xi8>) 
@@ -72,6 +91,9 @@ Author: 洪祐鈞
 			return %alloc : memref<8x64xi8>
 		}
 		```
+	- Command: 
+		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' test_memref.mlir`
+	- Explanation:
 # How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
