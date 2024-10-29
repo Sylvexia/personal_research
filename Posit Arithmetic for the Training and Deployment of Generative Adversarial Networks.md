@@ -222,7 +222,7 @@ style: |-
 ## Proposed Method: Parameter Scaling
 
 - From experiment: Across different GANs, the t value is `3~5`
-	- Insight: es-bit is 2, so it freed 1 to 3 bits of fraction.
+	- Insight: $es$ is 2, so it freed 1 to 3 bits of fraction.
 - Use only the first iteration histogram to set the `t`
 	- Further calibration through iteration does not payoff.
 	- The value distribution does not change much during training.
@@ -360,4 +360,29 @@ style: |-
 
 - Take a moment on what $es$ value relate to precision: [ref](https://link.springer.com/chapter/10.1007/978-3-031-32180-1_9)
 ![center](posit_gan_image/precision_es.png)
+---
+## Sharing:
+### [塔羅牌占卜](https://www.taroscope.ai)
 
+- [問題: 實驗室的同伴未來能不能得到幸福?](https://www.taroscope.ai/basic?answer=67210c0e8e99aa2b7844e20a)
+![center](posit_gan_image/taroscope.png)
+
+---
+## Sharing
+
+分析:
+## 實驗室夥伴的幸福之路：一段關於穩固、轉變與掌控的旅程
+
+關於你實驗室同伴的幸福，牌面呈現出一段精彩的故事，充滿了穩固的過去、必要的轉變以及充滿希望的未來。
+
+過去的錢幣國王，顯示著他們擁有紮實的基礎，或許是穩定的經濟狀況、可靠的人際關係，或是對生活的務實態度。這份穩固為他們未來的旅程奠定了堅實的基石。
+
+然而，現在的死神牌並非厄運的預兆，而是深刻的轉變。這張牌象徵著必要的結束，才能迎接新的開始。這可能是工作上的調整、關係的改變，亦或是內在價值觀的重新評估。這個過程或許伴隨著不安，但它是通往幸福的必經之路，如同破繭而出的蝴蝶，需要掙脫束縛才能展翅高飛。
+
+---
+## Sharing
+
+分析:
+## 實驗室夥伴的幸福之路：一段關於穩固、轉變與掌控的旅程
+
+展望未來，皇帝牌的出現則帶來令人振奮的訊息。它代表著掌控、責任感和成熟的穩定。經歷了轉變的洗禮後，你的同伴將更能掌握自己的人生，展現出領導力和決斷力，並在生活的各個面向建立起穩固的秩序。 這並不意味著一帆風順，而是指他們將更有能力面對挑戰，並最終創造屬於他們的幸福。總之，這是一個關於成長與蛻變的故事，最終指向成熟與幸福的可能性。 他們的未來充滿希望，只要他們能勇敢地面對轉變。
