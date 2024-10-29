@@ -197,7 +197,7 @@ Author: 洪祐鈞
 	- https://github.com/tensorflow/tensorflow/blob/2ace75af7df543cd7227d5bd2c7bb14ad9cc2630/tensorflow/compiler/mlir/quantization/tensorflow/tests/convert_fake_quant_to_qdq.mlir#L4
 		- `Tensorflow` actually migrate the `quant.dcast` to `quantfork.dcast`
 
-## Lowering `Affine` and `Memref` operation
+# Lowering `Affine` and `Memref` operation
 - Review:
 	- We can lower the following:
 		- `arith.add`: map the add to posit function call/declaration
@@ -222,9 +222,13 @@ Author: 洪祐鈞
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 
+- Motivation:
+	- Since we might need to handle the affine operation, it's probably good to figure out what 
 - Affine Dialect Polyhedral Structure:
 	- `()` means dimension, `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
+			- For what I can tell
+			- 
 		- Always index type.
 	- `affine.apply` must be 1D
 	- First example:
@@ -257,6 +261,7 @@ Author: 洪祐鈞
 		- `%arg7 = %12` at the end of the loop
 		- After `30` iteration, return the `%12` result.
 
+# Collection of operation that need to be lowered
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
