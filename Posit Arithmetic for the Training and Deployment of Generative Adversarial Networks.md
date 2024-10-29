@@ -19,9 +19,10 @@ style: |-
 
 # Posit Arithmetic for the Training and Deployment of Generative Adversarial Networks
 
-- Author: Nhut-Minh Ho, Duy-Thanh Nguyen, Himeshi De Silva, John L. Gustafson, Weng-Fai Wong, Ik Joon Chang,  National University of Singapore Kyung Hee University
 - Professor: Peng-Shen, Chen
 - Reporter: Yu-Chun, Hung
+- Author: Nhut-Minh Ho, Duy-Thanh Nguyen, Himeshi De Silva, John L. Gustafson, Weng-Fai Wong, Ik Joon Chang,  National University of Singapore Kyung Hee University
+- Publish: IEEE Design, Automation and Test in Europe Conference 2021
 
 ---
 ## Insight:
@@ -49,6 +50,8 @@ style: |-
 	- Image generation
 	- Data augmentation
 	- Style Transfer
+- [Data augmentation ref](https://medium.com/abacus-ai/gans-for-data-augmentation-21a69de6c60b)
+![center h:480](posit_gan_image/pikachu_gan.webp)
 
 ---
 ## What is Posit?
@@ -70,33 +73,31 @@ style: |-
 ## What is Posit?
 
 - Examples:
-	- `posit<16,3>`, $es = 3$, $\text{useed} = 2^{2^{3}}$
-	- bit 0 means sign is $+$  
+	- $\text{posit<16,3>}$, $es = 3$, $\text{useed} = 2^{2^{3}}$
+	- sign bit 0 means it's positive  
 	- regime pattern $0001 \rightarrow$  $k=-3$
 		- regime term is $\text{useed}^k = ({2^{2^{3}}})^{-3} = 2^{-24} = {256}^{-3}$
-	- exponent pattern $bin(101) = 5$
-		- exponent term is $2^5$
+	- exponent pattern $\text{binary}{(101)} = 5$, exponent term is $2^5$
 	- fraction term is $1+f_1+f_2+f_3+f_4...$+ while $f_n = 2^{-n}$
-		- $1+0.5+0.25+0.0625...$
-	- multiply the 3 terms to get the final value.
+	- multiply each terms to get the final value.
 ![center h:240](paper_speech_image/posit_example.png)
 ---
 ## What is Posit?
 
 - Properties:
 	- The carry of the posit exponent:
-		- 0,001,111,0 -> 
-		- 0,01,000,00
+		- 0,001,111,<span style="color:red">0</span> $\rightarrow$ 
+		- 0,01,000,<span style="color:red">00</span>
 		- regime bit shorter, freed one fraction bit.
 	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which means more precision.
-	- Under same `es-val`, conversion between n-bits requires only remove/pad zeros. 
+	- Under same $es$, conversion between n-bits requires only remove/pad zeros. 
 ![center h:240](paper_speech_image/posit_example.png)
 
 ---
 ## Contribution:
 
 - The first to use non-standard 8-bit FP format to train GAN and 6-bit FP format for GAN inference.
-- Fast approximation of `tanh(x)` function in posit.
+- Fast approximation of $\tanh(x)$ function in posit.
 - Software and Hardware Evaluation of GAN in posit and other FP format.
 
 ---
@@ -151,16 +152,16 @@ style: |-
 
 - Architecture:
   - W: weights, A: activation values, G: gradient, E: error
-  - The dot product between `W * A` and `E * A` involves two `posit<8, 2>` multiplication and output is `posit<16,2>`
+  - The dot product between $W \cdot A$ and $E \cdot A$ involves two $\text{posit<8, 2>}$ multiplication and output is $\text{posit<16,2>}$
 ![h:300 center](posit_gan_image/system_arch.png)
 ---
 ## Proposed Method: System architecture
 
 - Architecture (My insight)
-	- `W * A -> A`
+	- $W \cdot A \rightarrow A$
 		- $a^{(l)} = \sigma(W^{(l)} a^{(l-1)} + b^{(l)})$
 			- The product of previous activation and weight plus bias is current activation value.
-	- `E * A -> G`
+	- $E \cdot A \rightarrow G$
 		- $\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \cdot (a^{(l-1)})^T$
 			- Gradient of loss is the product between error term and previous activation value.
 ![h:240 center](posit_gan_image/system_arch.png)
@@ -168,14 +169,14 @@ style: |-
 
 ## Proposed Method: System architecture
 
-- For operations value change is small like "other operations" and "weight updates", stored with `posit<16,2>` internally.
+- For operations value change is small like "other operations" and "weight updates", stored with $\text{posit<16,2>}$ internally.
 	- Standard low precision CNN training use bit width 16.
 	- Especially gradient accumulator and optimizer parameters.
-- The `es` value is kept 2 in training scheme
+- The $es$ value is kept 2 in training scheme
 	- Conversion between 8, 16 bit can simply add/remove 0
 	- $es = 1$: fails to converge
 	- $es = 3$: fraction accuracy is not enough.
-![h:320 center](posit_gan_image/system_arch.png)
+![h:240 center](posit_gan_image/system_arch.png)
 
 ---
 
@@ -235,8 +236,9 @@ style: |-
 	- **During** the gradient calculation, scale by $s$.
 	- After the gradient is calculated, scale the value back.
 	- Use the gradient to update weight.
-	- Loss is a concept, since in back propagation, **loss value itself is not used**.
-		- k
+- Insight: Loss is a concept, since in back propagation, **loss value itself is not used**.
+	- $\frac{\partial L}{\partial W^{(l)}} = \frac{\partial L}{\partial a^{(l)}} \cdot \frac{\partial a^{(l)}}{\partial z^{(l)}} \cdot \frac{\partial z^{(l)}}{\partial W^{(l)}} = \frac{\partial L}{\partial a^{(l)}} \cdot \sigma'(z^{(l)}) \cdot (a^{(l-1)})^T$
+	- Let's say loss is MSE: $\frac{\partial L}{\partial a^{(l)}} = a^{(l)} - y$
 - Conventional method: (float)
 	- Increase $s$ until its overflow, then decrease - Nvidia Apex
 - Proposed method: (posit)
@@ -257,7 +259,7 @@ style: |-
 	- $\text{Sigmoid}(x) = \left( x \oplus 8000_{16} \right) \gg 2$
 		- A bit operation trick in original posit paper with $es = 0$
 	- $\text{PositTanh}(x) = 2 \cdot \text{Sigmoid}(2x) - 1$
-	- $x$ is `posit<16,0>`, retain the previous `posit<16, 2>` output.
+	- $x$ is $\text{posit<16,0>}$, converted from the previous $\text{posit<16, 2>}$ output.
 - Correction: Set threshold and bias, and add up the quantity with bounding.
 ![center](posit_gan_image/tanh_approx.png)
 ---
@@ -341,9 +343,21 @@ style: |-
 - Once low precision accelerator emerged, the proposed method should be promising.
 
 ---
-## Insight:
+## Main Takeaway:
 
 - In terms of scaling in posit training and inferencing:
-	- Weight and Activation can be low with scaling.
-	- Optimizer and gradient accumulator have high precision need.
-	- 
+	- Weight value is small but change of value in multiplication is big
+		- Have ways to exploit.
+	- Calculate gradient and weight update have high precision need.
+		- Since the change of value is small, less chance to exploit precision.
+- If we only focus on the inference now:
+	- Just need to refer to the forward pass part in training.
+	- Focus mostly on the weight scale and the operation can be applied.
+		- Like multiplication.
+
+---
+## Main Takeaway:
+
+- Take a moment on what $es$ value relate to precision: [ref](https://link.springer.com/chapter/10.1007/978-3-031-32180-1_9)
+![center](posit_gan_image/precision_es.png)
+
