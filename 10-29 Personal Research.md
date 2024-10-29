@@ -199,8 +199,8 @@ Author: 洪祐鈞
 ## Lowering `Affine` and `Memref` operation
 - Review:
 	- We can lower the following:
-		- `arith.add`: map the add to posit function call/symbol
-			- We probably need a better way to template for `sub`, `mul`, `div`.
+		- `arith.add`: map the add to posit function call/declaration
+			- Probably need to use `c++` template for `sub`, `mul`, `div`. for binary operation map to universal library function call.
 		- `arith.const`: Lowering the scalar data to `signless raw data`
 			- Do we need to support tensor type? (Haven't seen in the converted model)
 		- `Krnl.global`: Where the model weight and bias is located.
@@ -217,7 +217,9 @@ Author: 洪祐鈞
 			- So far all our custom pass `--convert-arith-to-posit-func` is tested here.
 		- `onnx-mlir`: 
 			- Main tool, for consuming the `.onnx` model and output the `.so` model.
-			- Our current goal is put our `--convert-arith-to-posit-func` to this and run without any issue.
+			- Our current goal is port our `--convert-arith-to-posit-func` to this and run without any issue.
+	- Summarize:
+		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 
 No issue:
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_krnl.mlir`
