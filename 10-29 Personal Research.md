@@ -278,3 +278,6 @@ Try to get work:
 	- oge??
 	- ordered v.s unordered
 		- https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean
+
+
+https://discourse.llvm.org/t/question-use-or-with-an-operation/82648/4
