@@ -53,20 +53,25 @@ Author: 洪祐鈞
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 - Experiment:
-```cpp
-func.func @test_memrefAlloca(%arg0: memref<8x64xi8>) -> memref<8x64xi8> {
-	%alloca = memref.alloca() : memref<8x64xi8>
-	return %alloca : memref<8x64xi8>
-}
-func.func @test_memrefAlloca2(%arg0: memref<i32>) -> memref<i32> {
-	%alloca = memref.alloca() : memref<i32>
-	return %alloca : memref<i32>
-}
-func.func @test_memrefAlloc(%arg0: memref<8x64xi8>) -> memref<8x64xi8> {
-	%alloc = memref.alloc() : memref<8x64xi8>
-	return %alloc : memref<8x64xi8>
-}
-```
+	- Input:
+	- Output:
+		```cpp
+		func.func @test_memrefAlloca(%arg0: memref<8x64xi8>) 
+			-> memref<8x64xi8> {
+			%alloca = memref.alloca() : memref<8x64xi8>
+			return %alloca : memref<8x64xi8>
+		}
+		func.func @test_memrefAlloca2(%arg0: memref<i32>) 
+			-> memref<i32> {
+			%alloca = memref.alloca() : memref<i32>
+			return %alloca : memref<i32>
+		}
+		func.func @test_memrefAlloc(%arg0: memref<8x64xi8>) 
+			-> memref<8x64xi8> {
+			%alloc = memref.alloc() : memref<8x64xi8>
+			return %alloc : memref<8x64xi8>
+		}
+		```
 # How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
@@ -298,3 +303,12 @@ func.func @test_memrefAlloc(%arg0: memref<8x64xi8>) -> memref<8x64xi8> {
 		- https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean
 # MISC
 https://discourse.llvm.org/t/question-use-or-with-an-operation/82648/4
+```cpp
+arith::AddFOp op;
+op.getType();
+op->getOpResult(0).getType();
+// the -> is not pointer dereference, it is an overrideded operator
+// mlir source code: # OpDefinition.h:
+	// Shortcut of `->` to access a member of Operation.
+	// Operation *operator->() const { return state; }
+```
