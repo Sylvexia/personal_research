@@ -222,11 +222,6 @@ Author: 洪祐鈞
 	- Summarize:
 		- For our current goal, is to put our custom pass into whole project, and be able to run MNIST model inference end-to-end.
 
-
-
-- entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
-	- `attributes {llvm.emit_c_interface}`
-
 - Affine Dialect Polyhedral Structure:
 	- `()` means dimension, `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
@@ -262,6 +257,8 @@ Author: 洪祐鈞
 		- `%arg7 = %12` at the end of the loop
 		- After `30` iteration, return the `%12` result.
 
+- entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
+	- `attributes {llvm.emit_c_interface}`
 - `"krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()`
 - `%alloc = memref.alloc() {alignment = 16 : i64} : memref<1x32x28x28xf32>`
 	- `getType()`
@@ -269,20 +266,19 @@ Author: 洪祐鈞
 	- `getType()`
 - `%13 = memref.load %alloc_4[%arg1, %arg2, %11, %12] : memref<1x64x14x14xf32>`
 	- `getType()`
-- no memref.store??
+- no `memref.store`??
 - `%reinterpret_cast = memref.reinterpret_cast %alloc_5 to offset: [0], sizes: [1, 3136], strides: [3136, 1] : memref<1x64x7x7xf32> to memref<1x3136xf32>`
-	- to??
+	- not sure
 - `%9 = affine.for %arg6 = 0 to 1 iter_args(%arg7 = %cst_0) -> (f32)`
-	- `getType()`??
+	- not sure
 - `affine.yield %20 : f32`
 	- `getType()`
 - `%17 = affine.load %arg0[%arg1, %14, %15, %16] : memref<1x1x28x28xf32>`
 	- `getType()`
 - `affine.store %11, %alloc[%arg1, %8, %arg4, %arg5] : memref<1x32x28x28xf32>`
-	- `getType()`
+	- not sure.
 - `%9 = arith.cmpf oge, %8, %cst_0 : f32`
-	- oge??
-	- ordered v.s unordered
+	- What is `oge`?
 		- https://stackoverflow.com/questions/8627331/what-does-ordered-unordered-comparison-mean
 
 # MISC
