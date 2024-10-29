@@ -226,11 +226,13 @@ Author: 洪祐鈞
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
 	- Affine dialect focus on using polyhedral model to transform loop for optimization.
+	- By doing this, it can enable parallelism like multi-core or vectorization.
 - Affine Dialect Polyhedral Structure:
 	- element inside `()` means dimension, while inside of `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
 		- If you have 3D tensor to iterate, the index that iterate them is dimensional identifier.
-		- Else it might be symbolic identifier, I'm not really sure.
+		- Else it might be symbolic identifier, I'm not really sure. 
+			- I need professional advice.
 		- Always index type.
 	- `affine.apply` must be 1D
 	- First example:
