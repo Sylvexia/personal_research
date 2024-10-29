@@ -157,6 +157,8 @@ Author: 洪祐鈞
 		- Initialize `%arg7` to `%cst_0` which is `0`
 		- `%arg7 = %12` at the end of the loop
 		- After `30` iteration, return the `%12` result.
+- Main takeaway:
+	- For the affine operator, 
 # How to quantize?
 - For quantize abstraction, normally framework implement themselves
 	- 1 month ago, LLVM pull request has **quant lowering** support of converting to equivalent ops.
