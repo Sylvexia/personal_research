@@ -224,7 +224,8 @@ Author: 洪祐鈞
 
 # How does affine works?
 - Motivation:
-	- Since we might need to handle the affine operation, it's probably good to figure out what 
+	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
+	- Affine dialect focus on using polyhedral model to transform loop for optimization.
 - Affine Dialect Polyhedral Structure:
 	- element inside `()` means dimension, while inside of `[]` means symbol
 		- [Constraint](https://mlir.llvm.org/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols)
