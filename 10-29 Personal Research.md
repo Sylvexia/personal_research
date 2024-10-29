@@ -29,7 +29,7 @@ Author: 洪祐鈞
 	- Then we can move all the interface out.
 # Lowering `Affine` and `Memref` operation
 - Review:
-	- We can lower the following:
+	- We had lowered the following:
 		- `arith.add`: map the add to posit function call/declaration
 			- Probably need to use `c++` template for `sub`, `mul`, `div`. for binary operation map to universal library function call.
 		- `arith.const`: Lowering the scalar data to `signless raw data`
@@ -95,9 +95,26 @@ Author: 洪祐鈞
 		- `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=0' test_memref.mlir`
 	- Explanation:
 		- For the first and third, we can see `alloca` and `alloc`return type get modified to i8
-		- For second testcase, since it's
-			- It would have conversion error in the past.
+		- For second testcase, since it's not f32, it would not convert
+			- It would have legalization error in the past.
+			- How it get fix is now the legalize is all from `typeconverter.isLegal()`, but not my custom type verifier.
 		- Both operator share the same builder method, so I use one template to convert both of them.
+			- `c++` template syntax is weird:
+				```cpp
+				template <typename... Ops>
+				void populateMemRefNoOprandToIntPattern(
+					RewritePatternSet &patterns, 
+					TypeConverter &typeConverter) 
+				{
+					MLIRContext *ctx = patterns.getContext();
+					
+					(patterns.add<MemRefNoOprandToIntPattern<Ops>>
+						(typeConverter, ctx), ...);
+				}
+				```
+- MISC:
+	- Refactor some code, to make the same thing have unified interface.
+		- Still messy though.
 # How does affine works?
 - Motivation:
 	- Since we might need to handle the affine operation return type, it's probably good to figure out what did it do.
