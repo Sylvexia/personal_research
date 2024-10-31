@@ -20,6 +20,16 @@ Try to get work:
 
 https://discourse.llvm.org/t/rfc-add-suport-for-quantilequantizedtype-in-quant-dialect/80346
 
+```
+In newer work, I wouldn’t implement this concept at all in MLIR or the compiler proper but in the frontend. There are several examples of convergent evolution on this kind of thing, which show some of the different/related approaches:
+
+- [Pytorch ao 1](https://github.com/pytorch/ao)
+- [Sharktank direct quantization 7](https://github.com/nod-ai/sharktank/blob/main/docs/quantization.md) (my group develops this for certain of our optimized models)
+- [Modular quant encoding 6](https://docs.modular.com/max/api/mojo/graph/quantization/)
+
+The thing that all of these have in common is that they deal with encoding/layout/quantization far up the stack with runtime vs compile time parameterization. And they break the problem down at the top vs trying to preserve strong typing of a specific quantization algorithm deep in the compiler type hierarchy.
+```
+
 # Materialization
 
 The code are all look like the same.
