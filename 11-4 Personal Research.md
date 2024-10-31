@@ -16,6 +16,11 @@ No issue:
 Try to get work:
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
 
+# Affine
+
+See how krnl.iterate works to get affine.
+at test/mlir/krnl
+
 # Quantization
 
 https://discourse.llvm.org/t/rfc-add-suport-for-quantilequantizedtype-in-quant-dialect/80346
