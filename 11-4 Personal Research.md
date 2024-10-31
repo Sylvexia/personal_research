@@ -21,6 +21,9 @@ Try to get work:
 See how krnl.iterate works to get affine.
 at test/mlir/krnl
 
+# addKrnlToAffinePasses
+
+
 # Quantization
 
 https://discourse.llvm.org/t/rfc-add-suport-for-quantilequantizedtype-in-quant-dialect/80346
