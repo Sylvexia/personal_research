@@ -51,15 +51,14 @@ style: |-
 	- Data augmentation
 	- Style Transfer
 - [Data augmentation ref](https://medium.com/abacus-ai/gans-for-data-augmentation-21a69de6c60b)
-![center h:480](posit_gan_image/pikachu_gan.webp)
+![bg right h:320](posit_gan_image/pikachu_gan.webp)
 
 ---
 ## What is Posit?
 
-- Environment variables:
+- Environment variables: e.g. $\text{posit<16, 3>}$
 	- $\text{n-bit}$: length of bits, $es=3$: max length of exponent.
-	- $es$ would decide $\text{useed} = 2^{2^{es}}$
-	- e.g. $\text{posit<16, 3>}$
+	- $es$ would decide scale $\text{useed} = 2^{2^{es}}$
 - Format:
 	- sign: 0 is $+$, 1 is $-$
 	- regime: 
@@ -88,7 +87,7 @@ style: |-
 	- The carry of the posit exponent:
 		- 0,001,111,<span style="color:red">0</span> $\rightarrow$ 
 		- 0,01,000,<span style="color:red">00</span>
-		- regime bit shorter, freed one fraction bit.
+		- regime one bit shorter, freed one fraction bit.
 	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which means more precision.
 	- Under same $es$, conversion between n-bits requires only remove/pad zeros. 
 ![center h:240](paper_speech_image/posit_example.png)
@@ -201,7 +200,7 @@ style: |-
 	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
 - The weight is decoded before multiply-add operation. Then encode after that.
 	- Weights are kept scaled in weight update.
-![center height:360](paper_speech_image/precision.png)
+![h:360 center](paper_speech_image/precision.png)
 ---
 
 ## Proposed Method: Parameter Scaling
@@ -212,10 +211,9 @@ style: |-
 - How to decide scale t?
 	- $\{ \text{bins}, \text{frequencies} \} = \text{histogram}\left( \log_2 \left( |W| \right) \right)$
 	- $t = \left\lfloor 0 - \text{bins}\left[\arg\max(\text{frequencies})\right] \right\rfloor$, 
-		- $t$ is integer, 
-		- $\arg\max$ is the index of max array element.
+		- $t$ is integer, $\arg\max$ is the index of max array element.
 	- Insight: $t$ shift the histogram such that the highest peak is 0
-	![h:320 center](posit_gan_image/Value_Distribution.png)
+	![center h:240](posit_gan_image/Value_Distribution.png)
 
 ---
 
@@ -250,7 +248,7 @@ style: |-
 - Y-axis: frequency
 - Float loss scaling approach to overflow.
 
-![center](posit_gan_image/loss_scale.png)
+![h:360 center](posit_gan_image/loss_scale.png)
 
 --- 
 ## Proposed Method: Fast Approx. of tanh(x)
@@ -261,7 +259,7 @@ style: |-
 	- $\text{PositTanh}(x) = 2 \cdot \text{Sigmoid}(2x) - 1$
 	- $x$ is $\text{posit<16,0>}$, converted from the previous $\text{posit<16, 2>}$ output.
 - Correction: Set threshold and bias, and add up the quantity with bounding.
-![center](posit_gan_image/tanh_approx.png)
+![h:240 center](posit_gan_image/tanh_approx.png)
 ---
 ## Experiment
 
@@ -317,7 +315,7 @@ style: |-
 	- Result:
 		- `P6+T`, `P6+` have `SSIM` > `0.9`
 			- High output quality
-	![center h:320](posit_gan_image/infer_quality.png)
+	![bg right w:600](posit_gan_image/infer_quality.png)
 
 ---
 ## Hardware Simulation
@@ -325,52 +323,62 @@ style: |-
 - Setup:
 	- Using integrated power estimation in Synopsys’ design compiler with LP65nm CMOS standard cells
 	- GEM5 simulator with MLPACK to implement DCGAN.
+![h:360 center](posit_gan_image/HardwareSimulation.png)
+---
+
+## Hardware Simulation
 - Result:
 	- The posit format consumes less energy and less computing time than the float format of the same size.
-	- In terms of power, it scale between linearly and quadratically. (bound by matrix multiplication)
+	- In terms of power, it scale between linearly and quadratically. 
+    	- Scale is bounded by matrix multiplication
 		- Division operation is bottleneck.
 			- Tanh in the generator
 			- Discriminator. (scale better in deployment)
-
-![](posit_gan_image/HardwareSimulation.png)
+  ![h:240 center](posit_gan_image/HardwareSimulation.png)
 
 ---
 ## Conclusion
 
-- Presents ways to train GAN in 8-bit and deploy in 6-bit
+- Presents ways to train GAN in 8-bit and proceed inference in 6-bit
 - Using modified `PyTorch` allows to experiment with different training schemes.
 - Hardware simulation shows posit has better energy and runtime.
-- Once low precision accelerator emerged, the proposed method should be promising.
+- Once low precision accelerator emerged, the proposed method could be promising.
 
 ---
-## Main Takeaway:
+
+## My Takeaway:
 
 - In terms of scaling in posit training and inferencing:
 	- Weight value is small but change of value in multiplication is big
-		- Have ways to exploit.
+		- Scale up to find ways of exploit.
 	- Calculate gradient and weight update have high precision need.
 		- Since the change of value is small, less chance to exploit precision.
 - If we only focus on the inference now:
 	- Just need to refer to the forward pass part in training.
-	- Focus mostly on the weight scale and the operation can be applied.
+	- Focus on the the value distribution and where the change of value is enough to exploit.
 		- Like multiplication.
 
 ---
-## Main Takeaway:
+## My Takeaway:
 
 - Take a moment on what $es$ value relate to precision: [ref](https://link.springer.com/chapter/10.1007/978-3-031-32180-1_9)
-![center](posit_gan_image/precision_es.png)
+![h:360 center](posit_gan_image/precision_es.png)
+
+
 ---
 ## Sharing:
-### [塔羅牌占卜](https://www.taroscope.ai)
+
+### [塔羅牌占卜 taroscope.ai](https://www.taroscope.ai)
 
 - [問題: 實驗室的同伴未來能不能得到幸福?](https://www.taroscope.ai/basic?answer=67210c0e8e99aa2b7844e20a)
-![center](posit_gan_image/taroscope.png)
+![h:360 center](posit_gan_image/taroscope.png)
 
 ---
+
 ## Sharing
 
 分析:
+
 ## 實驗室夥伴的幸福之路：一段關於穩固、轉變與掌控的旅程
 
 關於你實驗室同伴的幸福，牌面呈現出一段精彩的故事，充滿了穩固的過去、必要的轉變以及充滿希望的未來。
@@ -383,6 +391,7 @@ style: |-
 ## Sharing
 
 分析:
+
 ## 實驗室夥伴的幸福之路：一段關於穩固、轉變與掌控的旅程
 
 展望未來，皇帝牌的出現則帶來令人振奮的訊息。它代表著掌控、責任感和成熟的穩定。經歷了轉變的洗禮後，你的同伴將更能掌握自己的人生，展現出領導力和決斷力，並在生活的各個面向建立起穩固的秩序。 這並不意味著一帆風順，而是指他們將更有能力面對挑戰，並最終創造屬於他們的幸福。總之，這是一個關於成長與蛻變的故事，最終指向成熟與幸福的可能性。 他們的未來充滿希望，只要他們能勇敢地面對轉變。
