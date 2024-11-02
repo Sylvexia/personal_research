@@ -30,7 +30,9 @@ at test/mlir/krnl
 
 `replaceAllOpUsesWith` = `notifyOperationReplaced` + `replaceAllUsesWith`
 
-`replaceAllUsesWith` = 
+`replaceAllUsesWith(ValueRange from, ValueRange to)` :iterate the from and to 1 by same index and `modifyOpInPlace`
+
+`modifyOpInPlace`: Get Uses from 
 
 `erase(Op)`: Using post order traversal to remove enclosing op one by one.
 
