@@ -23,16 +23,31 @@ at test/mlir/krnl
 
 # addKrnlToAffinePasses
 
-
 `replaceOpWithNewOp = create<OpTy> + replaceOp(op, newOp)`
 
 `replaceOp = replaceAllOpUsesWith + erase(Op)`
 
 `replaceAllOpUsesWith` = `notifyOperationReplaced` + `replaceAllUsesWith`
 
-`replaceAllUsesWith(ValueRange from, ValueRange to)` :iterate the from and to 1 by same index and `modifyOpInPlace`
+`notifyOperationReplaced`: logger for the correspond rewriter.
 
-`modifyOpInPlace`: Get Uses from 
+`replaceAllUsesWith(ValueRange from, ValueRange to)` :
+- iterate the from `operands` and to `operands` by same index 
+- set the correspond operand with new value.
+- `make_early_inc_range`: Make a range that does early increment to allow mutation of the underlying range without disrupting iteration.
+
+```cpp
+void replaceAllUsesWith(Value from, Value to) {
+  for (OpOperand &operand : 
+    llvm::make_early_inc_range(from.getUses())) {
+    Operation *op = operand.getOwner();
+    modifyOpInPlace(op, [&]() { operand.set(to); });
+  }
+}
+
+```
+
+`modifyOpInPlace`: 
 
 `erase(Op)`: Using post order traversal to remove enclosing op one by one.
 
