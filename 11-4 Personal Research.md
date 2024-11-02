@@ -24,12 +24,15 @@ at test/mlir/krnl
 # addKrnlToAffinePasses
 
 
-replaceOpWithNewOp
-is create<OpTy> + replaceOp(op, newOp)
+`replaceOpWithNewOp = create<OpTy> + replaceOp(op, newOp)`
 
-replaceOp = replaceAllOpUsesWith + erase(Op)
+`replaceOp = replaceAllOpUsesWith + erase(Op)`
 
+`replaceAllOpUsesWith` = `notifyOperationReplaced` + `replaceAllUsesWith`
 
+`replaceAllUsesWith` = 
+
+`erase(Op)`: Using post order traversal to remove enclosing op one by one.
 
 # Quantization
 
