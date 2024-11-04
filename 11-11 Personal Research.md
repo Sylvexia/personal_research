@@ -7,3 +7,12 @@
 	- `KrnlEntryPointOpLowering`
 - Universal Wrapper
 	- `NaR` handling.
+
+# Affine For
+
+op.getBody()->getArgument()
+
+# Affine
+
+See how krnl.iterate works to get affine.
+locate at test/mlir/krnl

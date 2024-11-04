@@ -2,13 +2,8 @@
 
 - This week:
 	- Based on MNIST model
-		- 
-
-# Operation Not Handled
-
-Based on MNIST model:
-- affine: `forOp`, `yieldOp`
-- templated basic `arith` operation
+		- Lowered all `memref` operation
+		- `affine` `forOp` and related is not lowered
 
 # Operation Handled
 
@@ -19,15 +14,12 @@ Based on MNIST model:
 
 Try to get work:
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
-# meow
 
-op.getBody()->getArgument()
+# Operation Not Handled
 
-# Affine
-
-See how krnl.iterate works to get affine.
-locate at test/mlir/krnl
-
+Based on MNIST model:
+- affine: `forOp`, `yieldOp`
+- templated basic `arith` operation
 # How Do I normally modify the Operation
 
 `replaceOpWithNewOp<NewOpTy>(op) = create<NewOpTy> + replaceOp(op, newOp)`
