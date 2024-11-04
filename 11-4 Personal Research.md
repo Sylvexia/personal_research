@@ -15,6 +15,9 @@
 
 # Not Complete
 
+Based on MNIST
+affine: for yield
+
 # Complete
 
 memref loadop, reinterprete_cast
@@ -22,7 +25,6 @@ affine loadop,
 
 Try to get work:
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
-
 # meow
 
 op.getBody()->getArgument()
@@ -30,22 +32,26 @@ op.getBody()->getArgument()
 # Affine
 
 See how krnl.iterate works to get affine.
-at test/mlir/krnl
+locate at test/mlir/krnl
 
-# addKrnlToAffinePasses
+# How Do I normally modify the Operation
 
 `replaceOpWithNewOp = create<OpTy> + replaceOp(op, newOp)`
+- Create new op by type and replace the operation.
 
-`replaceOp = replaceAllOpUsesWith + erase(Op)`
+`replaceOp(oldOp, newOp) = replaceAllOpUsesWith(oldOp, ) + erase(oldOp)`
+- 
 
 `replaceAllOpUsesWith` = `notifyOperationReplaced` + `replaceAllUsesWith`
 
 `notifyOperationReplaced`: logger for the correspond rewriter.
 
 `replaceAllUsesWith(ValueRange from, ValueRange to)` :
-- iterate the from `operands` and to `operands` by same index 
-- set the correspond operand with new value.
-- `make_early_inc_range`: Make a range that does early increment to allow mutation of the underlying range without disrupting iteration.
+- Redirects any references from the old value to the new one
+- Iterate the from `operands` and to `operands` by same index 
+- Set the correspond operand with new value.
+- `make_early_inc_range`: 
+	- The iterator increments immediately after dereferencing, allowing node deletion or insertion without disrupting the process, as long as the next iterator remains valid.
 
 ```cpp
 void replaceAllUsesWith(Value from, Value to) {
@@ -58,7 +64,7 @@ void replaceAllUsesWith(Value from, Value to) {
 
 ```
 
-`modifyOpInPlace`: 
+`modifyOpInPlace`: notify start and end of operation modification with callback.
 
 `erase(Op)`: Using post order traversal to remove enclosing op one by one.
 
