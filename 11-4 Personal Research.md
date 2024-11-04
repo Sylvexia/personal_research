@@ -25,7 +25,7 @@ Try to get work:
 
 # meow
 
-op.getBody()->getArgument(
+op.getBody()->getArgument()
 
 # Affine
 
