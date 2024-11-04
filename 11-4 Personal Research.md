@@ -8,9 +8,14 @@
 - Universal Wrapper
 	- `NaR` handling.
 
+# Summary
+
+- This week:
+	- Successfully lowered
+
 # Not Complete
 
-
+affine storeOp, 
 # Complete
 
 memref loadop, reinterprete_cast
