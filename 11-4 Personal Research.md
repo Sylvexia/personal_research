@@ -37,10 +37,11 @@ locate at test/mlir/krnl
 # How Do I normally modify the Operation
 
 `replaceOpWithNewOp = create<OpTy> + replaceOp(op, newOp)`
-- Create new op by type and replace the operation.
+- Replace the old op's results with a new op's results, ensuring they match. 
+- The original op is then erased.
 
-`replaceOp(oldOp, newOp) = replaceAllOpUsesWith(oldOp, ) + erase(oldOp)`
-- 
+`replaceOp(oldOp, newOp) = replaceAllOpUsesWith(oldOp, newOp->getResults()) + erase(oldOp)`
+- Replace all result uses.
 
 `replaceAllOpUsesWith` = `notifyOperationReplaced` + `replaceAllUsesWith`
 
@@ -48,7 +49,7 @@ locate at test/mlir/krnl
 
 `replaceAllUsesWith(ValueRange from, ValueRange to)` :
 - Redirects any references from the old value to the new one
-- Iterate the from `operands` and to `operands` by same index 
+- Iterate the from `results` and to `results` by same index 
 - Set the correspond operand with new value.
 - `make_early_inc_range`: 
 	- The iterator increments immediately after dereferencing, allowing node deletion or insertion without disrupting the process, as long as the next iterator remains valid.
