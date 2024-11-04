@@ -16,3 +16,31 @@ op.getBody()->getArgument()
 
 See how krnl.iterate works to get affine.
 locate at test/mlir/krnl
+
+Try to get work:
+`./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+
+# Materialization
+
+The code are all look like the same.
+```cpp
+addSourceMaterialization([&](OpBuilder &builder, Type resultType,
+						   ValueRange inputs,
+						   Location loc) -> std::optional<Value> {
+if (inputs.size() != 1)
+  return std::nullopt;
+
+return builder.create<UnrealizedConversionCastOp>(loc, resultType, inputs)
+	.getResult(0);
+});
+
+addTargetMaterialization([&](OpBuilder &builder, Type resultType,
+						   ValueRange inputs,
+						   Location loc) -> std::optional<Value> {
+if (inputs.size() != 1)
+  return std::nullopt;
+
+return builder.create<UnrealizedConversionCastOp>(loc, resultType, inputs)
+	.getResult(0);
+});
+```

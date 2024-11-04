@@ -4,22 +4,73 @@
 	- Based on MNIST model
 		- Lowered all `memref` operation
 		- `affine` `forOp` and related is not lowered
-
 # Operation Handled
 
 Based on MNIST model:
 - `memref` dialect
-	- `memref`: `loadop`, `reinterprete_cast`
-- `affine`: `loadop`
-
-Try to get work:
-`./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
-
+	- `memref`: `loadOp`, `reinterpreteCastOp`
+- `affine`: `loadOp`, `storOp`
 # Operation Not Handled
 
 Based on MNIST model:
 - affine: `forOp`, `yieldOp`
 - templated basic `arith` operation
+
+Input:
+```cpp
+func.func @test_affineLoadStoreMixed
+  (%arg0: index, %arg1: index, %arg2: index, %arg3: index) 
+  -> memref<1x288xf32>
+{
+  %alloc = memref.alloca() : memref<32x1x3x3xf32>
+  
+  %0 = affine.load %alloc[%arg0, %arg1, %arg2, %arg3] : 
+    memref<32x1x3x3xf32>
+    
+  %1 = arith.addf %0, %0 : f32
+  
+  affine.store %1, %alloc[%arg0, %arg1, %arg2, %arg3] : 
+    memref<32x1x3x3xf32>
+    
+  %reinterpret_cast = memref.reinterpret_cast 
+    %alloc to offset: [0], sizes: [1, 288], strides: [288, 1] 
+    : memref<32x1x3x3xf32> to memref<1x288xf32>
+    
+  return %reinterpret_cast : memref<1x288xf32>
+}
+```
+
+Output:
+
+```cpp
+module {
+  func.func private @posit16es3_add(i16, i16) 
+    -> i16 attributes {llvm.readnone}
+    
+  func.func @test_affineLoadStoreMixed
+    (%arg0: index, %arg1: index, %arg2: index, %arg3: index)
+      -> memref<1x288xi16> {
+      
+    %alloca = memref.alloca() : memref<32x1x3x3xi16>
+    
+    %0 = affine.load %alloca[%arg0, %arg1, %arg2, %arg3] : memref<32x1x3x3xi16>
+    
+    %1 = call @posit16es3_add(%0, %0) : (i16, i16) -> i16
+	  
+    affine.store %1, %alloca[%arg0, %arg1, %arg2, %arg3] : 
+      memref<32x1x3x3xi16>
+    
+    %reinterpret_cast = memref.reinterpret_cast 
+      %alloca to offset: [0], sizes: [1, 288], strides: [288, 1] 
+        : memref<32x1x3x3xi16> to memref<1x288xi16>
+        
+    return %reinterpret_cast : memref<1x288xi16>
+  }
+}
+```
+
+Summary:
+
 # How Do I normally modify the Operation
 
 `replaceOpWithNewOp<NewOpTy>(op) = create<NewOpTy> + replaceOp(op, newOp)`
@@ -31,14 +82,13 @@ Based on MNIST model:
 
 `replaceAllOpUsesWith` = `notifyOperationReplaced` + `replaceAllUsesWith`
 
-`notifyOperationReplaced`: logger for the correspond rewriter.
-
-`replaceAllUsesWith(ValueRange from, ValueRange to)` :
-- Redirects any references from the old value to the new one
-- Iterate the from `results` and to `results` by same index 
-- Set the correspond operand with new value.
-- `make_early_inc_range`: 
-	- The iterator increments immediately after dereferencing, allowing node deletion or insertion without disrupting the process, as long as the next iterator remains valid.
+- `notifyOperationReplaced`: logger for the correspond rewriter.
+- `replaceAllUsesWith(ValueRange from, ValueRange to)` :
+	- Redirects any references from the old value to the new one
+	- Iterate the from `results` and to `results` by same index 
+	- Set the correspond operand with new value.
+	- `make_early_inc_range`: 
+		- The iterator increments immediately after dereferencing, allowing node deletion or insertion without disrupting the process, as long as the next iterator remains valid.
 
 ```cpp
 void replaceAllUsesWith(Value from, Value to) {
@@ -51,8 +101,8 @@ void replaceAllUsesWith(Value from, Value to) {
 
 ```
 
-`modifyOpInPlace`: notify start and end of operation modification with callback.
-`erase(Op)`: Using post order traversal to remove enclosing op one by one.
+- `modifyOpInPlace`: notify start and end of operation modification with callback.
+- `erase(Op)`: Using post order traversal to remove enclosing op one by one.
 
 # Should we do Quantize in compiler stack?
 
@@ -74,27 +124,3 @@ The thing that all of these have in common is that they deal with encoding/layou
 	- For the projected listed above, we can see similar evolution that implement quantization at the frontend instead of compiler stack.
 	- It's more favorable parametrize at runtime but compile time.
 - Is it worth it to preserve the quantization abstraction?
-# Materialization
-
-The code are all look like the same.
-```cpp
-addSourceMaterialization([&](OpBuilder &builder, Type resultType,
-						   ValueRange inputs,
-						   Location loc) -> std::optional<Value> {
-if (inputs.size() != 1)
-  return std::nullopt;
-
-return builder.create<UnrealizedConversionCastOp>(loc, resultType, inputs)
-	.getResult(0);
-});
-
-addTargetMaterialization([&](OpBuilder &builder, Type resultType,
-						   ValueRange inputs,
-						   Location loc) -> std::optional<Value> {
-if (inputs.size() != 1)
-  return std::nullopt;
-
-return builder.create<UnrealizedConversionCastOp>(loc, resultType, inputs)
-	.getResult(0);
-});
-```
