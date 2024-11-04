@@ -1,27 +1,21 @@
-# Task
-
-- Writing a pass that convert all `f32` data type to say, `uint8`
-	- Probably should convert operation 1 by 1.
-- Turn off the constant propagation in posit.
-- `@run_main_graph`
-	- `KrnlEntryPointOpLowering`
-- Universal Wrapper
-	- `NaR` handling.
-
 # Summary
 
 - This week:
-	- Successfully lowered
+	- Based on MNIST model
+		- 
 
-# Not Complete
+# Operation Not Handled
 
-Based on MNIST
-affine: for yield
+Based on MNIST model:
+- affine: `forOp`, `yieldOp`
+- templated basic `arith` operation
 
-# Complete
+# Operation Handled
 
-memref loadop, reinterprete_cast
-affine loadop,
+Based on MNIST model:
+- `memref` dialect
+	- `memref`: `loadop`, `reinterprete_cast`
+- `affine`: `loadop`
 
 Try to get work:
 `./onnx-mlir --EmitMLIR /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
@@ -36,8 +30,8 @@ locate at test/mlir/krnl
 
 # How Do I normally modify the Operation
 
-`replaceOpWithNewOp = create<OpTy> + replaceOp(op, newOp)`
-- Replace the old op's results with a new op's results, ensuring they match. 
+`replaceOpWithNewOp<NewOpTy>(op) = create<NewOpTy> + replaceOp(op, newOp)`
+- Replace the old op's results with a new op's results' values, ensuring they match. 
 - The original op is then erased.
 
 `replaceOp(oldOp, newOp) = replaceAllOpUsesWith(oldOp, newOp->getResults()) + erase(oldOp)`
@@ -66,23 +60,28 @@ void replaceAllUsesWith(Value from, Value to) {
 ```
 
 `modifyOpInPlace`: notify start and end of operation modification with callback.
-
 `erase(Op)`: Using post order traversal to remove enclosing op one by one.
 
-# Quantization
+# Should we do Quantize in compiler stack?
 
-https://discourse.llvm.org/t/rfc-add-suport-for-quantilequantizedtype-in-quant-dialect/80346
+[more quantize feature in quant dialect RFC](https://discourse.llvm.org/t/rfc-add-suport-for-quantilequantizedtype-in-quant-dialect/80346)
 
 ```
 In newer work, I wouldn’t implement this concept at all in MLIR or the compiler proper but in the frontend. There are several examples of convergent evolution on this kind of thing, which show some of the different/related approaches:
 
 - [Pytorch ao 1](https://github.com/pytorch/ao)
 - [Sharktank direct quantization 7](https://github.com/nod-ai/sharktank/blob/main/docs/quantization.md) (my group develops this for certain of our optimized models)
-- [Modular quant encoding 6](https://docs.modular.com/max/api/mojo/graph/quantization/)
+- [Modular quant encoding 6](https://docs.modular.com/max/api/maojo/graph/quantization/)
 
 The thing that all of these have in common is that they deal with encoding/layout/quantization far up the stack with runtime vs compile time parameterization. And they break the problem down at the top vs trying to preserve strong typing of a specific quantization algorithm deep in the compiler type hierarchy.
 ```
 
+- What we can summarize from last week 'quantization' is that:
+	- The quantization abstraction is done with compile time type.
+- Summary of people initiate the quant dialect:
+	- For the projected listed above, we can see similar evolution that implement quantization at the frontend instead of compiler stack.
+	- It's more favorable parametrize at runtime but compile time.
+- Is it worth it to preserve the quantization abstraction?
 # Materialization
 
 The code are all look like the same.
