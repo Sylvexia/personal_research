@@ -15,7 +15,6 @@
 
 # Not Complete
 
-affine storeOp, 
 # Complete
 
 memref loadop, reinterprete_cast
