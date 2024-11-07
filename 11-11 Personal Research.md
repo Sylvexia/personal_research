@@ -8,10 +8,38 @@
 - Universal Wrapper
 	- `NaR` handling.
 
-# Affine For
+# AffineForOp
 
 op.getBody()->getArgument()
+`./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=16 es-val=3' /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_affine.mlir --mlir-print-op-generic`
 
+```cpp
+  "func.func"() <{function_type = (i16) -> (), sym_name = "test_affineForLoop"}> ({
+  ^bb0(%arg0: i16):
+    %0 = "memref.alloca"() <{operandSegmentSizes = array<i32: 0, 0>}> : () -> memref<1x64x14x14xi16>
+    "affine.for"() <{lowerBoundMap = #map1, operandSegmentSizes = array<i32: 0, 0, 0>, step = 1 : index, upperBoundMap = #map4}> ({
+    ^bb0(%arg1: index):
+      "affine.for"() <{lowerBoundMap = #map1, operandSegmentSizes = array<i32: 0, 0, 0>, step = 1 : index, upperBoundMap = #map3}> ({
+      ^bb0(%arg2: index):
+        "affine.for"() <{lowerBoundMap = #map1, operandSegmentSizes = array<i32: 0, 0, 0>, step = 1 : index, upperBoundMap = #map2}> ({
+        ^bb0(%arg3: index):
+          "affine.for"() <{lowerBoundMap = #map1, operandSegmentSizes = array<i32: 0, 0, 0>, step = 1 : index, upperBoundMap = #map2}> ({
+          ^bb0(%arg4: index):
+            "affine.store"(%arg0, %0, %arg2, %arg3, %arg4, %arg1) <{map = #map}> : (i16, memref<1x64x14x14xi16>, index, index, index, index) -> ()
+            "affine.yield"() : () -> ()
+          }) : () -> ()
+          "affine.yield"() : () -> ()
+        }) : () -> ()
+        "affine.yield"() : () -> ()
+      }) : () -> ()
+      "affine.yield"() : () -> ()
+    }) : () -> ()
+    "func.return"() : () -> ()
+  }) : () -> ()
+}) : () -> ()
+
+
+```
 # Affine
 
 See how krnl.iterate works to get affine.
