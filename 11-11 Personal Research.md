@@ -40,6 +40,50 @@ op.getBody()->getArgument()
 
 
 ```
+
+Lowering Affine For
+```cpp
+class AffineForLowering : public OpRewritePattern<AffineForOp> {
+public:
+  using OpRewritePattern<AffineForOp>::OpRewritePattern;
+
+  LogicalResult matchAndRewrite(AffineForOp op,
+                                PatternRewriter &rewriter) const override {
+    Location loc = op.getLoc();
+    Value lowerBound = lowerAffineLowerBound(op, rewriter);
+    Value upperBound = lowerAffineUpperBound(op, rewriter);
+    Value step =
+        rewriter.create<arith::ConstantIndexOp>(loc, op.getStepAsInt());
+    auto scfForOp = rewriter.create<scf::ForOp>(loc, lowerBound, upperBound,
+                                                step, op.getInits());
+    rewriter.eraseBlock(scfForOp.getBody());
+    rewriter.inlineRegionBefore(op.getRegion(), scfForOp.getRegion(),
+                                scfForOp.getRegion().end());
+    rewriter.replaceOp(op, scfForOp.getResults());
+    return success();
+  }
+};
+```
+
+Building AffineFor
+```cpp
+FailureOr<LoopLikeOpInterface> AffineForOp::replaceWithAdditionalYields(
+    RewriterBase &rewriter, ValueRange newInitOperands,
+    bool replaceInitOperandUsesInLoop,
+    const NewYieldValuesFn &newYieldValuesFn) {
+  // Create a new loop before the existing one, with the extra operands.
+  OpBuilder::InsertionGuard g(rewriter);
+  rewriter.setInsertionPoint(getOperation());
+  auto inits = llvm::to_vector(getInits());
+  inits.append(newInitOperands.begin(), newInitOperands.end());
+  AffineForOp newLoop = rewriter.create<AffineForOp>(
+      getLoc(), getLowerBoundOperands(), getLowerBoundMap(),
+      getUpperBoundOperands(), getUpperBoundMap(), getStepAsInt(), inits);
+
+```
+
+what is induction variables?
+
 # Affine
 
 See how krnl.iterate works to get affine.
