@@ -83,6 +83,24 @@ FailureOr<LoopLikeOpInterface> AffineForOp::replaceWithAdditionalYields(
 
 what is induction variables?
 
+```cpp
+/// Helper to replace uses of loop carried values (iter_args) and loop
+/// yield values while promoting single iteration affine.for ops.
+static void replaceIterArgsAndYieldResults(AffineForOp forOp) {
+  // Replace uses of iter arguments with iter operands (initial values).
+  auto iterOperands = forOp.getInits();
+  auto iterArgs = forOp.getRegionIterArgs();
+  for (auto e : llvm::zip(iterOperands, iterArgs))
+    std::get<1>(e).replaceAllUsesWith(std::get<0>(e));
+
+  // Replace uses of loop results with the values yielded by the loop.
+  auto outerResults = forOp.getResults();
+  auto innerResults = forOp.getBody()->getTerminator()->getOperands();
+  for (auto e : llvm::zip(outerResults, innerResults))
+    std::get<0>(e).replaceAllUsesWith(std::get<1>(e));
+}
+```
+
 # Affine
 
 See how krnl.iterate works to get affine.
