@@ -108,6 +108,20 @@ static void replaceIterArgsAndYieldResults(AffineForOp forOp) {
 `buildAffineLoopFromConstants`
 `buildAffineLoopFromValues`
 
+# Modify the operation type
+
+```
+// Method 1: Using Operation::setResultTypes
+SmallVector<Type, 2> newTypes = {builder.getI64Type(), builder.getF32Type()};
+// Note: This is only safe if the new types are compatible with all uses
+op->setResultTypes(newTypes);
+
+// Method 2: Using TypeRange constructor
+ArrayRef<Type> newTypeArray = ArrayRef<Type>(newTypes);
+TypeRange newTypeRange(newTypeArray);
+op->setResultTypes(newTypeRange);
+```
+
 # Affine
 
 See how krnl.iterate works to get affine.
