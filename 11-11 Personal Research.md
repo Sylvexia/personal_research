@@ -105,6 +105,9 @@ static void replaceIterArgsAndYieldResults(AffineForOp forOp) {
 
 `rewriter.convertRegionTypes()`
 
+`buildAffineLoopFromConstants`
+`buildAffineLoopFromValues`
+
 # Affine
 
 See how krnl.iterate works to get affine.
