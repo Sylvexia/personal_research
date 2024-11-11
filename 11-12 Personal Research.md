@@ -105,9 +105,6 @@ static void replaceIterArgsAndYieldResults(AffineForOp forOp) {
 
 `rewriter.convertRegionTypes()`
 
-`buildAffineLoopFromConstants`
-`buildAffineLoopFromValues`
-
 # Modify the operation type
 
 ```
