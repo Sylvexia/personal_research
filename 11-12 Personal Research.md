@@ -44,7 +44,7 @@ return res;
 		- `inductionValue`: the i in for loop: `for(int i=0; i<64; i+=i)`, type: `Value`
 		- `iterArgs`: As aforementioned.
 
-# bodyBuilder Callback
+# `bodyBuilder` Callback
 
 - `BodyBuilder`: `func(builder, loc, inductionValue, iterArgs)`
 
@@ -103,18 +103,28 @@ dump:
 #map1 = affine_map<() -> (0)>
 #map2 = affine_map<() -> (64)>
 "builtin.module"() ({
-  "func.func"() <{function_type = (memref<64xi16>) -> i16, sym_name = "test_affineForLoop"}> ({
+  "func.func"() <{function_type = (memref<64xi16>) -> i16, 
+    sym_name = "test_affineForLoop"}> ({
   ^bb0(%arg0: memref<64xi16>):
     %0 = "arith.constant"() <{value = 0 : i16}> : () -> i16
-    %1 = "affine.for"(%0) <{lowerBoundMap = #map1, operandSegmentSizes = array<i32: 0, 0, 1>, step = 1 : index, upperBoundMap = #map2}> ({
+    
+    %1 = "affine.for"(%0) <{lowerBoundMap = #map1, 
+      operandSegmentSizes = array<i32: 0, 0, 1>, 
+      step = 1 : index, upperBoundMap = #map2}> ({
+      
     ^bb0(%arg1: index, %arg2: f32):
-      %2 = "affine.load"(%arg0, %arg1) <{map = #map}> : (memref<64xi16>, index) -> i16
+      %2 = "affine.load"(%arg0, %arg1) <{map = #map}> 
+        : (memref<64xi16>, index) -> i16
       "affine.yield"(%2) : (i16) -> ()
     }) : (i16) -> i16
     "func.return"(%1) : (i16) -> ()
   }) : () -> ()
 }) : () -> ()
 ```
+
+- Issue:
+	- Created: `^bb0(%arg3: index, %arg4: i16):`
+	- After Conversion: `^bb0(%arg1: index, %arg2: f32):`
 
 - Ask Discord:
 ![](note_image/MLIR_Discord_HELP.png)
