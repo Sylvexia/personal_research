@@ -46,22 +46,27 @@ return res;
 
 # `bodyBuilder` Callback
 
+- The following is trying to insert operations through bodybuilder.
 - `BodyBuilder`: `func(builder, loc, inductionValue, iterArgs)`
 
 ```cpp
-auto bodyBuilder = [&](OpBuilder &nestedBuilder, Location loc, Value iv,
-					 ValueRange iterArgs) {
-// Load from memref: affine.load %arg0[%arg6]
+// %0 = affine.for %arg1 = 0 to 64 
+	// iter_args(%arg2 = %cst_0) -> (f32) {
+auto bodyBuilder = [&](OpBuilder &nestedBuilder, 
+					   Location loc, Value iv, 
+					   ValueRange iterArgs) {
+					 
+// %arg3 = affine.load %arg0[%arg1] : memref<64xf32>
 auto loadOp = nestedBuilder.create<affine::AffineLoadOp>(
 	loc, memrefArg, ValueRange{iv});
 
-// Add loaded value to accumulator: arith.addf %arg8, %arg7
+// %arg3 = affine.load %arg0[%arg1] : memref<64xf32>
 Value addResult =
-	nestedBuilder.create<arith::AddFOp>(loc, loadOp.getResult(),
-		iterArgs[0] // Current accumulator value
+	nestedBuilder.create<arith::AddFOp>(loc, 
+		loadOp.getResult(), iterArgs[0]
 	);
 
-// Yield the result
+// affine.yield %arg4 : f32
 nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 };
 ```
@@ -79,7 +84,7 @@ nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 		rewriter.replaceOp(op, scfForOp.getResults());
 		```
 - Create `scf::ForOp` and replace `affine::ForOp`
-	1. Create `scf::ForOp`
+	1. Create `scf::ForOp` with original `IterArgs`
 	2. Clear `scf::ForOp` block (operation inside `scf::ForOp`)
 	3. Insert `affine::ForOp` to `scf::ForOp` body
 		```cpp
@@ -92,24 +97,26 @@ nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 		}
 		```
 	4. Replace `affine::ForOp` result used with `Scf::ForOp`
+- Basically now we apply the same trick, create new type converted `forOp` and same goes later...
 
 # Oh no it Failed
 
-errors:
+- errors:
 ```cpp
 ./test_affine.mlir:34:8: error: 'affine.for' op 0-th init and 0-th region iter_arg have different type: 'i16' != 'f32'                                                %0 = affine.for %arg6 = 0 to 64 iter_args(%arg7 = %cst_0) -> (f32) {
 ```
 
-`newForOp` Log:
+- `newForOp` Log:
 ```cpp
 newForOp: %2 = "affine.for"(%0) <{lowerBoundMap = affine_map<() -> (0)>, operandSegmentSizes = array<i32: 0, 0, 1>, step = 1 : index, upperBoundMap = affine_map<() -> (64)>}> ({
 ^bb0(%arg3: index, %arg4: i16):
 }) : (i16) -> i16 
 ```
 
-- The error came from the iter_args does not
+- The error seemed to come from the `iterArgs` type does not handled properly
+- However logged the newly create operation does show the `iterArgs` has converted type.
 
-Error dump:
+Error dump(generic form):
 
 ```cpp
 // -----// IR Dump After ConvertArithToPositFuncPass Failed (convert-arith-to-posit-func) //----- //
@@ -128,10 +135,14 @@ Error dump:
       step = 1 : index, upperBoundMap = #map2}> 
       ({
 	    ^bb0(%arg1: index, %arg2: f32):
+	    
 	    %2 = "affine.load"(%arg0, %arg1) <{map = #map}> 
 		    : (memref<64xi16>, index) -> i16
+		    
 	    "affine.yield"(%2) : (i16) -> ()
+	    
 	  }) : (i16) -> i16
+	  
     "func.return"(%1) : (i16) -> ()
   }) : () -> ()
 }) : () -> ()
@@ -140,7 +151,8 @@ Error dump:
 - Issue:
 	- Created: `^bb0(%arg3: index, %arg4: i16):`
 	- After Conversion: `^bb0(%arg1: index, %arg2: f32):`
-	- The block argument
+	- From the after-failed log, we see that block argument does not handled properly.
+	- I guess the old region override the new converted block argument??
 
 - Ask Discord:
 ![](note_image/MLIR_Discord_HELP.png)
