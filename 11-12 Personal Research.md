@@ -7,8 +7,10 @@
 	- `KrnlEntryPointOpLowering`
 - Universal Wrapper
 	- `NaR` handling.
+# Summary:
 
-# What does forOp consist of?
+1. Failed to lower `AffineForOp`
+# What does `forOp` consist of?
 
 ```cpp
 Value initConstant = builder.create<arith::ConstantFloatOp>(
