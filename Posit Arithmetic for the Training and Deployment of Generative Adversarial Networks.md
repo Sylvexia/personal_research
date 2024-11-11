@@ -29,7 +29,7 @@ style: |-
 
 - This paper is trying to train and infer GAN model with lower bit data.
 - Small numerical error can cause GAN training failure.
-- Posit floating point data have more precision then normal floating data when value exponent close to zero.
+- Posit floating point have more precision then normal floating when exponent close to zero.
 - Scale the weight and loss to where posit good at to exploit the bit width.
 
 ---
@@ -60,24 +60,24 @@ style: |-
 	- $\text{n-bit}$: length of bits, $es=3$: max length of exponent.
 	- $es$ would decide scale $\text{useed} = 2^{2^{es}}$
 - Format:
-	- sign: 0 is $+$, 1 is $-$
-	- regime: 
+	- <span style="color:red">sign</span>: 0 is $+$, 1 is $-$
+	- <span style="color:orange">regime</span>: 
 		- resizable bit, decide the k scale.
 		- duplicate leading $0/1$ and stop with opposite bit.
 		- $110: k = 1$, $10: k = 0$, $01: k = -1$, $001: k = -2$
 		- This term scale the value $\text{useed}^k = ({2^{2^{es}}})^k$
-	- exponent: same as IEEE754 exponent, but must be positive and no bias.
-	- fraction: same as IEEE754 fraction.
+	- <span style="color:blue">exponent</span>: same as IEEE754 exponent, but must be positive and no bias.
+	- **fraction**: same as IEEE754 fraction.
 ---
 ## What is Posit?
 
 - Examples:
 	- $\text{posit<16,3>}$, $es = 3$, $\text{useed} = 2^{2^{3}}$
-	- sign bit 0 means it's positive  
-	- regime pattern $0001 \rightarrow$  $k=-3$
+	- <span style="color:red">sign</span> bit 0 means it's positive  
+	- <span style="color:orange">regime</span> pattern $0001 \rightarrow$  $k=-3$
 		- regime term is $\text{useed}^k = ({2^{2^{3}}})^{-3} = 2^{-24} = {256}^{-3}$
-	- exponent pattern $\text{binary}{(101)} = 5$, exponent term is $2^5$
-	- fraction term is $1+f_1+f_2+f_3+f_4...$+ while $f_n = 2^{-n}$
+	- <span style="color:blue">exponent</span> pattern $\text{binary}{(101)} = 5$, exponent term is $2^5$
+	- **fraction** term is $1+f_1+f_2+f_3+f_4...$+ while $f_n = 2^{-n}$
 	- multiply each terms to get the final value.
 ![center h:240](paper_speech_image/posit_example.png)
 ---
@@ -85,17 +85,17 @@ style: |-
 
 - Properties:
 	- The carry of the posit exponent:
-		- 0,001,111,<span style="color:red">0</span> $\rightarrow$ 
-		- 0,01,000,<span style="color:red">00</span>
-		- regime one bit shorter, freed one fraction bit.
-	- If the full value exponent is closer to zero -> regime bit is shorter -> more space for fraction -> which means more precision.
+		- <span style="color:red">0</span>,<span style="color:orange">001</span>,<span style="color:blue">111</span>,0 $\rightarrow$ 
+		- <span style="color:red">0</span>,<span style="color:orange">001</span>,<span style="color:blue">11</span>,00 
+    - <span style="color:orange">regime</span> one bit shorter, freed one **fraction** bit.
+	- If the full value <span style="color:blue">exponent</span> is closer to zero $\rightarrow$ <span style="color:orange">regime</span> bit is shorter $\rightarrow$  more space for **fraction** $\rightarrow$  which means more precision.
 	- Under same $es$, conversion between n-bits requires only remove/pad zeros. 
 ![center h:240](paper_speech_image/posit_example.png)
 
 ---
 ## Contribution:
 
-- The first to use non-standard 8-bit FP format to train GAN and 6-bit FP format for GAN inference.
+- The first to use non-standard <span style="color:red">8-bit</span> FP format to train GAN and <span style="color:red">6-bit</span> FP format for GAN inference.
 - Fast approximation of $\tanh(x)$ function in posit.
 - Software and Hardware Evaluation of GAN in posit and other FP format.
 
@@ -107,14 +107,14 @@ style: |-
 	- At that time, the only reliable method to train GAN was to use Nvidia mixed-precision framework to train GAN.
 		- Nvidia O1 mode: Only use FP16 for GEMM operator, and others are FP32
 	- No other proposal use bit width 8 to train GAN at that time.
-		- Binary training, 8-bit training do exist but not include GAN.
+		- Binary training, 8-bit training did exist but not include GAN.
 
 ---
 
 ## Why GAN is hard to train? 
 
 - My insight
-	- Sensitive to hyperparameter (e.g. learning rate)
+	- Sensitive to hyperparameter
 	- Mode Collapse:
 		- G Generate only generate same images.
 	- Diminished gradient:
@@ -126,9 +126,9 @@ style: |-
 - The height is frequency of $\log_2(|\text{values}|)$
 - W: weight, A: Activation, G: Generator, D: Discriminator
 - 0%, 50%, 100% means training epoch progress.
-	- Value does not change much across epoch
+	- Value does not change much <span style="color:red">across epoch</span>
 - Weights are concentrated in $2^{-4}$ to $2^{-5}$, need to handle
-- Activations are concentrated in $2^{-2}$ to $2^{0}$, no need to handle
+- <span style="color:red">Activations</span> are concentrated in $2^{-2}$ to $2^{0}$, no need to handle
 ![h:320 center](posit_gan_image/Value_Distribution.png)
 
 ---
@@ -137,8 +137,8 @@ style: |-
 
 - Biased Encoder/Decoder:
 	- For add/subtract "$t$" in exponent bit in posit data.
-		- This scales power of 2.
-		- Irrelevant to model architecture!
+		- This <span style="color:red">scales power of 2</span>.
+		- <span style="color:red">Irrelevant</span> to model architecture!
 	- Encoder: $\{S, R, E + t, F\} \rightarrow \{P\}$ : scaler
 	- Decoder: $\{P, t\} \rightarrow \{S, R, E - t, F\}$ : de-scaler
 	- The weight is stored scaled format.
@@ -150,7 +150,7 @@ style: |-
 ## Proposed Method: System architecture
 
 - Architecture:
-  - W: weights, A: activation values, G: gradient, E: error
+  - W: weights, A: activation values, G: gradient, E: error, $\oplus$: dot product
   - The dot product between $W \cdot A$ and $E \cdot A$ involves two $\text{posit<8, 2>}$ multiplication and output is $\text{posit<16,2>}$
 ![h:300 center](posit_gan_image/system_arch.png)
 ---
@@ -196,8 +196,9 @@ style: |-
 
 ## Proposed Method: Parameter Scaling
 
-- In posit, value near exponent 0 has the most accuracy. Hence scale the value is helpful.
-	- Weight scaling does not work in normal FP since the accuracy distribution is flat.
+- In posit, value near exponent 0 has the most accuracy
+  - Hence scale the value is helpful.
+	- Normal FP scaling doesn't work since the accuracy distribution is <span style="color:red">flat</span>.
 - The weight is decoded before multiply-add operation. Then encode after that.
 	- Weights are kept scaled in weight update.
 ![h:360 center](paper_speech_image/precision.png)
@@ -212,7 +213,7 @@ style: |-
 	- $\{ \text{bins}, \text{frequencies} \} = \text{histogram}\left( \log_2 \left( |W| \right) \right)$
 	- $t = \left\lfloor 0 - \text{bins}\left[\arg\max(\text{frequencies})\right] \right\rfloor$, 
 		- $t$ is integer, $\arg\max$ is the index of max array element.
-	- Insight: $t$ shift the histogram such that the highest peak is 0
+	- Insight: $t$ shift the histogram such that the <span style="color:red">highest peak is 0</span>
 	![center h:240](posit_gan_image/Value_Distribution.png)
 
 ---
@@ -221,7 +222,7 @@ style: |-
 
 - From experiment: Across different GANs, the t value is `3~5`
 	- Insight: $es$ is 2, so it freed 1 to 3 bits of fraction.
-- Use only the first iteration histogram to set the `t`
+- Use only the <span style="color:red">first iteration</span> histogram to set the `t`
 	- Further calibration through iteration does not payoff.
 	- The value distribution does not change much during training.
 
@@ -231,10 +232,10 @@ style: |-
 - Loss Scaling is standard approach in low precision training.
 	- Prevents small gradient values from being rounded to zero.
 - Steps:
-	- **During** the gradient calculation, scale by $s$.
+	- <span style="color:red">**During**</span> the gradient calculation, scale by $s$.
 	- After the gradient is calculated, scale the value back.
 	- Use the gradient to update weight.
-- Insight: Loss is a concept, since in back propagation, **loss value itself is not used**.
+- Insight: Loss is a concept, since in back propagation, <span style="color:red">**loss value itself is not used**</span>.
 	- $\frac{\partial L}{\partial W^{(l)}} = \frac{\partial L}{\partial a^{(l)}} \cdot \frac{\partial a^{(l)}}{\partial z^{(l)}} \cdot \frac{\partial z^{(l)}}{\partial W^{(l)}} = \frac{\partial L}{\partial a^{(l)}} \cdot \sigma'(z^{(l)}) \cdot (a^{(l-1)})^T$
 	- Let's say loss is MSE: $\frac{\partial L}{\partial a^{(l)}} = a^{(l)} - y$
 - Conventional method: (float)
@@ -277,7 +278,7 @@ style: |-
 
 - Training quality:
 	- The configuration is the same for different format.
-		- random number generator state, default optimizer hyper parameters, and the number of epochs set by the original work
+		- random number generator state, default optimizer hyper parameters, and the number of epochs same as the original work
 	- GAN train with different format would give different output.
 		- Zebra stripe are different on the top row.
 		- Same input vector in latent space give different output at the bottom row.
@@ -339,7 +340,7 @@ style: |-
 ---
 ## Conclusion
 
-- Presents ways to train GAN in 8-bit and proceed inference in 6-bit
+- Presents ways to train GAN in <span style="color:red">8-bit</span> and proceed inference in <span style="color:red">6-bit</span>
 - Using modified `PyTorch` allows to experiment with different training schemes.
 - Hardware simulation shows posit has better energy and runtime.
 - Once low precision accelerator emerged, the proposed method could be promising.
@@ -361,7 +362,7 @@ style: |-
 ---
 ## My Takeaway:
 
-- Take a moment on what $es$ value relate to precision: [ref](https://link.springer.com/chapter/10.1007/978-3-031-32180-1_9)
+- Take a moment to rethink on what $es$ value relate to precision: [ref](https://link.springer.com/chapter/10.1007/978-3-031-32180-1_9)
 ![h:360 center](posit_gan_image/precision_es.png)
 
 
@@ -369,6 +370,8 @@ style: |-
 ## Sharing:
 
 ### [塔羅牌占卜 taroscope.ai](https://www.taroscope.ai)
+
+---
 
 - [問題: 實驗室的同伴未來能不能得到幸福?](https://www.taroscope.ai/basic?answer=67210c0e8e99aa2b7844e20a)
 ![h:360 center](posit_gan_image/taroscope.png)
