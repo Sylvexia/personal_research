@@ -43,6 +43,39 @@ return res;
 		- `BodyBuilder` is a callback function for building operations in `forOp` body
 		- `inductionValue`: the i in for loop: `for(int i=0; i<64; i+=i)`, type: `Value`
 		- `iterArgs`: As aforementioned.
+
+# bodyBuilder Callback
+
+- `BodyBuilder`: `func(builder, loc, inductionValue, iterArgs)`
+
+```cpp
+  auto bodyBuilder = [&](OpBuilder &nestedBuilder, Location loc, Value iv,
+                         ValueRange iterArgs) {
+    // Load from memref: affine.load %arg0[%arg6]
+    auto loadOp = nestedBuilder.create<affine::AffineLoadOp>(
+        loc, memrefArg, ValueRange{iv});
+
+    // Add loaded value to accumulator: arith.addf %arg8, %arg7
+    Value addResult =
+        nestedBuilder.create<arith::AddFOp>(loc, loadOp.getResult(),
+            iterArgs[0] // Current accumulator value
+        );
+
+    // Yield the result
+    nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
+  };
+```
+
+
+
+# Don't know how to lower??
+
+- Ask Discord:
+![](note_image/MLIR_Discord_HELP.png)
+
+
+
+
 # What is Region/Block ?
 
 # AffineForOp
