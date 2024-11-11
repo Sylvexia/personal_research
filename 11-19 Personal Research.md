@@ -26,5 +26,15 @@ void modifyBlockArgumentType(FuncOp funcOp, unsigned argIndex, Type newType) {
   // Erase the old block
   entryBlock.erase();
 }
+```
 
+```cpp
+    // op.getRegionIterArgs();
+    // getBody(0)->getArguments().drop_front();
+
+    // op.getInductionVar();
+    // getBody(0)->getArgument(0);
+
+    // op.getBody(0);
+    // region[0].front()
 ```
