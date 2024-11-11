@@ -49,24 +49,22 @@ return res;
 - `BodyBuilder`: `func(builder, loc, inductionValue, iterArgs)`
 
 ```cpp
-  auto bodyBuilder = [&](OpBuilder &nestedBuilder, Location loc, Value iv,
-                         ValueRange iterArgs) {
-    // Load from memref: affine.load %arg0[%arg6]
-    auto loadOp = nestedBuilder.create<affine::AffineLoadOp>(
-        loc, memrefArg, ValueRange{iv});
+auto bodyBuilder = [&](OpBuilder &nestedBuilder, Location loc, Value iv,
+					 ValueRange iterArgs) {
+// Load from memref: affine.load %arg0[%arg6]
+auto loadOp = nestedBuilder.create<affine::AffineLoadOp>(
+	loc, memrefArg, ValueRange{iv});
 
-    // Add loaded value to accumulator: arith.addf %arg8, %arg7
-    Value addResult =
-        nestedBuilder.create<arith::AddFOp>(loc, loadOp.getResult(),
-            iterArgs[0] // Current accumulator value
-        );
+// Add loaded value to accumulator: arith.addf %arg8, %arg7
+Value addResult =
+	nestedBuilder.create<arith::AddFOp>(loc, loadOp.getResult(),
+		iterArgs[0] // Current accumulator value
+	);
 
-    // Yield the result
-    nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
-  };
+// Yield the result
+nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
+};
 ```
-
-
 
 # Don't know how to lower??
 
@@ -81,8 +79,9 @@ return res;
 				scfForOp.getRegion().end());
 		rewriter.replaceOp(op, scfForOp.getResults());
 		```
+- 
 
-newForOp:
+newForOp Log:
 ```cpp
 newForOp: %2 = "affine.for"(%0) <{lowerBoundMap = affine_map<() -> (0)>, operandSegmentSizes = array<i32: 0, 0, 1>, step = 1 : index, upperBoundMap = affine_map<() -> (64)>}> ({
 ^bb0(%arg3: index, %arg4: i16):
