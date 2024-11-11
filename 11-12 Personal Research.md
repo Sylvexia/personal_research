@@ -92,12 +92,16 @@ newForOp:
 	({
 		^bb0(%arg3: index, %arg4: i16):
 	}) : (i16) -> i16
+	
+error: failed to legalize unresolved materialization from 'f32' to 'i16' that remained live after conversion
+    %arg9 = arith.addf %arg8, %arg7 : f32
+            ^
+./test_affine.mlir:36:13: note: see current operation: %6 = "builtin.unrealized_conversion_cast"(%5) : (f32) -> i16
+./test_affine.mlir:36:13: note: see existing live user here: %9 = "func.call"(%7, %6) <{callee = @posit16es3_add}> : (i16, i16) -> i16
 ```
 
 - Ask Discord:
 ![](note_image/MLIR_Discord_HELP.png)
-
-
 
 
 # What is Region/Block ?
