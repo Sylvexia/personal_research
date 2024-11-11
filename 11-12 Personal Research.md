@@ -79,9 +79,11 @@ nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 				scfForOp.getRegion().end());
 		rewriter.replaceOp(op, scfForOp.getResults());
 		```
-- 
+- Create `scf::ForOp` and replace `affine::ForOp`
+- Clear scf::For 
+- Insert `affine::ForOp` to `scf::ForOp`
 
-newForOp Log:
+`newForOp` Log:
 ```cpp
 newForOp: %2 = "affine.for"(%0) <{lowerBoundMap = affine_map<() -> (0)>, operandSegmentSizes = array<i32: 0, 0, 1>, step = 1 : index, upperBoundMap = affine_map<() -> (64)>}> ({
 ^bb0(%arg3: index, %arg4: i16):
