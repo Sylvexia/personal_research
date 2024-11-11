@@ -70,6 +70,30 @@ return res;
 
 # Don't know how to lower??
 
+- Refer to existing implementation:
+	- Lowering `affine::ForOp` to `scf::ForOp`
+		```cpp
+		    auto scfForOp = rewriter.create<scf::ForOp>
+		    (loc, lowerBound, upperBound, step, op.getInits());
+		    rewriter.eraseBlock(scfForOp.getBody());
+		    rewriter.inlineRegionBefore
+			    (op.getRegion(), scfForOp.getRegion(),
+                    scfForOp.getRegion().end());
+			rewriter.replaceOp(op, scfForOp.getResults());
+		```
+
+errors:
+```cpp
+newForOp: 
+%2 = "affine.for"(%0) 
+	<{lowerBoundMap = affine_map<() -> (0)>, 
+	operandSegmentSizes = array<i32: 0, 0, 1>, 
+	step = 1 : index, upperBoundMap = affine_map<() -> (64)>}> 
+	({
+		^bb0(%arg3: index, %arg4: i16):
+	}) : (i16) -> i16
+```
+
 - Ask Discord:
 ![](note_image/MLIR_Discord_HELP.png)
 
