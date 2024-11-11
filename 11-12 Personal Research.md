@@ -82,22 +82,38 @@ return res;
 		rewriter.replaceOp(op, scfForOp.getResults());
 		```
 
+newForOp:
+```cpp
+newForOp: %2 = "affine.for"(%0) <{lowerBoundMap = affine_map<() -> (0)>, operandSegmentSizes = array<i32: 0, 0, 1>, step = 1 : index, upperBoundMap = affine_map<() -> (64)>}> ({
+^bb0(%arg3: index, %arg4: i16):
+}) : (i16) -> i16 
+```
+
 errors:
 ```cpp
-newForOp: 
-%2 = "affine.for"(%0) 
-	<{lowerBoundMap = affine_map<() -> (0)>, 
-	operandSegmentSizes = array<i32: 0, 0, 1>, 
-	step = 1 : index, upperBoundMap = affine_map<() -> (64)>}> 
-	({
-		^bb0(%arg3: index, %arg4: i16):
-	}) : (i16) -> i16
-	
-error: failed to legalize unresolved materialization from 'f32' to 'i16' that remained live after conversion
-    %arg9 = arith.addf %arg8, %arg7 : f32
-            ^
-./test_affine.mlir:36:13: note: see current operation: %6 = "builtin.unrealized_conversion_cast"(%5) : (f32) -> i16
-./test_affine.mlir:36:13: note: see existing live user here: %9 = "func.call"(%7, %6) <{callee = @posit16es3_add}> : (i16, i16) -> i16
+./test_affine.mlir:34:8: error: 'affine.for' op 0-th init and 0-th region iter_arg have different type: 'i16' != 'f32'                                                %0 = affine.for %arg6 = 0 to 64 iter_args(%arg7 = %cst_0) -> (f32) {
+```
+
+dump:
+
+```cpp
+// -----// IR Dump After ConvertArithToPositFuncPass Failed (convert-arith-to-posit-func) //----- //
+
+#map = affine_map<(d0) -> (d0)>
+#map1 = affine_map<() -> (0)>
+#map2 = affine_map<() -> (64)>
+"builtin.module"() ({
+  "func.func"() <{function_type = (memref<64xi16>) -> i16, sym_name = "test_affineForLoop"}> ({
+  ^bb0(%arg0: memref<64xi16>):
+    %0 = "arith.constant"() <{value = 0 : i16}> : () -> i16
+    %1 = "affine.for"(%0) <{lowerBoundMap = #map1, operandSegmentSizes = array<i32: 0, 0, 1>, step = 1 : index, upperBoundMap = #map2}> ({
+    ^bb0(%arg1: index, %arg2: f32):
+      %2 = "affine.load"(%arg0, %arg1) <{map = #map}> : (memref<64xi16>, index) -> i16
+      "affine.yield"(%2) : (i16) -> ()
+    }) : (i16) -> i16
+    "func.return"(%1) : (i16) -> ()
+  }) : () -> ()
+}) : () -> ()
 ```
 
 - Ask Discord:
