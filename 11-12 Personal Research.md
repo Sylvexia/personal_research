@@ -73,13 +73,13 @@ return res;
 - Refer to existing implementation:
 	- Lowering `affine::ForOp` to `scf::ForOp`
 		```cpp
-		    auto scfForOp = rewriter.create<scf::ForOp>
-		    (loc, lowerBound, upperBound, step, op.getInits());
-		    rewriter.eraseBlock(scfForOp.getBody());
-		    rewriter.inlineRegionBefore
-			    (op.getRegion(), scfForOp.getRegion(),
-                    scfForOp.getRegion().end());
-			rewriter.replaceOp(op, scfForOp.getResults());
+		auto scfForOp = rewriter.create<scf::ForOp>
+		(loc, lowerBound, upperBound, step, op.getInits());
+		rewriter.eraseBlock(scfForOp.getBody());
+		rewriter.inlineRegionBefore
+			(op.getRegion(), scfForOp.getRegion(),
+				scfForOp.getRegion().end());
+		rewriter.replaceOp(op, scfForOp.getResults());
 		```
 
 errors:
