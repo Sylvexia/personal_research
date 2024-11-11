@@ -79,8 +79,9 @@ nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 		rewriter.replaceOp(op, scfForOp.getResults());
 		```
 - Create `scf::ForOp` and replace `affine::ForOp`
-	1. Clear `scf::ForOp` block (operation inside `scf::ForOp`)
-	2. Insert `affine::ForOp` to `scf::ForOp` body
+	1. Create `scf::ForOp`
+	2. Clear `scf::ForOp` block (operation inside `scf::ForOp`)
+	3. Insert `affine::ForOp` to `scf::ForOp` body
 		```cpp
 		ScfFor
 		{
@@ -90,7 +91,14 @@ nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 			}
 		}
 		```
-	3. Replace `affine::ForOp` result used with `Scf::ForOp`
+	4. Replace `affine::ForOp` result used with `Scf::ForOp`
+
+# Oh no it Failed
+
+errors:
+```cpp
+./test_affine.mlir:34:8: error: 'affine.for' op 0-th init and 0-th region iter_arg have different type: 'i16' != 'f32'                                                %0 = affine.for %arg6 = 0 to 64 iter_args(%arg7 = %cst_0) -> (f32) {
+```
 
 `newForOp` Log:
 ```cpp
@@ -99,10 +107,7 @@ newForOp: %2 = "affine.for"(%0) <{lowerBoundMap = affine_map<() -> (0)>, operand
 }) : (i16) -> i16 
 ```
 
-errors:
-```cpp
-./test_affine.mlir:34:8: error: 'affine.for' op 0-th init and 0-th region iter_arg have different type: 'i16' != 'f32'                                                %0 = affine.for %arg6 = 0 to 64 iter_args(%arg7 = %cst_0) -> (f32) {
-```
+- The error came from the iter_args does not
 
 Error dump:
 
