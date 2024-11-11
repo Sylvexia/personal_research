@@ -8,6 +8,41 @@
 - Universal Wrapper
 	- `NaR` handling.
 
+# What does forOp consist of?
+
+```cpp
+Value initConstant = builder.create<arith::ConstantFloatOp>(
+      builder.getUnknownLoc(), 
+      APFloat(3.2f), builder.getF32Type());
+auto forOp = builder.create<affine::AffineForOp>
+  (
+    builder.getUnknownLoc(), // location
+	0,                       // lower bound
+	64,                      // upper bound
+	1,                       // step
+	initConstant,            // IterArgs
+	bodyBuilder              // bodyBuilder function
+  );
+```
+
+Equivalent C++:
+
+```cpp
+for(int i = 0, float res = 3.2f; i < 64; i += 1)
+{
+	res = bodyBuilder(i, res);
+}
+return res;
+```
+- The `AffineForOp` can return values
+- The most important is `IterArgs` and `bodyBuilder`
+	- `IterArgs`:  `ValueRage`
+		- Loop carried variables.
+		- The number of `IterArgs` is equivalent to the number of results.
+	- `BodyBuilder`: `func(builder, loc, inductionValue, iterArgs)`
+		- `BodyBuilder` is a callback function for building operations in `forOp` body
+		- `inductionValue`: the i in for loop: `for(int i=0; i<64; i+=i)`, type: `Value`
+		- `iterArgs`: As aforementioned.
 # What is Region/Block ?
 
 # AffineForOp
