@@ -65,7 +65,6 @@ Value addResult =
 nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 };
 ```
-
 # Don't know how to lower??
 
 - Refer to existing implementation:
@@ -80,8 +79,18 @@ nestedBuilder.create<affine::AffineYieldOp>(loc, addResult);
 		rewriter.replaceOp(op, scfForOp.getResults());
 		```
 - Create `scf::ForOp` and replace `affine::ForOp`
-- Clear scf::For 
-- Insert `affine::ForOp` to `scf::ForOp`
+	1. Clear `scf::ForOp` block (operation inside `scf::ForOp`)
+	2. Insert `affine::ForOp` to `scf::ForOp` body
+		```cpp
+		ScfFor
+		{
+			AffineFor{
+				// Operations
+				yield f32
+			}
+		}
+		```
+	3. Replace `affine::ForOp` result used with `Scf::ForOp`
 
 `newForOp` Log:
 ```cpp
@@ -95,7 +104,7 @@ errors:
 ./test_affine.mlir:34:8: error: 'affine.for' op 0-th init and 0-th region iter_arg have different type: 'i16' != 'f32'                                                %0 = affine.for %arg6 = 0 to 64 iter_args(%arg7 = %cst_0) -> (f32) {
 ```
 
-dump:
+Error dump:
 
 ```cpp
 // -----// IR Dump After ConvertArithToPositFuncPass Failed (convert-arith-to-posit-func) //----- //
@@ -111,13 +120,13 @@ dump:
     
     %1 = "affine.for"(%0) <{lowerBoundMap = #map1, 
       operandSegmentSizes = array<i32: 0, 0, 1>, 
-      step = 1 : index, upperBoundMap = #map2}> ({
-      
-    ^bb0(%arg1: index, %arg2: f32):
-      %2 = "affine.load"(%arg0, %arg1) <{map = #map}> 
-        : (memref<64xi16>, index) -> i16
-      "affine.yield"(%2) : (i16) -> ()
-    }) : (i16) -> i16
+      step = 1 : index, upperBoundMap = #map2}> 
+      ({
+	    ^bb0(%arg1: index, %arg2: f32):
+	    %2 = "affine.load"(%arg0, %arg1) <{map = #map}> 
+		    : (memref<64xi16>, index) -> i16
+	    "affine.yield"(%2) : (i16) -> ()
+	  }) : (i16) -> i16
     "func.return"(%1) : (i16) -> ()
   }) : () -> ()
 }) : () -> ()
@@ -126,12 +135,11 @@ dump:
 - Issue:
 	- Created: `^bb0(%arg3: index, %arg4: i16):`
 	- After Conversion: `^bb0(%arg1: index, %arg2: f32):`
+	- The block argument
 
 - Ask Discord:
 ![](note_image/MLIR_Discord_HELP.png)
-
-
-# What is Region/Block ?
+- Basically it doesn't help. Might go to MLIR forum and ask.
 
 # AffineForOp
 
