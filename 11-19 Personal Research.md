@@ -39,6 +39,8 @@ void modifyBlockArgumentType(FuncOp funcOp, unsigned argIndex, Type newType) {
     // region[0].front()
 ```
 
+inlineBlockBefore = replacealluse(block argument) + dest->getOperations().splice
+
 # The fix:
 ```cpp
 auto newIterArgs = newForOp.getRegionIterArgs();
