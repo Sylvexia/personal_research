@@ -28,8 +28,6 @@ void modifyBlockArgumentType(FuncOp funcOp, unsigned argIndex, Type newType) {
 }
 ```
 
-moveLoopBody
-
 ```cpp
     // op.getRegionIterArgs();
     // getBody(0)->getArguments().drop_front();
