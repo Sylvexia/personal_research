@@ -38,3 +38,14 @@ void modifyBlockArgumentType(FuncOp funcOp, unsigned argIndex, Type newType) {
     // op.getBody(0);
     // region[0].front()
 ```
+
+# The fix:
+```cpp
+auto newIterArgs = newForOp.getRegionIterArgs();
+for (auto &arg : newIterArgs) {
+  auto newArgType = getTypeConverter()->convertType(arg.getType());
+  if (!newArgType)
+	return failure();
+  arg.setType(newArgType);
+}
+```
