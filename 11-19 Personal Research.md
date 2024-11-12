@@ -49,3 +49,11 @@ for (auto &arg : newIterArgs) {
   arg.setType(newArgType);
 }
 ```
+
+AsyncToLLVM.cpp:
+ConvertExecuteOpTypes
+cloneOp
+inlineRegion
+setOperands
+getresults
+replaceOp
