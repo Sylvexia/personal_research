@@ -63,7 +63,7 @@ replaceOp
 
 rewriter.modifyOpInPlace
 
-arith.cmpf
+%9 = arith.cmpf oge, %8, %cst_0 : f32
 
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
