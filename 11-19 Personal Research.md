@@ -330,7 +330,7 @@ module attributes {llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i6
           %12 = affine.load %7[%arg2, %arg3] : memref<10x128xi8>
           %13 = func.call @posit8es3_mul(%11, %12) : (i8, i8) -> i8
           %14 = affine.load %alloca_9[] : memref<i8>
-          %15 = func.call @posit8es3_add(%13, %14) : (i8, i8) -> i8
+          %15 = func.call @posit8es3_oge(%13, %14) : (i8, i8) -> i8
           affine.store %15, %alloca_9[] : memref<i8>
         }
         %8 = affine.load %alloca_9[] : memref<i8>
@@ -343,4 +343,15 @@ module attributes {llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i6
   }
   "krnl.entry_point"() {func = @main_graph, numInputs = 1 : i32, numOutputs = 1 : i32, signature = "[    { \22type\22 : \22f32\22 , \22dims\22 : [1 , 1 , 28 , 28] , \22name\22 : \22x.1\22 }\0A\0A]\00@[   { \22type\22 : \22f32\22 , \22dims\22 : [1 , 10] , \22name\22 : \2219\22 }\0A\0A]\00"} : () -> ()
 }
+```
+
+# universal lib
+
+@posit8es3_oge
+
+We need to 
+```cpp
+template<unsigned _nbits, unsigned _es>
+class posit {
+...
 ```
