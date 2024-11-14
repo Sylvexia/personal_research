@@ -1,4 +1,7 @@
-
+successfully lowered:
+- affine For
+- cmpf
+- 
 # What is Region/Block ?
 
 ```cpp
