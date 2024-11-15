@@ -55,28 +55,7 @@ public:
 	- Convert and set operands and result type.
 - The similarity is create new op and convert the new op afterwards.
 
-# ArithOps Lowering
-
-- Templated way to convert with op type, op string and posit config.
-```cpp
-  populateArithBinOpPositPattern<arith::AddFOp>(
-      patterns, typeConverter, "add", _n_bits, _es_val);
-  populateArithBinOpPositPattern<arith::SubFOp>(
-      patterns, typeConverter, "sub", _n_bits, _es_val);
-  populateArithBinOpPositPattern<arith::MulFOp>(
-      patterns, typeConverter, "mul", _n_bits, _es_val);
-  populateArithBinOpPositPattern<arith::DivFOp>(
-      patterns, typeConverter, "div", _n_bits, _es_val);
-  populateArithBinOpPositPattern<arith::SelectOp>(
-      patterns, typeConverter, "select", _n_bits, _es_val);
-```
-
-- `SelectOp`: `(cond) ? a : b`
-	- 
-# CmpOps Lowering
-
-- Currently not in templated way since the result is force to be i1 (Boolean)
-- Predicates:
+# Two Arith Ops: `cmpf`, `select`
 
 | Symbol      | Value | String | Symbol     | Value | String |
 | ----------- | ----- | ------ | ---------- | ----- | ------ |
@@ -88,8 +67,32 @@ public:
 | OLE         | `5`   | ole    | UNE        | 13    | une    |
 | ONE         | `6`   | one    | UNO        | 14    | uno    |
 | ORD         | `7`   | ord    | AlwaysTrue | 15    | true   |
+- `CmpfOp`: `bool_res = predicate(x, y) -> bool`
+- `SelectOp`: `res = (cond) ? a : b`
+	```cpp
+	%cond = arith.cmpf ogt, %x, %y : f32
+	%res = arith.select %cond, %a, %b : f32
+	```
 
+# Templated Arith Lowering
 
+- Templated way to convert with op type, op string and posit config.
+```cpp
+  auto populateArithBinOpPositPatterns 
+    = [&](auto opType, const std::string &opString) {
+    populateArithBinOpPositPattern<decltype(opType)>(
+        patterns, typeConverter, opString, _n_bits, _es_val);
+  };
+
+  populateArithBinOpPositPatterns(arith::AddFOp{}, "add");
+  populateArithBinOpPositPatterns(arith::SubFOp{}, "sub");
+  populateArithBinOpPositPatterns(arith::MulFOp{}, "mul");
+  populateArithBinOpPositPatterns(arith::DivFOp{}, "div");
+  populateArithBinOpPositPatterns(arith::SelectOp{}, "select");
+```
+# CmpOps Lowering
+
+- Currently not in templated way since the result is force to be i1 (Boolean)
 
 # What is Region/Block ?
 
