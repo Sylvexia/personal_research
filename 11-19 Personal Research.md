@@ -1,7 +1,96 @@
-successfully lowered:
-- affine For
-- cmpf
-- 
+# Summary
+
+Successfully lowered:
+- `AffineFor`:
+	- Continue from last week, we force to convert the `iterArg` type
+- `Arith` Operators:
+	- Templated way to force `f32` to target int type 
+		- `addf`, `subf`, `mulf`, `divf`, select
+	- Handled `cmpf` predicate with hash map.
+
+# The forOp fix:
+
+- Basically after replace the Operation and the body, force to convert the `iterArg` type:
+```cpp
+auto newIterArgs = newForOp.getRegionIterArgs();
+for (auto &arg : newIterArgs) {
+  auto newArgType = getTypeConverter()->convertType(arg.getType());
+  if (!newArgType)
+	return failure();
+  arg.setType(newArgType);
+}
+```
+
+# Existing way
+
+AsyncToLLVM.cpp:
+
+```cpp
+class ConvertExecuteOpTypes : public OpConversionPattern<ExecuteOp> {
+public:
+  using OpConversionPattern::OpConversionPattern;
+  LogicalResult
+  matchAndRewrite(ExecuteOp op, OpAdaptor adaptor,
+                  ConversionPatternRewriter &rewriter) const override {
+    ExecuteOp newOp =
+        cast<ExecuteOp>(rewriter.cloneWithoutRegions(*op.getOperation()));
+    rewriter.inlineRegionBefore(op.getRegion(), newOp.getRegion(),
+                                newOp.getRegion().end());
+
+    // Set operands and update block argument and result types.
+    newOp->setOperands(adaptor.getOperands());
+    if (failed(rewriter.convertRegionTypes(&newOp.getRegion(), *typeConverter)))
+      return failure();
+    for (auto result : newOp.getResults())
+      result.setType(typeConverter->convertType(result.getType()));
+
+    rewriter.replaceOp(op, newOp.getResults());
+    return success();
+  }
+```
+
+- Methods:
+	- Clone the operation without region
+	- Override new op region with old region
+	- Convert and set operands and result type.
+- The similarity is create new op and convert the new op afterwards.
+
+# ArithOps Lowering
+
+- Templated way to convert with op type, op string and posit config.
+```cpp
+  populateArithBinOpPositPattern<arith::AddFOp>(
+      patterns, typeConverter, "add", _n_bits, _es_val);
+  populateArithBinOpPositPattern<arith::SubFOp>(
+      patterns, typeConverter, "sub", _n_bits, _es_val);
+  populateArithBinOpPositPattern<arith::MulFOp>(
+      patterns, typeConverter, "mul", _n_bits, _es_val);
+  populateArithBinOpPositPattern<arith::DivFOp>(
+      patterns, typeConverter, "div", _n_bits, _es_val);
+  populateArithBinOpPositPattern<arith::SelectOp>(
+      patterns, typeConverter, "select", _n_bits, _es_val);
+```
+
+- `SelectOp`: `(cond) ? a : b`
+	- 
+# CmpOps Lowering
+
+- Currently not in templated way since the result is force to be i1 (Boolean)
+- Predicates:
+
+| Symbol      | Value | String | Symbol     | Value | String |
+| ----------- | ----- | ------ | ---------- | ----- | ------ |
+| AlwaysFalse | `0`   | false  | UEQ        | 8     | ueq    |
+| OEQ         | `1`   | oeq    | UGT        | 9     | ugt    |
+| OGT         | `2`   | ogt    | UGE        | 10    | uge    |
+| OGE         | `3`   | oge    | ULT        | 11    | ult    |
+| OLT         | `4`   | olt    | ULE        | 12    | ule    |
+| OLE         | `5`   | ole    | UNE        | 13    | une    |
+| ONE         | `6`   | one    | UNO        | 14    | uno    |
+| ORD         | `7`   | ord    | AlwaysTrue | 15    | true   |
+
+
+
 # What is Region/Block ?
 
 ```cpp
@@ -44,50 +133,11 @@ void modifyBlockArgumentType(FuncOp funcOp, unsigned argIndex, Type newType) {
 
 inlineBlockBefore = replacealluse(block argument) + dest->getOperations().splice
 
-# The fix:
-```cpp
-auto newIterArgs = newForOp.getRegionIterArgs();
-for (auto &arg : newIterArgs) {
-  auto newArgType = getTypeConverter()->convertType(arg.getType());
-  if (!newArgType)
-	return failure();
-  arg.setType(newArgType);
-}
-```
-
-AsyncToLLVM.cpp:
-
-ConvertExecuteOpTypes
-cloneOp
-inlineRegion
-setOperands
-getresults
-replaceOp
-
 rewriter.modifyOpInPlace
 
 %9 = arith.cmpf oge, %8, %cst_0 : f32
 
 predicate:
-
-| Symbol      | Value | String |
-| ----------- | ----- | ------ |
-| AlwaysFalse | `0`   | false  |
-| OEQ         | `1`   | oeq    |
-| OGT         | `2`   | ogt    |
-| OGE         | `3`   | oge    |
-| OLT         | `4`   | olt    |
-| OLE         | `5`   | ole    |
-| ONE         | `6`   | one    |
-| ORD         | `7`   | ord    |
-| UEQ         | `8`   | ueq    |
-| UGT         | `9`   | ugt    |
-| UGE         | `10`  | uge    |
-| ULT         | `11`  | ult    |
-| ULE         | `12`  | ule    |
-| UNE         | `13`  | une    |
-| UNO         | `14`  | uno    |
-| AlwaysTrue  | `15`  | true   |
 
 arithtoSPIRV
 ```cpp
