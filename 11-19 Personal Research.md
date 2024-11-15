@@ -20,11 +20,11 @@ for (auto &arg : newIterArgs) {
   arg.setType(newArgType);
 }
 ```
-
 # Existing way
 
-AsyncToLLVM.cpp:
-
+- Async dialect is like IREE stream dialect, target for scheduling and synchronization.
+	- OMG it even model coroutines. Prolly useful for MLIR runtime.
+- `AsyncToLLVM.cpp`:
 ```cpp
 class ConvertExecuteOpTypes : public OpConversionPattern<ExecuteOp> {
 public:
@@ -36,8 +36,7 @@ public:
         cast<ExecuteOp>(rewriter.cloneWithoutRegions(*op.getOperation()));
     rewriter.inlineRegionBefore(op.getRegion(), newOp.getRegion(),
                                 newOp.getRegion().end());
-
-    // Set operands and update block argument and result types.
+                                
     newOp->setOperands(adaptor.getOperands());
     if (failed(rewriter.convertRegionTypes(&newOp.getRegion(), *typeConverter)))
       return failure();
@@ -57,6 +56,8 @@ public:
 
 # Two Arith Ops: `cmpf`, `select`
 
+- Predicate table:
+
 | Symbol      | Value | String | Symbol     | Value | String |
 | ----------- | ----- | ------ | ---------- | ----- | ------ |
 | AlwaysFalse | `0`   | false  | UEQ        | 8     | ueq    |
@@ -70,7 +71,7 @@ public:
 - `CmpfOp`: `bool_res = predicate(x, y) -> bool`
 - `SelectOp`: `res = (cond) ? a : b`
 	```cpp
-	%cond = arith.cmpf ogt, %x, %y : f32
+	%cond = arith.cmpf ogt, %x, %y : f32 // this return bool or i1
 	%res = arith.select %cond, %a, %b : f32
 	```
 
@@ -93,6 +94,45 @@ public:
 # CmpOps Lowering
 
 - Currently not in templated way since the result is force to be i1 (Boolean)
+- Map predicate `enum` to generated function string
+- Let posit wrapper deal with the operation based on the generated function string.
+- Fun fact: SPIRV dialect (Dialect for parallel computation like GPU) has the following logic:
+- `arithtoSPIRV.cpp`:
+```cpp
+#define DISPATCH(cmpPredicate, spirvOp)                                        \
+  case cmpPredicate:                                                           \
+    rewriter.replaceOpWithNewOp<spirvOp>(op, adaptor.getLhs(),                 \
+                                         adaptor.getRhs());                    \
+    return success();
+
+      // Ordered.
+      DISPATCH(arith::CmpFPredicate::OEQ, spirv::FOrdEqualOp);
+      DISPATCH(arith::CmpFPredicate::OGT, spirv::FOrdGreaterThanOp);
+      DISPATCH(arith::CmpFPredicate::OGE, spirv::FOrdGreaterThanEqualOp);
+      DISPATCH(arith::CmpFPredicate::OLT, spirv::FOrdLessThanOp);
+      DISPATCH(arith::CmpFPredicate::OLE, spirv::FOrdLessThanEqualOp);
+      DISPATCH(arith::CmpFPredicate::ONE, spirv::FOrdNotEqualOp);
+      // Unordered...
+```
+
+# Lowered result:
+
+```
+  func.func @test_affineForLoop(%arg0: memref<64xi8>) -> i8 {
+    %c0_i8 = arith.constant 0 : i8
+    %0 = affine.for %arg1 = 0 to 64 iter_args(%arg2 = %c0_i8) -> (i8) {
+      %3 = affine.load %arg0[%arg1] : memref<64xi8>
+	  %4 = func.call @posit8es3_add(%3, %arg2) : (i8, i8) -> i8
+      %5 = func.call @posit8es3_sub(%4, %3) : (i8, i8) -> i8
+	  %6 = func.call @posit8es3_mul(%3, %5) : (i8, i8) -> i8
+      %7 = func.call @posit8es3_div(%6, %3) : (i8, i8) -> i8
+      affine.yield %7 : i8
+    }
+    %1 = call @posit8es3_ogt(%0, %c0_i8) : (i8, i8) -> i1
+    %2 = call @posit8es3_select(%1, %0, %c0_i8) : (i1, i8, i8) -> i8
+    return %2 : i8
+  }
+```
 
 # What is Region/Block ?
 
@@ -137,29 +177,6 @@ void modifyBlockArgumentType(FuncOp funcOp, unsigned argIndex, Type newType) {
 inlineBlockBefore = replacealluse(block argument) + dest->getOperations().splice
 
 rewriter.modifyOpInPlace
-
-%9 = arith.cmpf oge, %8, %cst_0 : f32
-
-predicate:
-
-arithtoSPIRV
-```cpp
-#define DISPATCH(cmpPredicate, spirvOp)                                        \
-  case cmpPredicate:                                                           \
-    rewriter.replaceOpWithNewOp<spirvOp>(op, adaptor.getLhs(),                 \
-                                         adaptor.getRhs());                    \
-    return success();
-
-      // Ordered.
-      DISPATCH(arith::CmpFPredicate::OEQ, spirv::FOrdEqualOp);
-      DISPATCH(arith::CmpFPredicate::OGT, spirv::FOrdGreaterThanOp);
-      DISPATCH(arith::CmpFPredicate::OGE, spirv::FOrdGreaterThanEqualOp);
-      DISPATCH(arith::CmpFPredicate::OLT, spirv::FOrdLessThanOp);
-      DISPATCH(arith::CmpFPredicate::OLE, spirv::FOrdLessThanEqualOp);
-      DISPATCH(arith::CmpFPredicate::ONE, spirv::FOrdNotEqualOp);
-      // Unordered.
-
-```
 
 - entry: `func.func @main_graph(%arg0: memref<1x1x28x28xf32>`-> `(memref<1x10xf32> {onnx.name = "19"})`
 	- `attributes {llvm.emit_c_interface}`
