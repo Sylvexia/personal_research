@@ -7,6 +7,7 @@ Successfully lowered:
 	- Templated way to force `f32` to target int type 
 		- `addf`, `subf`, `mulf`, `divf`, select
 	- Handled `cmpf` predicate with hash map.
+- Can lower the MNIST with our custom pass without error.
 
 # The forOp fix:
 
@@ -117,7 +118,31 @@ public:
 
 # Lowered result:
 
+```cpp
+func.func @test_affineForLoop(%arg0: memref<64xf32>) -> f32 {
+  %cst_0 = arith.constant 0.0 : f32
+  %0 = affine.for %arg1 = 0 to 64 iter_args(%arg2 = %cst_0) -> (f32) {
+    %arg3 = affine.load %arg0[%arg1] : memref<64xf32>
+    %arg4 = arith.addf %arg3, %arg2 : f32
+    %arg5 = arith.subf %arg4, %arg3 : f32
+    %arg6 = arith.mulf %arg3, %arg5 : f32
+    %arg7 = arith.divf %arg6, %arg3 : f32
+    affine.yield %arg7 : f32
+  }
+  %cmp = arith.cmpf ogt, %0, %cst_0 : f32
+  %select = arith.select %cmp, %0, %cst_0 : f32
+  return %select : f32
+}
 ```
+
+```cpp
+  func.func private @posit8es3_select(i1, i8, i8) -> i8 attributes {llvm.readnone}
+  func.func private @posit8es3_ogt(i8, i8) -> i1 attributes {llvm.readnone}
+  func.func private @posit8es3_div(i8, i8) -> i8 attributes {llvm.readnone}
+  func.func private @posit8es3_mul(i8, i8) -> i8 attributes {llvm.readnone}
+  func.func private @posit8es3_sub(i8, i8) -> i8 attributes {llvm.readnone}
+  func.func private @posit8es3_add(i8, i8) -> i8 attributes {llvm.readnone}
+  
   func.func @test_affineForLoop(%arg0: memref<64xi8>) -> i8 {
     %c0_i8 = arith.constant 0 : i8
     %0 = affine.for %arg1 = 0 to 64 iter_args(%arg2 = %c0_i8) -> (i8) {
