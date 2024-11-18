@@ -1,15 +1,18 @@
 # Summary
 
-Successfully lowered:
-- `AffineFor`:
-	- Continue from last week, we force to convert the `iterArg` type
-- `Arith` Operators:
-	- Templated way to force `f32` to target int type 
-		- `addf`, `subf`, `mulf`, `divf`, select
-	- Handled `cmpf` predicate with hash map.
-- Can lower the MNIST with our custom pass without error.
+- Successfully lowered:
+	- `AffineFor`:
+		- Continue from last week, we force to convert the `iterArg` type
+	- `Arith` Operators:
+		- Templated way to force `f32` to target int type 
+			- `addf`, `subf`, `mulf`, `divf`, `select`
+		- Handled `cmpf` predicate with hash map.
+	- Can lower the `MNIST` model with our custom pass without error.
+- Future Works:
+	- Integrate the custom pass to ONNX compiler.
+	- In Universal wrapper library,  handle the `select`, `cmpf` operator.
 
-# The forOp fix:
+# The `forOp` fix:
 
 - Basically after replace the Operation and the body, force to convert the `iterArg` type:
 ```cpp
@@ -57,7 +60,8 @@ public:
 
 # Two Arith Ops: `cmpf`, `select`
 
-- Predicate table:
+- `cmpf`: equal, not equal, greater, less,....
+	- Using predicate symbol to decide how to compare.
 
 | Symbol      | Value | String | Symbol     | Value | String |
 | ----------- | ----- | ------ | ---------- | ----- | ------ |
@@ -69,10 +73,12 @@ public:
 | OLE         | `5`   | ole    | UNE        | 13    | une    |
 | ONE         | `6`   | one    | UNO        | 14    | uno    |
 | ORD         | `7`   | ord    | AlwaysTrue | 15    | true   |
+
+- `select`: base on `condition`, if true return `a` else `b`
 - `CmpfOp`: `bool_res = predicate(x, y) -> bool`
 - `SelectOp`: `res = (cond) ? a : b`
 	```cpp
-	%cond = arith.cmpf ogt, %x, %y : f32 // this return bool or i1
+	%cond = arith.cmpf ogt, %x, %y : f32 // this return i1 (boolean)
 	%res = arith.select %cond, %a, %b : f32
 	```
 
@@ -118,6 +124,7 @@ public:
 
 # Lowered result:
 
+input:
 ```cpp
 func.func @test_affineForLoop(%arg0: memref<64xf32>) -> f32 {
   %cst_0 = arith.constant 0.0 : f32
@@ -135,6 +142,7 @@ func.func @test_affineForLoop(%arg0: memref<64xf32>) -> f32 {
 }
 ```
 
+output
 ```cpp
   func.func private @posit8es3_select(i1, i8, i8) -> i8 attributes {llvm.readnone}
   func.func private @posit8es3_ogt(i8, i8) -> i1 attributes {llvm.readnone}
@@ -158,6 +166,12 @@ func.func @test_affineForLoop(%arg0: memref<64xf32>) -> f32 {
     return %2 : i8
   }
 ```
+
+
+# Future Works:
+
+- Integrate the custom pass to ONNX compiler.
+- In Universal wrapper library,  handle the `select`, `cmpf` operator.
 
 # What is Region/Block ?
 
@@ -189,14 +203,14 @@ void modifyBlockArgumentType(FuncOp funcOp, unsigned argIndex, Type newType) {
 ```
 
 ```cpp
-    // op.getRegionIterArgs();
-    // getBody(0)->getArguments().drop_front();
+// op.getRegionIterArgs();
+// getBody(0)->getArguments().drop_front();
 
-    // op.getInductionVar();
-    // getBody(0)->getArgument(0);
+// op.getInductionVar();
+// getBody(0)->getArgument(0);
 
-    // op.getBody(0);
-    // region[0].front()
+// op.getBody(0);
+// region[0].front()
 ```
 
 inlineBlockBefore = replacealluse(block argument) + dest->getOperations().splice
