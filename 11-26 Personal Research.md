@@ -31,3 +31,7 @@ verified with `nm` that has simple symbol name:
 `00000000000021c0 T posit16es1_add`
 
 `.a` file is static library
+
+# How ONNX runtime works?
+
+compileModuleToSharedLibrary
