@@ -34,4 +34,7 @@ verified with `nm` that has simple symbol name:
 
 # How ONNX runtime works?
 
-compileModuleToSharedLibrary
+`compileModuleToSharedLibrary`
+-> `compileModuleToObject`
+
+-> `compileModuleToObject` -> `genLLVMBitcode`
