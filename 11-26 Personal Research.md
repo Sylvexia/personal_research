@@ -39,3 +39,7 @@ verified with `nm` that has simple symbol name:
 
 `compileModuleToObject`: 
 `genLLVMBitcode` -> `genModelObject`
+
+`genLLVMBitcode`:
+
+`genModelObject`
