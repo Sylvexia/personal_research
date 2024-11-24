@@ -55,3 +55,12 @@ FAILED: docs/doc_example/OMRuntimeTest
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ninja: build stopped: subcommand failed.
 ```
+
+## What is ciface?
+
+In `ConvertKrnlToLLVM.cpp`
+`krnlEntryPointOpLowering`
+```
+// 3. Emit code to prepare MemRefs from OMTensor inputs and call
+// `_mlir_ciface` prefixed function of the entry point.
+```
