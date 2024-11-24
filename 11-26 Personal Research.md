@@ -32,8 +32,16 @@ verified with `nm` that has simple symbol name:
 
 `.a` file is static library
 
-
 # Adding our Pass
+
+What was working:
+`./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+
+Not working
+```
+./onnx-mlir --EmitLLVMIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./llvm_log.txt
+loc("onnx.Constant"("Initializer_fc2.bias")): error: redefinition of symbol named 'name_llvm_log.txt'
+```
 # How ONNX runtime works?
 
 `compileModuleToSharedLibrary`
