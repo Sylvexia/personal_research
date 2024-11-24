@@ -54,6 +54,10 @@ loc("onnx.Constant"("Initializer_fc2.bias")): error: redefinition of symbol name
 
 `genModelObject`
 
+# 
+
+`./onnx-mlir --EmitLLVMIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx --mlir-print-ir-after-failure --mlir-elide-elementsattrs-if-larger=16 -o ./llvm_log.txt`
+
 # Compile Failed
 
 ```
