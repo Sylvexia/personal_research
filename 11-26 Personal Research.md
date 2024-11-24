@@ -44,6 +44,8 @@ loc("onnx.Constant"("Initializer_fc2.bias")): error: redefinition of symbol name
 ```
 # How ONNX runtime works?
 
+# Compilation process in the main compiler
+
 `compileModuleToSharedLibrary`
 -> `compileModuleToObject`
 
@@ -53,10 +55,6 @@ loc("onnx.Constant"("Initializer_fc2.bias")): error: redefinition of symbol name
 `genLLVMBitcode`:
 
 `genModelObject`
-
-# 
-
-`./onnx-mlir --EmitLLVMIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx --mlir-print-ir-after-failure --mlir-elide-elementsattrs-if-larger=16 -o ./llvm_log.txt`
 
 # Compile Failed
 
@@ -75,4 +73,11 @@ In `ConvertKrnlToLLVM.cpp`
 ```
 // 3. Emit code to prepare MemRefs from OMTensor inputs and call
 // `_mlir_ciface` prefixed function of the entry point.
+```
+
+Solution:
+
+```cpp
+  pm.addNestedPass<func::FuncOp>(
+	  mlir::createConvertArithToPositFuncPass(n_bits, es_val));
 ```
