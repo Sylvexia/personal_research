@@ -32,6 +32,8 @@ verified with `nm` that has simple symbol name:
 
 `.a` file is static library
 
+
+# Adding our Pass
 # How ONNX runtime works?
 
 `compileModuleToSharedLibrary`
