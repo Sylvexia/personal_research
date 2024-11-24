@@ -45,3 +45,13 @@ verified with `nm` that has simple symbol name:
 `genLLVMBitcode`:
 
 `genModelObject`
+
+# Compile Failed
+
+```
+FAILED: docs/doc_example/OMRuntimeTest
+: && /usr/bin/clang -fPIC -fno-semantic-interposition -Werror=date-time -Werror=unguarded-availability-new -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers -Wimplicit-fallthrough -Wcovered-switch-default -Wstring-conversion -Wmisleading-indentation -Wctad-maybe-unsupported -fdiagnostics-color -DSUPPRESS_THIRD_PARTY_WARNINGS -g  docs/doc_example/CMakeFiles/OMRuntimeTest.dir/main.c.o -o docs/doc_example/OMRuntimeTest -L/home/sylvex/onnx-mlir/build/docs/doc_example -Wl,-rpath,/home/sylvex/onnx-mlir/build/docs/doc_example  -ladd && :
+/usr/bin/ld: /home/sylvex/onnx-mlir/build/docs/doc_example/libadd.so: undefined reference to `_mlir_ciface_posit8es8_add'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+ninja: build stopped: subcommand failed.
+```
