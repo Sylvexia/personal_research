@@ -49,8 +49,12 @@ nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
 # Adding our Pass
 
 - Pass Order:
-	- ONNXToMLIR -> ONNXToKrnl -> KrnlToAffine -> KrnlToLLVM
-- The pass is added immediate after the KrnlToAffine
+	- `ONNXToMLIR` -> `ONNXToKrnl` -> `KrnlToAffine` -> `KrnlToLLVM`
+		- Represent ONNX in MLIR
+		- Decompose ONNX with custom representation.
+		- Custom loop representation to affine.
+		- Populate standard conversion with additional `Krnl` to LLVM.
+- The pass is added immediately after the `KrnlToAffine`
 
 What was working:
 `./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
@@ -71,6 +75,8 @@ What was working:
 `genModelObject`
 
 # Test Failed
+
+- This is message from
 
 ```
 FAILED: docs/doc_example/OMRuntimeTest
