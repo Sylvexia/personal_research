@@ -49,17 +49,17 @@ nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
 # Adding our Pass
 
 - Pass Order:
-	- `ONNXToMLIR` -> `ONNXToKrnl` -> `KrnlToAffine` -> `KrnlToLLVM`
-		- Represent ONNX in MLIR
-		- Decompose ONNX with custom representation.
-		- Custom loop representation to affine.
-		- Populate standard conversion with additional `Krnl` to LLVM.
+	- `ONNXToMLIR` $\rightarrow$ `ONNXToKrnl` $\rightarrow$ `KrnlToAffine` $\rightarrow$ `KrnlToLLVM`
+		1. `Represent ONNX in MLIR
+		2. Decompose ONNX with custom representation.
+		3. Custom loop representation to affine.
+		4. Populate standard conversion with additional `Krnl` to LLVM.
 - The pass is added immediately after the `KrnlToAffine`
 - Two main compiler:
 	- `onnx-mlir-opt`: For testing pass separately.
 	- `onnx-mlir`: Main compiler, putting all pass together that we can end to end compile.
 - Basically for past month, we run our pass `onnx-mlir-opt` and test separately
-- Now we can (kind of) run end to end.
+- Now we can (kind of) execute, compile from `onnx` to `mlir`
 	- `./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx`
 
 What was working:
