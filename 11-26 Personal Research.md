@@ -67,17 +67,56 @@ What was working:
 `compileModuleToSharedLibrary`
 - `compileModuleToObject`
 	- `genLLVMBitcode`:
-		- `translateModuleToLLVMIR`
-		- `tailorLLVMIR`
-		- `WriteBitcodeToFile`
+		- `translateModuleToLLVMIR`: translate MLIR to LLVMIR
+		- `tailorLLVMIR`: add thing that not in MLIR but LLVM
+		- `WriteBitcodeToFile`: 
 		- using `opt` to optimize bitcode
-	- `genModelObject`
-- `genSharedLib`: using cxx to compile and link
+	- `genModelObject`: using `llc` to compile LLVM bitcode to object file.
+- `genSharedLib`: using `cxx` to compile and link
 
+link:
+```cpp
+#define CCM_SHARED_LIB_DEPS "sharedLibDeps"
+#define CCM_SHARED_LIB_PATH_DEPS "sharedLibPathDeps"
+```
+
+```
+addCompilerConfig(CCM_SHARED_LIB_DEPS,
+        emissionTarget == EmitLib
+            ? std::vector<std::string>{"cruntime"}
+            : std::vector<std::string>{"jniruntime", "cruntime"});
+addCompilerConfig(CCM_SHARED_LIB_PATH_DEPS, {getLibraryPath()});
+
+addCompilerConfig(CCM_SHARED_LIB_DEPS, extraLibs);
+addCompilerConfig(CCM_SHARED_LIB_PATH_DEPS, extraLibPaths);
+```
+
+```cpp
+static llvm::cl::list<std::string, std::vector<std::string>> extraLibPathsOpt(
+    "L",
+    llvm::cl::desc("Specify extra directories for libraries when compiling"
+                   "an onnx model. Will be add used as -L in the linkage step."
+                   "Each directory can be specified with one extra-lib-dirs"),
+    llvm::cl::location(extraLibPaths), llvm::cl::Prefix,
+    llvm::cl::cat(OnnxMlirOptions));
+
+static llvm::cl::list<std::string, std::vector<std::string>> extraLibsOpt("l",
+    llvm::cl::desc("Specify extra libraries when compiling an onnx model."
+                   "Will be add used as -l in the linkage step."
+                   "Each lib can be specified with one extra-libs"),
+    llvm::cl::location(extraLibs), llvm::cl::Prefix,
+    llvm::cl::cat(OnnxMlirOptions));
+```
 
 # Test Failed
 
-- This is message from
+- This is message from building test.
+- It raises a question: what is ciface?
+```cpp
+/usr/bin/ld: /home/sylvex/onnx-mlir/build/docs/doc_example/libadd.so: undefined reference to `_mlir_ciface_posit8es8_add'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+ninja: build stopped: subcommand failed.
+```
 
 ```
 FAILED: docs/doc_example/OMRuntimeTest
@@ -147,3 +186,7 @@ auto wrapperFuncOp = rewriter.create<LLVM::LLVMFuncOp>(
                  U _mlir_ciface_posit8es8_ogt
                  U _mlir_ciface_posit8es8_select
 ```
+
+# Conclusion:
+
+- 
