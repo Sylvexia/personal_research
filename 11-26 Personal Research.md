@@ -78,7 +78,7 @@ What was working:
 		- `WriteBitcodeToFile`: 
 		- using `opt` to optimize bitcode
 	- `genModelObject`: using `llc` to compile LLVM bitcode to object file.
-- `genSharedLib`: using `cxx` to compile and link
+- `genSharedLib`: using `cxx` to compile and link e.g. `cruntime`, `jniruntime`
 
 link:
 ```cpp
