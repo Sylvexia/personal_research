@@ -1,7 +1,17 @@
 # Summary
-# Macro-ed wrapper
+
+- In posit wrapper, using token pasting for `n_bits, es_val` operation.
+- In `onnx-mlir`
+	- Add our custom pass to main compiler, with input argument.
+	- Successfully lowered to `.so`, but there's issue.
+		- Fixed the `krnl.globalOp` name duplication. (dedicated for model weight)
+		- New issue:
+			- Generated function declaration is altered later in `FuncToLLVM` pass
+		- Function declaration generation needs to be revised.
+# Macro-ed wrapper (Proof of Concept)
 
 Once we have generalized result, we can macro it
+
 ```cpp
 uint8_t posit8es0_add(uint8_t a, uint8_t b) {
   auto pa = get_posit<8, 0>(a);
@@ -12,7 +22,7 @@ uint8_t posit8es0_add(uint8_t a, uint8_t b) {
 }
 ```
 
-using token pasting
+using token pasting `##` in c
 
 ```cpp
 #define SOURCE_POSIT_ADD_FUNC(bits, es_val)                                    \
@@ -31,23 +41,21 @@ SOURCE_POSIT_ADD_FUNC(16, 1)
 
 verified with `nm` that has simple symbol name:
 
-`nm c_api/custom/posit/libposit_c_api_custom.a | grep 16`
-`00000000000021c0 T posit16es1_add`
+```
+nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
+00000000000021c0 T posit16es1_add
+```
 
-`.a` file is static library
 # Adding our Pass
+
+- The pass is added immediate after the KrnlToAffine
+- 
 
 What was working:
 `./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
 
 `./onnx-mlir --EmitLib /home/sylvex/mnist_export/mnist_model.onnx -o LIB --mlir-elide-elementsattrs-if-larger=16 --mlir-elide-resource-strings-if-larger=16 -mlir-print-stacktrace-on-diagnostic --mlir-print-ir-after-failure 2> LIB_LOG`
 
-Not working
-```
-./onnx-mlir --EmitLLVMIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./llvm_log.txt
-loc("onnx.Constant"("Initializer_fc2.bias")): error: redefinition of symbol named 'name_llvm_log.txt'
-```
-# How ONNX runtime works?
 
 # Compilation process in the main compiler
 
