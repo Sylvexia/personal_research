@@ -56,7 +56,7 @@ loc("onnx.Constant"("Initializer_fc2.bias")): error: redefinition of symbol name
 
 `genModelObject`
 
-# Compile Failed
+# Test Failed
 
 ```
 FAILED: docs/doc_example/OMRuntimeTest
@@ -68,16 +68,20 @@ ninja: build stopped: subcommand failed.
 
 ## What is ciface?
 
-In `ConvertKrnlToLLVM.cpp`
-`krnlEntryPointOpLowering`
-```
-// 3. Emit code to prepare MemRefs from OMTensor inputs and call
-// `_mlir_ciface` prefixed function of the entry point.
-```
-
-Solution:
-
+In `FuncToLLVM.cpp`
 ```cpp
-  pm.addNestedPass<func::FuncOp>(
-	  mlir::createConvertArithToPositFuncPass(n_bits, es_val));
+/// Creates an auxiliary function with pointer-to-memref-descriptor-struct
+/// arguments instead of unpacked arguments. This function can be called from C
+/// by passing a pointer to a C struct corresponding to a memref descriptor.
+/// Similarly, returned memrefs are passed via pointers to a C struct that is
+/// passed as additional argument.
+/// Internally, the auxiliary function unpacks the descriptor into individual
+/// components and forwards them to `newFuncOp` and forwards the results to
+/// the extra arguments.
+static void wrapForExternalCallers(...)
+auto wrapperFuncOp = rewriter.create<LLVM::LLVMFuncOp>(
+	loc, llvm::formatv("_mlir_ciface_{0}", funcOp.getName()).str(),
+	wrapperFuncType, LLVM::Linkage::External, /*dsoLocal=*/false,
+	/*cconv=*/LLVM::CConv::C, /*comdat=*/nullptr, attributes);
+
 ```
