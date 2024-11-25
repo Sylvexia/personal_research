@@ -82,6 +82,10 @@ ninja: build stopped: subcommand failed.
 
 ## What is ciface?
 
+Called in `populateAffineAndKrnlToLLVMConversion`
+populateMathPolynomialApproximationPatterns
+populateMathToLLVMConversionPatterns
+
 In `FuncToLLVM.cpp`
 ```cpp
 /// Creates an auxiliary function with pointer-to-memref-descriptor-struct
