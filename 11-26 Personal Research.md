@@ -65,14 +65,13 @@ What was working:
 # Compilation process in the main compiler
 
 `compileModuleToSharedLibrary`
--> `compileModuleToObject`
+- `compileModuleToObject`
+	- `genLLVMBitcode`:
+		- `translateModuleToLLVMIR`
+		- `tailorLLVMIR`
+	- `genModelObject`
+- `genSharedLib`: using cxx to compile and link
 
-`compileModuleToObject`: 
-`genLLVMBitcode` -> `genModelObject`
-
-`genLLVMBitcode`:
-
-`genModelObject`
 
 # Test Failed
 
