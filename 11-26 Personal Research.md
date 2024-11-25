@@ -49,7 +49,7 @@ nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
 # Adding our Pass
 
 - Pass Order:
-	- ONNXToMLIR -> ONNXToKrnl -> KrnlToAffine -> KrnlTo
+	- ONNXToMLIR -> ONNXToKrnl -> KrnlToAffine -> KrnlToLLVM
 - The pass is added immediate after the KrnlToAffine
 
 What was working:
