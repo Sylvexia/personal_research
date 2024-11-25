@@ -48,8 +48,9 @@ nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
 
 # Adding our Pass
 
+- Pass Order:
+	- ONNXToKrnl -> KrnlToAffine -> 
 - The pass is added immediate after the KrnlToAffine
-- 
 
 What was working:
 `./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
