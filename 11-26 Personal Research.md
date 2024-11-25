@@ -69,6 +69,8 @@ What was working:
 	- `genLLVMBitcode`:
 		- `translateModuleToLLVMIR`
 		- `tailorLLVMIR`
+		- `WriteBitcodeToFile`
+		- using `opt` to optimize bitcode
 	- `genModelObject`
 - `genSharedLib`: using cxx to compile and link
 
