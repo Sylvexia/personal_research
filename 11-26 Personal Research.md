@@ -196,6 +196,12 @@ listing:
 
 ```
 
+```cpp
+  // Insert a function attribute that will trigger the emission of the
+  // corresponding `_mlir_ciface_xxx` interface so that external libraries see
+  // a normalized ABI. This interface is added during std to llvm conversion.
+```
+
 In `FuncToLLVM.cpp`
 ```cpp
 /// Creates an auxiliary function with pointer-to-memref-descriptor-struct
