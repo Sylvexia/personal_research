@@ -1,4 +1,6 @@
+# Summary
 # Macro-ed wrapper
+
 Once we have generalized result, we can macro it
 ```cpp
 uint8_t posit8es0_add(uint8_t a, uint8_t b) {
@@ -9,6 +11,8 @@ uint8_t posit8es0_add(uint8_t a, uint8_t b) {
   return res;
 }
 ```
+
+using token pasting
 
 ```cpp
 #define SOURCE_POSIT_ADD_FUNC(bits, es_val)                                    \
@@ -31,11 +35,12 @@ verified with `nm` that has simple symbol name:
 `00000000000021c0 T posit16es1_add`
 
 `.a` file is static library
-
 # Adding our Pass
 
 What was working:
 `./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
+
+`./onnx-mlir --EmitLib /home/sylvex/mnist_export/mnist_model.onnx -o LIB --mlir-elide-elementsattrs-if-larger=16 --mlir-elide-resource-strings-if-larger=16 -mlir-print-stacktrace-on-diagnostic --mlir-print-ir-after-failure 2> LIB_LOG`
 
 Not working
 ```
@@ -83,5 +88,14 @@ auto wrapperFuncOp = rewriter.create<LLVM::LLVMFuncOp>(
 	loc, llvm::formatv("_mlir_ciface_{0}", funcOp.getName()).str(),
 	wrapperFuncType, LLVM::Linkage::External, /*dsoLocal=*/false,
 	/*cconv=*/LLVM::CConv::C, /*comdat=*/nullptr, attributes);
+```
 
+`nm LIB.so`
+```bash
+00000000000039b0 T _mlir_ciface_main_graph_lib
+                 U _mlir_ciface_posit8es8_add
+                 U _mlir_ciface_posit8es8_mul
+                 U _mlir_ciface_posit8es8_oge
+                 U _mlir_ciface_posit8es8_ogt
+                 U _mlir_ciface_posit8es8_select
 ```
