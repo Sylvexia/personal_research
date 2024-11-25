@@ -22,7 +22,7 @@ uint8_t posit8es0_add(uint8_t a, uint8_t b) {
 }
 ```
 
-using token pasting `##` in c
+- using token pasting `##` in c
 
 ```cpp
 #define SOURCE_POSIT_ADD_FUNC(bits, es_val)                                    \
@@ -39,7 +39,7 @@ SOURCE_POSIT_ADD_FUNC(8, 0)
 SOURCE_POSIT_ADD_FUNC(16, 1)
 ```
 
-verified with `nm` that has simple symbol name:
+- verified with `nm` that has simple symbol name:
 
 ```
 nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
@@ -55,6 +55,12 @@ nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
 		- Custom loop representation to affine.
 		- Populate standard conversion with additional `Krnl` to LLVM.
 - The pass is added immediately after the `KrnlToAffine`
+- Two main compiler:
+	- `onnx-mlir-opt`: For testing pass separately.
+	- `onnx-mlir`: Main compiler, putting all pass together that we can end to end compile.
+- Basically for past month, we run our pass `onnx-mlir-opt` and test separately
+- Now we can (kind of) run end to end.
+	- `./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx`
 
 What was working:
 `./onnx-mlir --EmitMLIR --n-bits=16 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o ./log.txt`
@@ -108,15 +114,35 @@ static llvm::cl::list<std::string, std::vector<std::string>> extraLibsOpt("l",
     llvm::cl::cat(OnnxMlirOptions));
 ```
 
-# Test Failed
+# Test Failed (ciface issue)
 
 - This is message from building test.
-- It raises a question: what is ciface?
 ```cpp
 /usr/bin/ld: /home/sylvex/onnx-mlir/build/docs/doc_example/libadd.so: undefined reference to `_mlir_ciface_posit8es8_add'
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ninja: build stopped: subcommand failed.
 ```
+- It make me look into the compiled shared library and MLIR file
+- `nm LIB.so`:
+	```cpp
+	00000000000039b0 T _mlir_ciface_main_graph_lib
+                 U _mlir_ciface_posit8es8_add
+                 U _mlir_ciface_posit8es8_mul
+                 U _mlir_ciface_posit8es8_oge
+                 U _mlir_ciface_posit8es8_ogt
+                 U _mlir_ciface_posit8es8_select
+	```
+- MLIR:
+```cpp
+llvm.func private @posit8es8_mul(%arg0: i8, %arg1: i8) -> i8 attributes {llvm.emit_c_interface, memory = #llvm.memory_effects<other = none, argMem = none, inaccessibleMem = none>, sym_visibility = "private"} {
+    %0 = llvm.call @_mlir_ciface_posit8es8_mul(%arg0, %arg1) : (i8, i8) -> i8
+    llvm.return %0 : i8
+  }
+  llvm.func @_mlir_ciface_posit8es8_mul(i8, i8) -> i8 attributes {llvm.emit_c_interface, sym_visibility = "private"}
+
+```
+- It raises a question: what is ciface?
+
 
 ```
 FAILED: docs/doc_example/OMRuntimeTest
@@ -127,6 +153,16 @@ ninja: build stopped: subcommand failed.
 ```
 
 ## What is ciface?
+
+- `ONNXToMLIR` -> `ONNXToKrnl` -> `KrnlToAffine` -> `KrnlToLLVM`
+	- Where does the `_ciface_` get added?
+	- Not in `KrnlToAffine`
+	- In `KrnlToLLVM`, I suspect that the pass "`FuncToLLVM`" add `_mlir_ciface_` prefix to function declaration symbol.
+- Clue:
+	- See runtime function `@omTensorGetDataPtr` generation, it does not have `_mlir_ciface_`
+- Future path:
+	- Revise our function generating scheme.
+	- Move our pass after `_mlir_ciface_` generation.
 
 Called in `populateAffineAndKrnlToLLVMConversion`
 
@@ -175,16 +211,6 @@ auto wrapperFuncOp = rewriter.create<LLVM::LLVMFuncOp>(
 	loc, llvm::formatv("_mlir_ciface_{0}", funcOp.getName()).str(),
 	wrapperFuncType, LLVM::Linkage::External, /*dsoLocal=*/false,
 	/*cconv=*/LLVM::CConv::C, /*comdat=*/nullptr, attributes);
-```
-
-`nm LIB.so`
-```bash
-00000000000039b0 T _mlir_ciface_main_graph_lib
-                 U _mlir_ciface_posit8es8_add
-                 U _mlir_ciface_posit8es8_mul
-                 U _mlir_ciface_posit8es8_oge
-                 U _mlir_ciface_posit8es8_ogt
-                 U _mlir_ciface_posit8es8_select
 ```
 
 # Conclusion:
