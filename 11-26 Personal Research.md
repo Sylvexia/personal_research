@@ -83,8 +83,36 @@ ninja: build stopped: subcommand failed.
 ## What is ciface?
 
 Called in `populateAffineAndKrnlToLLVMConversion`
-populateMathPolynomialApproximationPatterns
-populateMathToLLVMConversionPatterns
+
+listing:
+```cpp
+  populateAffineToStdConversionPatterns(patterns);
+  populateSCFToControlFlowConversionPatterns(patterns);
+
+  populateShapeToStandardConversionPatterns(patterns);
+  populateVectorToLLVMMatrixConversionPatterns(typeConverter, patterns);
+  populateVectorToLLVMConversionPatterns(typeConverter, patterns);
+  populateVectorToLLVMMatrixConversionPatterns(typeConverter, patterns);
+  memref::populateExpandOpsPatterns(patterns);
+  // Use polynomial approximation for math.{tanh, sin, cos and exp} for better
+  // performance.
+  populateMathPolynomialApproximationPatterns(patterns);
+  arith::populateArithExpandOpsPatterns(patterns);
+  populateMathToLLVMConversionPatterns(typeConverter, patterns);
+  populateFuncToLLVMConversionPatterns(typeConverter, patterns);
+  populateFinalizeMemRefToLLVMConversionPatterns(typeConverter, patterns);
+  // Enable OpenMP-to-LLVM pass when enable parallelism
+  if (enableParallel) {
+    populateOpenMPToLLVMConversionPatterns(typeConverter, patterns);
+  }
+  arith::populateArithToLLVMConversionPatterns(typeConverter, patterns);
+  cf::populateControlFlowToLLVMConversionPatterns(typeConverter, patterns);
+
+  krnl::populateKrnlToLLVMConversion(typeConverter, patterns, ctx,
+      constantOutputs, singleEntryPoint, entryGlobalOps, inSigGlobalOps,
+      outSigGlobalOps, inputMemRefTypes, outputMemRefTypes, verifyInputTensors);
+
+```
 
 In `FuncToLLVM.cpp`
 ```cpp
