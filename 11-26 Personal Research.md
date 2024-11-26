@@ -2,12 +2,13 @@
 
 - In posit wrapper, using token pasting for `n_bits, es_val` operation.
 - In `onnx-mlir`
-	- Add our custom pass to main compiler, with input argument.
+	- Add our custom pass to main compiler, with `n_bits, es_val` config
 	- Successfully lowered to `.so`, but there's issue.
 		- Fixed the `krnl.globalOp` name duplication. (dedicated for model weight)
 		- New issue:
 			- Generated function declaration is altered later in `FuncToLLVM` pass
 		- Function declaration generation needs to be revised.
+
 # Macro-ed wrapper (Proof of Concept)
 
 Once we have generalized result, we can macro it
@@ -50,10 +51,10 @@ nm c_api/custom/posit/libposit_c_api_custom.a | grep 16
 
 - Pass Order:
 	- `ONNXToMLIR` $\rightarrow$ `ONNXToKrnl` $\rightarrow$ `KrnlToAffine` $\rightarrow$ `KrnlToLLVM`
-		1. `Represent ONNX in MLIR
+		1. Represent ONNX in MLIR
 		2. Decompose ONNX with custom representation.
 		3. Custom loop representation to affine.
-		4. Populate standard conversion with additional `Krnl` to LLVM.
+		4. Populate standard conversion with additional lowering `krnl` operator at the end.
 - The pass is added immediately after the `KrnlToAffine`
 - Two main compiler:
 	- `onnx-mlir-opt`: For testing pass separately.
@@ -79,6 +80,7 @@ What was working:
 		- using `opt` to optimize bitcode
 	- `genModelObject`: using `llc` to compile LLVM bitcode to object file.
 - `genSharedLib`: using `cxx` to compile and link e.g. `cruntime`, `jniruntime`
+	- (Main compiler has option to config custom -l and -L)
 
 link:
 ```cpp
@@ -123,7 +125,7 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ninja: build stopped: subcommand failed.
 ```
 - It make me look into the compiled shared library and MLIR file
-- `nm LIB.so`:
+- dumping shared library: `nm LIB.so`
 	```cpp
 	00000000000039b0 T _mlir_ciface_main_graph_lib
                  U _mlir_ciface_posit8es8_add
@@ -221,4 +223,5 @@ auto wrapperFuncOp = rewriter.create<LLVM::LLVMFuncOp>(
 
 # Conclusion:
 
-- 
+- Revise our function generation scheme.
+- Look deeper into runtime.
