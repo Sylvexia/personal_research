@@ -53,4 +53,10 @@ create.llvm.getOrInsertSymbolRef(module, name, outputTy, inputTys);
 ```
 
 RuntimeAPIRegistry constructor called in `ConvertKrnlToLLVMPass::runOnOperation`
+
 it's only constructed once
+constructed at "invoke at KrnlEntryPointOpLowering"
+
+Summary:
+`krnl::populateKrnlToLLVMConversion` (the last )
+in ConvertKrnlToLLVMPass
