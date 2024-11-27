@@ -42,3 +42,8 @@ callApi would generate `llvm.call`
   return create.llvm.call(ArrayRef<Type>(outputTys),
       registry.getAPI(apiId).symbolRef, ArrayRef<Value>(params));
 ```
+
+- omGetExternalConstantAddr not getting called
+- omMMapBinaryFile
+- omTensorListGetSize
+- omTensorPrint
