@@ -36,17 +36,18 @@ trace `omTensorSetDataPtr` generation
   }
 ```
 
-callApi would generate `llvm.call`
+callApi would generate `llvm.call` with input enums
 
 ```
   return create.llvm.call(ArrayRef<Type>(outputTys),
       registry.getAPI(apiId).symbolRef, ArrayRef<Value>(params));
 ```
 
-- omGetExternalConstantAddr not getting called
-- omMMapBinaryFile
-- omTensorListGetSize
-- omTensorPrint
-
 declaration:
-declare at `RuntimeAPIRegistry::RuntimeAPIRegistry` ctor
+declare at `RuntimeAPIRegistry::RuntimeAPIRegistry` constructor
+
+`declareAPI`
+
+```
+create.llvm.getOrInsertSymbolRef(module, name, outputTy, inputTys);
+```
