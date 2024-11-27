@@ -47,3 +47,6 @@ callApi would generate `llvm.call`
 - omMMapBinaryFile
 - omTensorListGetSize
 - omTensorPrint
+
+declaration:
+declare at `RuntimeAPIRegistry::RuntimeAPIRegistry` ctor
