@@ -64,5 +64,7 @@ declaration is added last.
 `krnl::populateKrnlToLLVMConversion` (the last pattern in populateAffineAndKrnlToLLVMConversion)
 in ConvertKrnlToLLVMPass
 
+compiler option: `./onnx-mlir --EmitLLVMIR --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o LLVM`
+
 TODO: call location
 
