@@ -58,5 +58,10 @@ it's only constructed once
 constructed at "invoke at KrnlEntryPointOpLowering"
 
 Summary:
-`krnl::populateKrnlToLLVMConversion` (the last )
+
+declaration is added last.
+
+`krnl::populateKrnlToLLVMConversion` (the last pattern in populateAffineAndKrnlToLLVMConversion)
 in ConvertKrnlToLLVMPass
+
+TODO: call location
