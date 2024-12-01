@@ -68,3 +68,18 @@ compiler option: `./onnx-mlir --EmitLLVMIR --enable-posit --n-bits=8 --es-val=2 
 
 TODO: call location
 
+```cpp
+nm libposit_c_api_custom.a | grep "posit.*add"
+000000000000be90 T posit16es0_add
+000000000000d610 T posit16es1_add
+000000000000f7e0 T posit16es2_add
+00000000000119e0 T posit16es3_add
+0000000000013750 T posit32es0_add
+0000000000014e90 T posit32es1_add
+0000000000016b70 T posit32es2_add
+0000000000018d70 T posit32es3_add
+00000000000042d0 T posit8es0_add
+0000000000005c30 T posit8es1_add
+00000000000079c0 T posit8es2_add
+00000000000096e0 T posit8es3_add
+```
