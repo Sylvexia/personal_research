@@ -151,3 +151,4 @@ func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
 ```
 
 comment and it passed
+original ciface still exist
