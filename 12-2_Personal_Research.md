@@ -83,3 +83,10 @@ nm libposit_c_api_custom.a | grep "posit.*add"
 00000000000079c0 T posit8es2_add
 00000000000096e0 T posit8es3_add
 ```
+
+except from the include
+now we can compile with following command
+`clang -c -o test_libposit.o test_libposit.c`
+`clang -o test.exe test_libposit.o -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+we also need to `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH
+`
