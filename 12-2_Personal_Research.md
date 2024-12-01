@@ -139,3 +139,13 @@ generate mnist_posit.so
 /usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_ogt'
 /usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_add'
 ```
+
+# Where the `_mlir_ciface_` generated?
+
+```
+// Request C wrapper emission via attribute.
+for (auto func : module.getOps<func::FuncOp>()) {
+func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
+	UnitAttr::get(&getContext()));
+}
+```
