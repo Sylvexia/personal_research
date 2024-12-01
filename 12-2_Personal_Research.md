@@ -126,4 +126,16 @@ export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
 
 `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 
-`onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 mnist.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+`onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+
+generate mnist_posit.so
+
+ `g++ --std=c++11 -O3 mnist_posit.cpp ./mnist_posit.so -o mnist_posit -I $ONNX_MLIR_INCLUDE -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+ 
+```
+/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_select'
+/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_mul'
+/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_oge'
+/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_ogt'
+/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_add'
+```
