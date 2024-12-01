@@ -88,5 +88,21 @@ except from the include
 now we can compile with following command
 `clang -c -o test_libposit.o test_libposit.c`
 `clang -o test.exe test_libposit.o -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
-we also need to `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH
-`
+we also need to `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
+
+```
+./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
+Onnx-mlir command: ./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
+The ONNX model has 421642 elements in its initializers. This value would be close to and greater than the number of parameters in the model. Because there is no way to exactly count the number of parameters, this value can be used to have a rough idea of the number of parameters in the model.
+[/home/sylvex/onnx-mlir/build/Debug/bin/] /home/sylvex/onnx_llvm/llvm-project/build/bin/opt: opt -O0 --mtriple=x86_64-unknown-linux-gnu --code-model small -o model.so.bc model.so.unoptimized.bc                                                                                                                       [/home/sylvex/onnx-mlir/build/Debug/bin/] /home/sylvex/onnx_llvm/llvm-project/build/bin/llc: llc -O0 --mtriple=x86_64-unknown-linux-gnu --code-model small -filetype=obj -relocation-model=pic -o model.so.o model.so.bc                                                                                                [/home/sylvex/onnx-mlir/build/Debug/bin/] /usr/bin/clang++: clang++ model.so.o -o model.so.so -shared -fPIC -L/home/sylvex/onnx-mlir/build/Debug/lib -L/home/sylvex/custom_posit/lib/ -lcruntime -lposit_c_api_custom                                                                                                   Shared library 'model.so.so' has been compiled.
+```
+
+```bash
+ldd model.so
+
+linux-vdso.so.1 (0x00007fff7a13a000)
+libposit_c_api_custom.so => /home/sylvex/custom_posit/lib/libposit_c_api_custom.so (0x00007a975f200000)                                                     libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007a975ee00000)
+libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007a975f0f8000)                                                                                           libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007a975f0d8000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a975ea00000)
+/lib64/ld-linux-x86-64.so.2 (0x00007a975f2ba000)
+```
