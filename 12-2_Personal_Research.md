@@ -178,6 +178,9 @@ The digit is 0
 # User Driver Code:
 
 ```cpp
+extern "C" OMTensorList *run_main_graph(OMTensorList *);
+static float img_data[] = {-0.4242129623889923f, -0.4242129623889923f...
+
 int main() {
   int inputNum = 1;
   OMTensor *inputTensors[inputNum];
@@ -191,7 +194,9 @@ int main() {
 
   OMTensor *y = omTensorListGetOmtByIndex(tensorListOut, 0);
   float *prediction = (float *)omTensorGetDataPtr(y);
-  
+```
+
+```cpp
   int digit = -1;
   float prob = 0.;
   for (int i = 0; i < 10; i++) {
