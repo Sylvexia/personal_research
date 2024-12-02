@@ -181,6 +181,7 @@ The digit is 0
 
 # Solution
 
+- Comment and it passed
 ```
 // Request C wrapper emission via attribute.
 for (auto func : module.getOps<func::FuncOp>()) {
@@ -188,12 +189,13 @@ func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
 	UnitAttr::get(&getContext()));
 }
 ```
+- It add the `llvm.emit_c_interface`, later `FuncToLLVM()` lowering, generate the `_mlir_ciface_` declaration.
+- There's still other `_mlir_ciface_main_graph_llvm`, which exist for posit and non posit, haven't investigate further.
 
+# What should be our approach?
 
+`addKrnlToAffinePasses` -> Our Pass -> Enter `ConvertKrnlToLLVMPass` -> Inject C Wrapper Attribute -> Apply `ToLLVM` conversion
 
-both posit and non-posit has ciface
-`_mlir_ciface_main_graph_llvm`
-`_mlir_ciface_main_graph_llvm_log.txt`
 
 original: 3657kb
 
@@ -271,9 +273,3 @@ libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a975ea00000)
 ```
 
 # Where the `_mlir_ciface_` generated?
-
-comment and it passed
-
-original ciface still exist
-
-addKrnlToAffinePasses -> Our Pass -> Enter ConvertKrnlToLLVMPass -> Inject C Wrapper Attribute -> Apply ToLLVM conversion
