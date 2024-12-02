@@ -17,7 +17,7 @@
 3. Using `g++`, to compile `userDriver.cpp` + `model.so` -> `run.exe`
 4. You can execute and get the result from `run.exe`
 
-command:
+- command:
 
 1. `export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH`
 2. `onnx-mlir -EmitLib mnist.onnx`
@@ -174,7 +174,6 @@ The digit is 0
 ```
  
 ---
-
 # User Driver Code:
 
 ```cpp
@@ -215,7 +214,13 @@ int main() {
 }
 ```
 
-# Wait, there's last puzzle we does not solve!
+- Declare `*run_main_graph` as inference entry point, given input and spit out output
+- `OMTensorList` is a batch of data, consist of `OMTensor`
+- `OMTensor` is a singular data, say all image pixel.
+- using `omTensorCreate`, `omTensorListCreate` to help create `OMTensor(List)`
+- `omTensorListGetOmtByIndex`, `omTensorGetDataPtr` to get the data from pointer
+
+# Wait, there's a last puzzle we do not solve!
 
 ## :Notorious `_mlir_ciface_`
 
@@ -245,6 +250,10 @@ func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
 		- Should we care about control flow?
 
 # Future Work
+
+- Verify our approach is numerically correct
+- Once our approach is numerically correct, we can start to separate out our interface slowly.
+
 original: 3657kb
 
 posit8: 1276kb
