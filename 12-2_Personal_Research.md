@@ -24,6 +24,23 @@ command:
 3. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
 4. `./mnist`
 
+---
+
+Assume env variable is properly set up
+
+```
+export ONNX_MLIR_ROOT=$(pwd)/../..
+export ONNX_MLIR_BIN=$ONNX_MLIR_ROOT/build/Debug/bin
+export ONNX_MLIR_INCLUDE=$ONNX_MLIR_ROOT/include
+export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH
+export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
+```
+
+1. `onnx-mlir -EmitLib mnist.onnx`
+2. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
+3. `./mnist`
+
+---
 # What should do to include posit?
 
 - 2 compiler, `onnx-mlir` and `g++`, for linking
@@ -45,18 +62,22 @@ command:
 2. Compile source file to object file
 3. Use clang to link the object file with library with -L and -l
 
-- Note: I haven't get include working
-- The working command
+- We use `source.c` to compile with wrapper for testing.
+- The working command.
 	- `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 	- `clang -c -o source.o source.c`
 	- `clang -o test.exe source.o -L/custom_posit/lib/ -lposit_c_api_custom`
 	- `./test.exe`
+- Note: I haven't get include working
+
+---
 
 real command
 `clang -c -o test_libposit.o test_libposit.c`
 `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 `clang -o test.exe test_libposit.o -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
 
+---
 # Unified way to add operation in wrapper
 
 ```c
@@ -99,6 +120,20 @@ nm libposit_c_api_custom.a | grep "posit.*add"
 ```
 
 # Linking to get to end to end
+
+- Now we did the following in wrapper:
+	- Compiled file to object file.
+	- Get the -l and -L from previous compilation test. 
+- Same as we did in `onnx-mlir`, now we try to compile end-to-end.
+- Command
+	- `export LD_LIBRARY_PATH=/custom_posit/lib:$LD_LIBRARY_PATH`
+	- 
+
+`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
+
+`onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+
+ `g++ --std=c++11 -O3 mnist_posit.cpp ./mnist_posit.so -o mnist_posit -I $ONNX_MLIR_INCLUDE -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
 
 both posit and non-posit has ciface
 `_mlir_ciface_main_graph_llvm`
@@ -191,28 +226,6 @@ libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007a975f0f8000)               
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a975ea00000)
 /lib64/ld-linux-x86-64.so.2 (0x00007a975f2ba000)
 ```
-
-Assume env variable is properly set up
-
-```
-export ONNX_MLIR_ROOT=$(pwd)/../..
-export ONNX_MLIR_BIN=$ONNX_MLIR_ROOT/build/Debug/bin
-export ONNX_MLIR_INCLUDE=$ONNX_MLIR_ROOT/include
-export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH
-export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
-```
-
-1. `onnx-mlir -EmitLib mnist.onnx`
-2. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
-3. `./mnist`
-
-generate mnist_posit.so
-
-`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
-
-`onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
-
- `g++ --std=c++11 -O3 mnist_posit.cpp ./mnist_posit.so -o mnist_posit -I $ONNX_MLIR_INCLUDE -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
 
 execute
 
