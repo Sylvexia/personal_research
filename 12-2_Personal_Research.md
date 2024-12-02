@@ -125,15 +125,45 @@ nm libposit_c_api_custom.a | grep "posit.*add"
 	- Compiled file to object file.
 	- Get the -l and -L from previous compilation test. 
 - Same as we did in `onnx-mlir`, now we try to compile end-to-end.
-- Command
+- Command; (mnist_post.cpp is user driver code)
 	- `export LD_LIBRARY_PATH=/custom_posit/lib:$LD_LIBRARY_PATH`
-	- 
+	- `onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 mnist_model.onnx -o mnist_posit -L/custom_posit/lib/ -lposit_c_api_custom`
+	-  `g++ --std=c++11 -O3 mnist_posit.cpp ./mnist_posit.so -o mnist_posit -I $ONNX_MLIR_INCLUDE -L/custom_posit/lib/ -lposit_c_api_custom`
+	- `./mnist_posit`
+
+---
 
 `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 
 `onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
 
  `g++ --std=c++11 -O3 mnist_posit.cpp ./mnist_posit.so -o mnist_posit -I $ONNX_MLIR_INCLUDE -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+ ---
+
+# Result
+
+- Execute:
+	- We can run but the user driver is not modified.
+```cpp
+./mnist_posit
+prediction[0] = 40309352949036252632845219700670464.000000
+prediction[1] = -2479245573310062766748096079593472.000000
+prediction[2] = 0.000000
+prediction[3] = 0.000000
+prediction[4] = 295173594853019636725962506240.000000
+prediction[5] = 0.000000
+prediction[6] = 0.000000
+prediction[7] = 0.000000
+prediction[8] = 0.000000
+prediction[9] = 0.000000
+The digit is 0
+```
+ 
+---
+
+# Wait, there's last puzzle we does not solve!
+
+## Notorious `_mlir_ciface_`
 
 both posit and non-posit has ciface
 `_mlir_ciface_main_graph_llvm`
