@@ -28,7 +28,25 @@ command:
 
 - 2 compiler, `onnx-mlir` and `g++`, for linking
 - Intuitively, we should look into what `onnx-mlir` do
-	- 
+	1. MLIR -> LLVM
+	2. LLVM -> `.bc`
+	3. `.bc` -> `.o` using `llc`
+	4. `.o` -> `.so` using `clang++`
+- We can log and get the `llc` and `clang++` command with -v in `onnx-mlir` (only important flag is shown here)
+	- `llc -filetype=obj -o model.o model.bc`
+	- `clang++ model.o -o model.so -shared -L/home/sylvex/onnx-mlir/build/Debug/lib -lcruntime`
+- Clue: 
+	- Using -l and -L to get runtime support
+	- `onnx-mlir` can use -l and -L to link external library.
+
+# How do we compile with Posit Wrapper
+
+except from the include
+now we can compile with following command
+`clang -c -o test_libposit.o test_libposit.c`
+we also need to `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
+`clang -o test.exe test_libposit.o -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+
 
 
 both posit and non-posit has ciface
@@ -116,13 +134,6 @@ nm libposit_c_api_custom.a | grep "posit.*add"
 00000000000096e0 T posit8es3_add
 ```
 
-except from the include
-now we can compile with following command
-`clang -c -o test_libposit.o test_libposit.c`
-we also need to `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
-`clang -o test.exe test_libposit.o -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
-
-
 ```
 ./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
 
@@ -153,7 +164,6 @@ export ONNX_MLIR_INCLUDE=$ONNX_MLIR_ROOT/include
 export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH
 export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
 ```
-
 
 1. `onnx-mlir -EmitLib mnist.onnx`
 2. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
