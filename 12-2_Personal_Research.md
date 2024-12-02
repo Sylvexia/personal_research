@@ -1,4 +1,12 @@
 
+# Summary
+
+- Unified way to add operation in posit wrapper
+	- Supported all posit config of $+$, $-$, $\times$, $\div$, select, compare
+	- Verified how to link the library with custom c example.
+- We have linked the universal library wrapper to the MNIST model, and compiled with user driver code.
+	- Result is currently not verified.
+
 both posit and non-posit has ciface
 `_mlir_ciface_main_graph_llvm`
 `_mlir_ciface_main_graph_llvm_log.txt`
@@ -110,6 +118,11 @@ libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a975ea00000)
 
 # Compile Flow
 
+1. Set Environment variable
+2. Using `onnx-mlir`, to compile`model.onnx` -> `model.so`
+3. Using `g++`, to compile `userDriver.cpp` + `model.so` -> `run.exe`
+4. You can execute and get the result from `run.exe`
+
 Assume env variable is properly set up
 
 ```
@@ -119,12 +132,11 @@ export ONNX_MLIR_INCLUDE=$ONNX_MLIR_ROOT/include
 export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH
 export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
 ```
+`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 
 `onnx-mlir -EmitLib mnist.onnx`
 `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
 `./mnist`
-
-`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 
 `onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
 
@@ -151,4 +163,7 @@ func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
 ```
 
 comment and it passed
+
 original ciface still exist
+
+addKrnlToAffinePasses -> Our Pass -> Enter ConvertKrnlToLLVMPass -> Inject C Wrapper Attribute -> Apply ToLLVM conversion
