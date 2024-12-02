@@ -4,8 +4,23 @@
 - Unified way to add operation in posit wrapper
 	- Supported all posit config of $+$, $-$, $\times$, $\div$, select, compare
 	- Verified how to link the library with custom c example.
-- We have linked the universal library wrapper to the MNIST model, and compiled with user driver code.
+- Trying to work with end-to-end flow
+	- Linked the wrapper to the MNIST model
+	- Compiled with user driver code.
+	- We can execute and get the model result.
 	- Result is currently not verified.
+
+# How to compile model to library
+
+1. Set Environment variable
+2. Using `onnx-mlir`, to compile`model.onnx` -> `model.so`
+3. Using `g++`, to compile `userDriver.cpp` + `model.so` -> `run.exe`
+4. You can execute and get the result from `run.exe`
+
+command:
+
+1. 
+
 
 both posit and non-posit has ciface
 `_mlir_ciface_main_graph_llvm`
@@ -115,13 +130,6 @@ libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007a975f0f8000)               
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a975ea00000)
 /lib64/ld-linux-x86-64.so.2 (0x00007a975f2ba000)
 ```
-
-# Compile Flow
-
-1. Set Environment variable
-2. Using `onnx-mlir`, to compile`model.onnx` -> `model.so`
-3. Using `g++`, to compile `userDriver.cpp` + `model.so` -> `run.exe`
-4. You can execute and get the result from `run.exe`
 
 Assume env variable is properly set up
 
