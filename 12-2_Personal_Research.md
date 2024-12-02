@@ -19,7 +19,16 @@
 
 command:
 
-1. 
+1. `export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH`
+2. `onnx-mlir -EmitLib mnist.onnx`
+3. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
+4. `./mnist`
+
+# What should do to include posit?
+
+- 2 compiler, `onnx-mlir` and `g++`, for linking
+- Intuitively, we should look into what `onnx-mlir` do
+	- 
 
 
 both posit and non-posit has ciface
@@ -116,8 +125,12 @@ we also need to `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRAR
 
 ```
 ./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
-Onnx-mlir command: ./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
+
+Onnx-mlir command: 
+./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
+
 The ONNX model has 421642 elements in its initializers. This value would be close to and greater than the number of parameters in the model. Because there is no way to exactly count the number of parameters, this value can be used to have a rough idea of the number of parameters in the model.
+
 [/home/sylvex/onnx-mlir/build/Debug/bin/] /home/sylvex/onnx_llvm/llvm-project/build/bin/opt: opt -O0 --mtriple=x86_64-unknown-linux-gnu --code-model small -o model.so.bc model.so.unoptimized.bc                                                                                                                       [/home/sylvex/onnx-mlir/build/Debug/bin/] /home/sylvex/onnx_llvm/llvm-project/build/bin/llc: llc -O0 --mtriple=x86_64-unknown-linux-gnu --code-model small -filetype=obj -relocation-model=pic -o model.so.o model.so.bc                                                                                                [/home/sylvex/onnx-mlir/build/Debug/bin/] /usr/bin/clang++: clang++ model.so.o -o model.so.so -shared -fPIC -L/home/sylvex/onnx-mlir/build/Debug/lib -L/home/sylvex/custom_posit/lib/ -lcruntime -lposit_c_api_custom                                                                                                   Shared library 'model.so.so' has been compiled.
 ```
 
@@ -140,24 +153,36 @@ export ONNX_MLIR_INCLUDE=$ONNX_MLIR_ROOT/include
 export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH
 export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
 ```
-`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 
-`onnx-mlir -EmitLib mnist.onnx`
-`g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
-`./mnist`
 
-`onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+1. `onnx-mlir -EmitLib mnist.onnx`
+2. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
+3. `./mnist`
+
 
 generate mnist_posit.so
 
+`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
+
+`onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
+
  `g++ --std=c++11 -O3 mnist_posit.cpp ./mnist_posit.so -o mnist_posit -I $ONNX_MLIR_INCLUDE -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
- 
-```
-/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_select'
-/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_mul'
-/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_oge'
-/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_ogt'
-/usr/bin/ld: ./mnist_posit.so: undefined reference to `_mlir_ciface_posit8es2_add'
+
+execute
+
+```cpp
+./mnist_posit
+prediction[0] = 40309352949036252632845219700670464.000000
+prediction[1] = -2479245573310062766748096079593472.000000
+prediction[2] = 0.000000
+prediction[3] = 0.000000
+prediction[4] = 295173594853019636725962506240.000000
+prediction[5] = 0.000000
+prediction[6] = 0.000000
+prediction[7] = 0.000000
+prediction[8] = 0.000000
+prediction[9] = 0.000000
+The digit is 0
 ```
 
 # Where the `_mlir_ciface_` generated?
