@@ -157,7 +157,7 @@ nm libposit_c_api_custom.a | grep "posit.*add"
 # Result
 
 - Execute:
-	- We can run but the user driver is not modified.
+	- We can run but the user driver code is not modified.
 ```cpp
 ./mnist_posit
 prediction[0] = 40309352949036252632845219700670464.000000
@@ -174,6 +174,41 @@ The digit is 0
 ```
  
 ---
+
+# User Driver Code:
+
+```cpp
+int main() {
+  int inputNum = 1;
+  OMTensor *inputTensors[inputNum];
+  int64_t rank = 4;
+  int64_t shape[] = {1, 1, 28, 28};
+  OMTensor *tensor = omTensorCreate(img_data, shape, rank, ONNX_TYPE_FLOAT);
+  inputTensors[0] = tensor;
+  OMTensorList *tensorListIn = omTensorListCreate(inputTensors, inputNum);
+  OMTensorList *tensorListOut = run_main_graph(tensorListIn);
+  omTensorListDestroy(tensorListIn);
+
+  OMTensor *y = omTensorListGetOmtByIndex(tensorListOut, 0);
+  float *prediction = (float *)omTensorGetDataPtr(y);
+  
+  int digit = -1;
+  float prob = 0.;
+  for (int i = 0; i < 10; i++) {
+    printf("prediction[%d] = %f\n", i, prediction[i]);
+    if (prediction[i] > prob) {
+      digit = i;
+      prob = prediction[i];
+    }
+  }
+
+  // Free the output as it is no longer needed.
+  omTensorListDestroy(tensorListOut);
+
+  printf("The digit is %d\n", digit);
+  return 0;
+}
+```
 
 # Wait, there's last puzzle we does not solve!
 
@@ -194,9 +229,17 @@ func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
 
 # What should be our approach?
 
-`addKrnlToAffinePasses` -> Our Pass -> Enter `ConvertKrnlToLLVMPass` -> Inject C Wrapper Attribute -> Apply `ToLLVM` conversion
+- `addKrnlToAffinePasses` -> Our Pass -> Enter `ConvertKrnlToLLVMPass` -> Inject C Wrapper Attribute -> Apply `ToLLVM` conversion
+- 2 Methods
+	- Directly lower the function to LLVM dialect instead of Func dialect.
+	- Move our pass after the C Wrapper injection.
+- Things to consider:
+	- Minimum requirement:
+		- Map math operation and arithmetic to posit.
+		- Load/Store type.
+		- Should we care about control flow?
 
-
+# Future Work
 original: 3657kb
 
 posit8: 1276kb
@@ -271,5 +314,3 @@ libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007a975f0f8000)               
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a975ea00000)
 /lib64/ld-linux-x86-64.so.2 (0x00007a975f2ba000)
 ```
-
-# Where the `_mlir_ciface_` generated?
