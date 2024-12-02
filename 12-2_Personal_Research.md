@@ -41,13 +41,64 @@ command:
 
 # How do we compile with Posit Wrapper
 
-except from the include
-now we can compile with following command
+1. Remember we should use add `LD_LIBRARY_PATH` to path
+2. Compile source file to object file
+3. Use clang to link the object file with library with -L and -l
+
+- Note: I haven't get include working
+- The working command
+	- `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
+	- `clang -c -o source.o source.c`
+	- `clang -o test.exe source.o -L/custom_posit/lib/ -lposit_c_api_custom`
+	- `./test.exe`
+
+real command
 `clang -c -o test_libposit.o test_libposit.c`
-we also need to `export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
+`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
 `clang -o test.exe test_libposit.o -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
 
+# Unified way to add operation in wrapper
 
+```c
+#define SOURCE_NBITS_ESVAL(bits, es_val)                                       \
+  SOURCE_POSIT_BASIC(bits, es_val, add, +)                                     \
+  SOURCE_POSIT_BASIC(bits, es_val, sub, -)                                     \
+  SOURCE_POSIT_BASIC(bits, es_val, mul, *)                                     \
+  SOURCE_POSIT_BASIC(bits, es_val, div, /)                                     \
+  SOURCE_POSIT_CMP(bits, es_val, oeq, ==)                                      \
+  SOURCE_POSIT_CMP(bits, es_val, ogt, >)                                       \
+  SOURCE_POSIT_SELECT(bits, es_val)
+```
+
+```c
+#define DEFINE_NBITS_ESVAL(bits, es_val)                                       \
+  DEFINE_POSIT(bits, es_val, add)                                              \
+  DEFINE_POSIT(bits, es_val, sub)                                              \
+  DEFINE_POSIT(bits, es_val, mul)                                              \
+  DEFINE_POSIT(bits, es_val, div)                                              \
+  DEFINE_POSIT_BOOL(bits, es_val, oeq)                                         \
+  DEFINE_POSIT_BOOL(bits, es_val, ogt)                                         \
+  DEFINE_POSIT_SELECT(bits, es_val)
+```
+
+verify:
+```cpp
+nm libposit_c_api_custom.a | grep "posit.*add"
+000000000000be90 T posit16es0_add
+000000000000d610 T posit16es1_add
+000000000000f7e0 T posit16es2_add
+00000000000119e0 T posit16es3_add
+0000000000013750 T posit32es0_add
+0000000000014e90 T posit32es1_add
+0000000000016b70 T posit32es2_add
+0000000000018d70 T posit32es3_add
+00000000000042d0 T posit8es0_add
+0000000000005c30 T posit8es1_add
+00000000000079c0 T posit8es2_add
+00000000000096e0 T posit8es3_add
+```
+
+# Linking to get to end to end
 
 both posit and non-posit has ciface
 `_mlir_ciface_main_graph_llvm`
@@ -118,21 +169,7 @@ compiler option: `./onnx-mlir --EmitLLVMIR --enable-posit --n-bits=8 --es-val=2 
 
 TODO: call location
 
-```cpp
-nm libposit_c_api_custom.a | grep "posit.*add"
-000000000000be90 T posit16es0_add
-000000000000d610 T posit16es1_add
-000000000000f7e0 T posit16es2_add
-00000000000119e0 T posit16es3_add
-0000000000013750 T posit32es0_add
-0000000000014e90 T posit32es1_add
-0000000000016b70 T posit32es2_add
-0000000000018d70 T posit32es3_add
-00000000000042d0 T posit8es0_add
-0000000000005c30 T posit8es1_add
-00000000000079c0 T posit8es2_add
-00000000000096e0 T posit8es3_add
-```
+# Log
 
 ```
 ./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
@@ -168,7 +205,6 @@ export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
 1. `onnx-mlir -EmitLib mnist.onnx`
 2. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
 3. `./mnist`
-
 
 generate mnist_posit.so
 
