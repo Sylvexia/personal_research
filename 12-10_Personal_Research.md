@@ -34,10 +34,11 @@ cf.switch %flag : i32, [
   43: ^bb3(%c : i32)
 ]
 ```
+
 The last three has `BranchOpInterface`: Can it be lowered by `populateBranchOpInterfaceTypeConversionPattern`?
 
 scf at most has `RegionBranchOpInterface`
-scf has populateSCFStructuralTypeConversionsAndLegality
+scf has `populateSCFStructuralTypeConversionsAndLegality`
 
 affine for and if also has `RegionBranchOpInterface`
 no populate ???
