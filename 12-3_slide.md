@@ -1,3 +1,26 @@
+---
+marp: true
+theme: default
+paginate: true
+header: 
+footer: 
+style: "h1, h2, h3 {\r  text-align: center;\r}
+
+  pre, code {\r  background-color: #ffffff;\r    \r  color: #2d2d2d; \r  \r  font-size: auto;\r }\r
+
+  section {\r  font-size: auto;\r}\r
+
+  img[alt~=\"center\"]\ 
+
+  {\r  display: block;\r  margin: 0 auto;\r}"
+---
+
+# 12-3 Personal Research
+## Presenter: Yu Chun Hung
+## Advisor: Peng-Sheng Cheng
+
+---
+
 # Summary
 
 - Unified way to add operation in posit wrapper
@@ -8,6 +31,8 @@
 	- Compiled with user driver code.
 	- We can execute and get the model result.
 	- Result is currently not verified.
+
+---
 
 # How to compile model to library
 
@@ -25,21 +50,6 @@
 
 ---
 
-Assume env variable is properly set up
-
-```
-export ONNX_MLIR_ROOT=$(pwd)/../..
-export ONNX_MLIR_BIN=$ONNX_MLIR_ROOT/build/Debug/bin
-export ONNX_MLIR_INCLUDE=$ONNX_MLIR_ROOT/include
-export PATH=$ONNX_MLIR_ROOT/build/Debug/bin:$PATH
-export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
-```
-
-1. `onnx-mlir -EmitLib mnist.onnx`
-2. `g++ --std=c++11 -O3 mnist.cpp ./mnist.so -o mnist -I $ONNX_MLIR_INCLUDE`
-3. `./mnist`
-
----
 # What should do to include posit?
 
 - 2 compiler, `onnx-mlir` and `g++`, for linking
@@ -48,6 +58,11 @@ export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
 	2. LLVM -> `.bc`
 	3. `.bc` -> `.o` using `llc`
 	4. `.o` -> `.so` using `clang++`
+
+---
+
+# What should do to include posit?
+
 - We can log and get the `llc` and `clang++` command with -v in `onnx-mlir` (only important flag is shown here)
 	- `llc -filetype=obj -o model.o model.bc`
 	- `clang++ model.o -o model.so -shared -L/home/sylvex/onnx-mlir/build/Debug/lib -lcruntime`
@@ -57,18 +72,6 @@ export ONNX_MLIR_RUNTIME_DIR=../../build/Debug/lib
 
 ---
 
-```
-./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
-
-Onnx-mlir command: 
-./onnx-mlir --EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom -v
-
-The ONNX model has 421642 elements in its initializers. This value would be close to and greater than the number of parameters in the model. Because there is no way to exactly count the number of parameters, this value can be used to have a rough idea of the number of parameters in the model.
-
-[/home/sylvex/onnx-mlir/build/Debug/bin/] /home/sylvex/onnx_llvm/llvm-project/build/bin/opt: opt -O0 --mtriple=x86_64-unknown-linux-gnu --code-model small -o model.so.bc model.so.unoptimized.bc                                                                                                                       [/home/sylvex/onnx-mlir/build/Debug/bin/] /home/sylvex/onnx_llvm/llvm-project/build/bin/llc: llc -O0 --mtriple=x86_64-unknown-linux-gnu --code-model small -filetype=obj -relocation-model=pic -o model.so.o model.so.bc                                                                                                [/home/sylvex/onnx-mlir/build/Debug/bin/] /usr/bin/clang++: clang++ model.so.o -o model.so.so -shared -fPIC -L/home/sylvex/onnx-mlir/build/Debug/lib -L/home/sylvex/custom_posit/lib/ -lcruntime -lposit_c_api_custom                                                                                                   Shared library 'model.so.so' has been compiled.
-```
-
----
 # How do we compile with Posit Wrapper
 
 1. Remember we should use add `LD_LIBRARY_PATH` to path
@@ -85,12 +88,6 @@ The ONNX model has 421642 elements in its initializers. This value would be clos
 
 ---
 
-real command
-`clang -c -o test_libposit.o test_libposit.c`
-`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
-`clang -o test.exe test_libposit.o -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
-
----
 # Unified way to add operation in wrapper
 
 ```c
@@ -103,7 +100,6 @@ real command
   SOURCE_POSIT_CMP(bits, es_val, ogt, >)                                       \
   SOURCE_POSIT_SELECT(bits, es_val)
 ```
-
 ```c
 #define DEFINE_NBITS_ESVAL(bits, es_val)                                       \
   DEFINE_POSIT(bits, es_val, add)                                              \
@@ -114,6 +110,10 @@ real command
   DEFINE_POSIT_BOOL(bits, es_val, ogt)                                         \
   DEFINE_POSIT_SELECT(bits, es_val)
 ```
+
+---
+
+# Unified way to add operation in wrapper
 
 verify:
 ```cpp
@@ -132,12 +132,19 @@ nm libposit_c_api_custom.a | grep "posit.*add"
 00000000000096e0 T posit8es3_add
 ```
 
+---
+
 # Linking to get to end to end
 
 - Now we did the following in wrapper:
 	- Compiled file to object file.
 	- Get the -l and -L from previous compilation test. 
 - Same as we did in `onnx-mlir`, now we try to compile end-to-end.
+
+---
+
+# Linking to get to end to end
+
 - Command: (mnist_post.cpp is user driver code)
 	- `export LD_LIBRARY_PATH=/custom_posit/lib:$LD_LIBRARY_PATH`
 	- `onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 mnist_model.onnx -o mnist_posit -L/custom_posit/lib/ -lposit_c_api_custom`
@@ -146,13 +153,6 @@ nm libposit_c_api_custom.a | grep "posit.*add"
 
 ---
 
-`export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH`
-
-`onnx-mlir -EmitLib --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o mnist_posit -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
-
- `g++ --std=c++11 -O3 mnist_posit.cpp ./mnist_posit.so -o mnist_posit -I $ONNX_MLIR_INCLUDE -L/home/sylvex/custom_posit/lib/ -lposit_c_api_custom`
- 
- ---
 # Result
 
 - Execute:
@@ -171,8 +171,9 @@ prediction[8] = 0.000000
 prediction[9] = 0.000000
 The digit is 0
 ```
- 
+
 ---
+
 # User Driver Code:
 
 ```cpp
@@ -194,6 +195,10 @@ int main() {
   float *prediction = (float *)omTensorGetDataPtr(y);
 ```
 
+---
+
+# User Driver Code:
+
 ```cpp
   int digit = -1;
   float prob = 0.;
@@ -213,15 +218,23 @@ int main() {
 }
 ```
 
+---
+
+# User Driver Code:
+
 - Declare `*run_main_graph` as inference entry point, given input and spit out output
 - `OMTensorList` is a batch of data, consist of `OMTensor`
 - `OMTensor` is a singular data, say all image pixel.
 - using `omTensorCreate`, `omTensorListCreate` to help create `OMTensor(List)`
 - `omTensorListGetOmtByIndex`, `omTensorGetDataPtr` to get the data from pointer
 
+---
+
 # Wait, there's a last puzzle we do not solve!
 
-## :Notorious `_mlir_ciface_`
+## Notorious `_mlir_ciface_`
+
+---
 
 # Solution
 
@@ -236,6 +249,8 @@ func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
 - It add the `llvm.emit_c_interface`, later `FuncToLLVM()` lowering, generate the `_mlir_ciface_` declaration.
 - There's still other `_mlir_ciface_main_graph_llvm`, which exist for posit and non posit, haven't investigate further.
 
+---
+
 # What should be our approach?
 
 - `addKrnlToAffinePasses` -> Our Pass -> Enter `ConvertKrnlToLLVMPass` -> Inject C Wrapper Attribute -> Apply `ToLLVM` conversion
@@ -248,82 +263,9 @@ func->setAttr(LLVM::LLVMDialect::getEmitCWrapperAttrName(),
 		- Load/Store type.
 		- Should we care about control flow?
 
+---
+
 # Future Work
 
 - Verify our approach is numerically correct
 - Once our approach is numerically correct, we can start to separate out our interface slowly.
-
-original: 3657kb
-
-posit8: 1276kb
-posit16: 2197kb
-posit32: 4059kb
-
-trace `omTensorSetDataPtr` generation
-
-```
-  using API = RuntimeAPI::API;
-  std::vector<RuntimeAPI> RuntimeAPISpecs = {
-    RuntimeAPI(API::CREATE_OMTENSOR_LIST, "omTensorListCreate", opaquePtrTy, {opaquePtrPtrTy, int64Ty}),
-    RuntimeAPI(API::CREATE_OMTENSOR, "omTensorCreateUntyped", opaquePtrTy, {int64Ty}),
-    RuntimeAPI(API::DESTROY_OMTENSOR, "omTensorDestroy", voidTy, {opaquePtrTy}),
-    RuntimeAPI(API::GET_DATA, "omTensorGetDataPtr", opaquePtrTy, {opaquePtrTy}),
-    RuntimeAPI(API::SET_DATA, "omTensorSetDataPtr", voidTy, {opaquePtrTy, int64Ty, opaquePtrTy, opaquePtrTy}),
-```
-
-```
-  for (auto &apiSpec : RuntimeAPISpecs) {
-    apiSpec.declareAPI(module, builder);
-    registry.emplace(apiSpec.id, apiSpec);
-  }
-```
-
-```
-  const RuntimeAPI &getAPI(RuntimeAPI::API apiId) const {
-    assert((registry.find(apiId) != registry.end()) &&
-           "apiId not found in registry");
-    return registry.at(apiId);
-  }
-```
-
-callApi would generate `llvm.call` with input enums
-
-```
-  return create.llvm.call(ArrayRef<Type>(outputTys),
-      registry.getAPI(apiId).symbolRef, ArrayRef<Value>(params));
-```
-
-declaration:
-declare at `RuntimeAPIRegistry::RuntimeAPIRegistry` constructor
-
-`declareAPI`
-
-```
-create.llvm.getOrInsertSymbolRef(module, name, outputTy, inputTys);
-```
-
-RuntimeAPIRegistry constructor called in `ConvertKrnlToLLVMPass::runOnOperation`
-
-it's only constructed once
-constructed at "invoke at KrnlEntryPointOpLowering"
-
-Summary:
-
-declaration is added last.
-
-`krnl::populateKrnlToLLVMConversion` (the last pattern in populateAffineAndKrnlToLLVMConversion)
-in ConvertKrnlToLLVMPass
-
-compiler option: `./onnx-mlir --EmitLLVMIR --enable-posit --n-bits=8 --es-val=2 /home/sylvex/mnist_export/mnist_model.onnx -o LLVM`
-
-TODO: call location
-
-```bash
-ldd model.so
-
-linux-vdso.so.1 (0x00007fff7a13a000)
-libposit_c_api_custom.so => /home/sylvex/custom_posit/lib/libposit_c_api_custom.so (0x00007a975f200000)                                                     libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007a975ee00000)
-libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007a975f0f8000)                                                                                           libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007a975f0d8000)
-libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a975ea00000)
-/lib64/ld-linux-x86-64.so.2 (0x00007a975f2ba000)
-```
