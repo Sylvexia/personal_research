@@ -3,8 +3,19 @@
 - self sustained MNIST in project
 - what does affine lower to? 
 	- cf does not work? or lowering to the cf part.
+- Generate data or get the data
+- FuncToLLVM difference
 
 - Mnist input: [1 , 1 , 28 , 28]
+
+data transform
+
+```python
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+```
 
 Typically, `scf` is lowered to `cf` and then lowered to some final target like LLVM or SPIR-V.
 
