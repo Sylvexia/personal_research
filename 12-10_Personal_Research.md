@@ -117,10 +117,13 @@ user    0m0.024s
 sys     0m0.001s
 
 (base) sylvex@sylvex-Aspire-A715-51G:~/mlir_posit$ time ./mnist_posit
-prediction[0] = 31.543522                                                                                                                                   prediction[1] = -19.310673
+prediction[0] = 31.543522
+prediction[1] = -19.310673
 prediction[2] = -2.363823
 prediction[3] = -11.919170
-prediction[4] = -0.440003                                                                                                                                   prediction[5] = -1.079404                                                                                                                                   prediction[6] = 3.012451
+prediction[4] = -0.440003
+prediction[5] = -1.079404
+prediction[6] = 3.012451
 prediction[7] = -1.341515
 prediction[8] = -1.788554
 prediction[9] = 11.343984
@@ -130,3 +133,4 @@ real    0m10.290s
 user    0m10.289s
 sys     0m0.000s
 ```
+411.6x slow down
