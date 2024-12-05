@@ -1,10 +1,12 @@
 
 # TODO:
-- self sustained MNIST in project
+
 - what does affine lower to? 
-	- cf does not work? or lowering to the cf part.
+	- `cf` does not work? or lowering to the `cf` part.
 - Generate data or get the data
-- FuncToLLVM difference
+- `FuncToLLVM` difference
+- Design a experiment
+	- Load data set
 
 - Mnist input: [1 , 1 , 28 , 28]
 
@@ -101,7 +103,8 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 
 ```bash
 (base) sylvex@sylvex-Aspire-A715-51G:~/mlir_posit$ time ./mnist
-prediction[0] = 31.543524                                                                                                                                   prediction[1] = -19.310675
+prediction[0] = 31.543524
+prediction[1] = -19.310675
 prediction[2] = -2.363821
 prediction[3] = -11.919171
 prediction[4] = -0.440006
