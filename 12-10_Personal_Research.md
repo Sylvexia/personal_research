@@ -7,6 +7,8 @@
 - `FuncToLLVM` difference
 - Design a experiment
 	- Load data set
+	- Metric of measuring posit precision with different config
+	- 
 
 - Mnist input: [1 , 1 , 28 , 28]
 
