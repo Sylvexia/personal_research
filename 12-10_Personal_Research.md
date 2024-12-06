@@ -1,14 +1,18 @@
 
 # TODO:
 
+- Rewrite the pass
+	- Put our pass after the affineToStd
+	- Should we just lower the pass to llvm directly?
 - what does affine lower to? 
 	- `cf` does not work? or lowering to the `cf` part.
-- Generate data or get the data
 - `FuncToLLVM` difference
+- `PyRuntime`
 - Design a experiment
-	- Load data set
+	- Load data set, data transformation
 	- Metric of measuring posit precision with different config
-	- 
+	- So far using c++
+	- How does different model input.
 
 - Mnist input: [1 , 1 , 28 , 28]
 
@@ -101,6 +105,39 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 
 ```
 
+# Where should our pass locate
+
+@TODO: list the target dialect
+
+listing:
+```cpp
+  populateAffineToStdConversionPatterns(patterns);
+  populateSCFToControlFlowConversionPatterns(patterns);
+
+  populateShapeToStandardConversionPatterns(patterns);
+  populateVectorToLLVMMatrixConversionPatterns(typeConverter, patterns);
+  populateVectorToLLVMConversionPatterns(typeConverter, patterns);
+  populateVectorToLLVMMatrixConversionPatterns(typeConverter, patterns);
+  memref::populateExpandOpsPatterns(patterns);
+  // Use polynomial approximation for math.{tanh, sin, cos and exp} for better
+  // performance.
+  populateMathPolynomialApproximationPatterns(patterns);
+  arith::populateArithExpandOpsPatterns(patterns);
+  populateMathToLLVMConversionPatterns(typeConverter, patterns);
+  populateFuncToLLVMConversionPatterns(typeConverter, patterns);
+  populateFinalizeMemRefToLLVMConversionPatterns(typeConverter, patterns);
+  // Enable OpenMP-to-LLVM pass when enable parallelism
+  if (enableParallel) {
+    populateOpenMPToLLVMConversionPatterns(typeConverter, patterns);
+  }
+  arith::populateArithToLLVMConversionPatterns(typeConverter, patterns);
+  cf::populateControlFlowToLLVMConversionPatterns(typeConverter, patterns);
+
+  krnl::populateKrnlToLLVMConversion(typeConverter, patterns, ctx,
+      constantOutputs, singleEntryPoint, entryGlobalOps, inSigGlobalOps,
+      outSigGlobalOps, inputMemRefTypes, outputMemRefTypes, verifyInputTensors);
+
+```
 # Experiment result
 
 ```bash
