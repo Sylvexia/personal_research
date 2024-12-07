@@ -179,3 +179,8 @@ user    0m10.289s
 sys     0m0.000s
 ```
 411.6x slow down
+
+# Test Pipeline
+
+[pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
+
