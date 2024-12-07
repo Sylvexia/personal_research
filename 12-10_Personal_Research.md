@@ -180,6 +180,30 @@ sys     0m0.000s
 ```
 411.6x slow down
 
+# Model to lower
+
+- `whisper`
+	- arith
+		- add/sub/mul/div/const/cmp
+		- sitofp
+			- Cast from a value interpreted as a signed integer to the corresponding floating-point value
+	- Math
+		- exp, sqrt
+		- erf
+			- $\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2}  dt$
+- `gpt-2`
+	- arith
+		- add/sub/mul/div/const/cmp
+		- sitofp
+	- Math
+		- exp, sqrt, tanh
+
+# What we've done to make it work
+
+- MNIST model, 
+
+
+
 # Test Pipeline
 
 [pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
