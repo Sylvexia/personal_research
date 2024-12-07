@@ -184,3 +184,4 @@ sys     0m0.000s
 
 [pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
 
+The test is run through RunONNXModel.py
