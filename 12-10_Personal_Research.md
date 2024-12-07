@@ -200,9 +200,13 @@ sys     0m0.000s
 
 # What we've done to make it work
 
-- MNIST model, 
-
-
+- MNIST Example in project  would not work!
+	- Our version does not have `softmax` operator, which would not have exp operation.
+- Comment out the c interface injection to function declaration in original pass.
+	- Still waiting for response in git issue.
+- Our pass should not deal with affine. We should just deal with control flow type.
+	- Like what we does for the function.
+	- `populateBranchOpInterfaceTypeConversionPattern`
 
 # Test Pipeline
 
