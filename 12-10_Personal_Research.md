@@ -112,6 +112,12 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 
 @TODO: list the target dialect
 
+- What did we lower?
+	- 
+- Before the following thing, the 
+- after SCF to CF
+	- what's the difference
+
 listing:
 ```cpp
   populateAffineToStdConversionPatterns(patterns);
