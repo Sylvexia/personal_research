@@ -114,7 +114,14 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 
 - What did we lower?
 	- 
-- Before the following thing, the 
+- Before the following listing, the convertkrnltollvm pass does the following
+	1. **Append Postfix to Entry Points**: Adds a unique string from the module's attribute `onnx-mlir.symbol-postfix` to each entry point function name.
+	2. **Initialize Entry Point ID**: Sets `KRNL_ENTRY_POINT_ID` to 0.
+	3. **Prepare Global Ops**: Initializes vectors to store global operations for entry point names and their input/output JSON signatures.
+	4. **Record Original MemRefTypes**: Records the original `MemRefType` for inputs and outputs before they are lowered to LLVM IR.
+	5. **Check Single Entry Point**: Determines if the module has exactly one entry point.
+	6. **Determine OMTensor Ownership**: Determines whether each output `OMTensor` should own its underlying buffer.
+	7. **Extract Constants to File**: If enabled, extracts constants from the module and writes them to a binary file if they meet size thresholds.
 - after SCF to CF
 	- what's the difference
 
