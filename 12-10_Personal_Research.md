@@ -1,18 +1,21 @@
 
+# Summary
+
+- Posit prove of concept work.
+
 # TODO:
 
 - Rewrite the pass
 	- Put our pass after the affineToStd
 	- Should we just lower the pass to llvm directly?
-- what does affine lower to? 
-	- `cf` does not work? or lowering to the `cf` part.
-- `FuncToLLVM` difference
-- `PyRuntime`
+		- `FuncToLLVM` difference
 - Design a experiment
 	- Load data set, data transformation
 	- Metric of measuring posit precision with different config
-	- So far using c++
+	- So far using c++, maybe i need to come up serialize output scheme.
+		- json to serialize from python and load json in to c++??
 	- How does different model input.
+- Write about how do I make experiment work.
 
 - Mnist input: [1 , 1 , 28 , 28]
 
