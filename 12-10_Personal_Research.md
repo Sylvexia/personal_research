@@ -17,16 +17,7 @@
 	- How does different model input.
 - Write about how do I make experiment work.
 
-- Mnist input: [1 , 1 , 28 , 28]
-
-data transform
-
-```python
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
-```
+# Model
 
 Typically, `scf` is lowered to `cf` and then lowered to some final target like LLVM or SPIR-V.
 
@@ -197,6 +188,16 @@ sys     0m0.000s
 
 # Model to lower
 
+- Mnist input: [1 , 1 , 28 , 28]
+
+data transform
+
+```python
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+```
 - Current model:
 ```python
 class CNN(nn.Module):
