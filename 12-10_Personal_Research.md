@@ -9,14 +9,12 @@
 	- Should we just lower the pass to llvm directly?
 		- `FuncToLLVM` difference
 - Design a experiment
-	- Load data set, data transformation
-	- Metric of measuring posit precision with different config
+	- Load data set, data transformation.
+	- Metric of measuring posit precision with different config.
 	- See the how the `onnx-mlir` test doing?
 		- So far using c++, maybe i need to come up serialize output scheme.
 			- json to serialize from python and load json in to c++??
 		- How to handle different model input?
-- Write about how do I make experiment work.
-
 
 Typically, `scf` is lowered to `cf` and then lowered to some final target like LLVM or SPIR-V.
 
@@ -113,9 +111,10 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 				- convert type
 				- handle based on attribute, 
 					- linkage, propagate, c wrapper
-				- create llvm.func
+				- create `llvm.func`
 				- inline function body
-		- However, there does exist target spec
+		- However, there does exist target specific like GPU or SPIRV
+			- `populateFuncToSPIRVPatterns()`
 	- `affine`
 		- It would lower to `scf` then `cf` dialect, we only care about `cf`.
 		- SCF to CF, what's the difference?
@@ -123,8 +122,8 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 				- if, for, while, parallel
 			- CF just use SSA blocks, think of it as labels.
 	- `memref`
-		- AllocaOp, AllocOp, LoadOp, ReinterpretCastOp
-		- StoreOp is done in affine.
+		- `AllocaOp`, `AllocOp`, `LoadOp`, `ReinterpretCastOp`
+		- `StoreOp` is done in affine.
 
 - Before the following listing, the convertkrnltollvm pass does the following
 	1. **Append Postfix to Entry Points**: Adds a unique string from the module's attribute `onnx-mlir.symbol-postfix` to each entry point function name.
@@ -276,3 +275,4 @@ The test is run through RunONNXModel.py
 
 which is called by RunONNXModelZoo.py
 
+# 
