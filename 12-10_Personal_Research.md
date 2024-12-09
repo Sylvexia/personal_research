@@ -12,15 +12,15 @@
 	- Load data set, data transformation.
 	- Metric of measuring posit precision with different config.
 	- See the how the `onnx-mlir` test doing?
-		- So far using c++, maybe i need to come up serialize output scheme.
-			- json to serialize from python and load json in to c++??
+		- So far using `c++`, maybe i need to come up serialize output scheme.
+			- `json` to serialize from python and load `json` in to `c++`??
 		- How to handle different model input?
 - Recent big goal
 	- posit dialect
 		- `add`, `mul`, `const`
 		- `exp`, `sqrt`, 
 		- `load`, `store`, `alloc`, `alloca`
-		- Our goal would be more like SPIR-V dialect I guess.
+		- Our goal would be more like SPIR-V dialect.
 
 Typically, `scf` is lowered to `cf` and then lowered to some final target like LLVM or SPIR-V.
 
@@ -177,21 +177,21 @@ listing:
 ```
 # Experiment result
 
-| posit config | runtime  | match label |
-| ------------ | -------- | ----------- |
-| F32          | 0.028482 | Yes         |
-| Posit(32, 0) | 11.464   | Yes         |
-| Posit(32, 1) | 11.182   | Yes         |
-| Posit(32, 2) | 10.546   | Yes         |
-| Posit(32, 3) | 10.713   | Yes         |
-| Posit(16, 0) | 2.570    | No (Nan)    |
-| Posit(16, 1) | 2.538    | Yes         |
-| Posit(16, 2) | 2.476    | Yes         |
-| Posit(16, 3) | 2.379    | Yes         |
-| Posit(8, 0)  | 0.379    | No (Nan)    |
-| Posit(8, 1)  | 0.532    | No (Nan)    |
-| Posit(8, 2)  | 0.500    | Yes         |
-| Posit(8, 3)  | 0.420    | Yes         |
+| posit config | runtime (seconds) | match label |
+| ------------ | ----------------- | ----------- |
+| F32          | 0.028482          | Yes         |
+| Posit(32, 0) | 11.464            | Yes         |
+| Posit(32, 1) | 11.182            | Yes         |
+| Posit(32, 2) | 10.546            | Yes         |
+| Posit(32, 3) | 10.713            | Yes         |
+| Posit(16, 0) | 2.570             | No (Nan)    |
+| Posit(16, 1) | 2.538             | Yes         |
+| Posit(16, 2) | 2.476             | Yes         |
+| Posit(16, 3) | 2.379             | Yes         |
+| Posit(8, 0)  | 0.379             | No (Nan)    |
+| Posit(8, 1)  | 0.532             | No (Nan)    |
+| Posit(8, 2)  | 0.500             | Yes         |
+| Posit(8, 3)  | 0.420             | Yes         |
 
 run_main_graph took 0.028482 seconds
 prediction[0] = 31.543524
@@ -423,7 +423,7 @@ class CNN(nn.Module):
 - Comment out the c interface injection to function declaration in original pass.
 	- Still waiting for response in git issue.
 - Our pass should not deal with affine. We should just deal with control flow type.
-	- Like what we does for the function.
+	- Like what we did for the function.
 	- `populateBranchOpInterfaceTypeConversionPattern`
 - The input value distribution does not fit in current (currently data not normalized)
 
