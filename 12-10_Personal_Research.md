@@ -122,7 +122,8 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 				- if, for, while, parallel
 			- CF just use SSA blocks, think of it as labels.
 	- `memref`
-		- 
+		- AllocaOp, AllocOp, LoadOp, ReinterpretCastOp
+		- StoreOp is done in affine.
 
 - Before the following listing, the convertkrnltollvm pass does the following
 	1. **Append Postfix to Entry Points**: Adds a unique string from the module's attribute `onnx-mlir.symbol-postfix` to each entry point function name.
