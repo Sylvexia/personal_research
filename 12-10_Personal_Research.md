@@ -20,6 +20,7 @@
 		- add, mul, const
 		- exp, sqrt, 
 		- load, store, alloc, alloca
+		- Our goal would be more like SPIR-V dialect I guess.
 
 Typically, `scf` is lowered to `cf` and then lowered to some final target like LLVM or SPIR-V.
 
