@@ -5,15 +5,13 @@
 # TODO:
 
 - Rewrite the pass
-	- Put our pass after the `affineToStd`
-	- Should we just lower the pass to `llvm` directly?
-		- `FuncToLLVM` difference
+	- Put our pass after the `scfTocf`
+	- Rethink we just lower the pass to `llvm` directly?
 - Design a experiment
 	- Load data set, data transformation.
 	- Metric of measuring posit precision with different config.
 	- See the how the `onnx-mlir` test doing?
-		- So far using `c++`, maybe i need to come up serialize output scheme.
-			- `json` to serialize from python and load `json` in to `c++`??
+		- So far experiment use `c++`, with macro.
 		- How to handle different model input?
 - Recent big goal
 	- posit dialect
@@ -128,7 +126,9 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 				- if, for, while, parallel...
 			- CF just use SSA blocks, think of it as labels.
 				- `assert`, `br`, `cond_br`, `switch`
-		- https://github.com/j2kun/mlir-tutorial/pull/20/commits/25b284b48cbc18860aac6edff59f5eb6b9466268
+		- CF has existing: `populateBranchOpInterfaceTypeConversionPattern`
+			- Just like we convert existing function type :`populateFunctionOpInterfaceTypeConversionPattern`
+			- Also like [here:](https://github.com/j2kun/mlir-tutorial/pull/20/commits/25b284b48cbc18860aac6edff59f5eb6b9466268)
 	- `memref`
 		- `AllocaOp`, `AllocOp`, `LoadOp`, `ReinterpretCastOp`
 		- `StoreOp` is done in affine.
@@ -193,6 +193,8 @@ listing:
 | Posit(8, 2)  | 0.500             | Yes         |
 | Posit(8, 3)  | 0.420             | Yes         |
 
+```
+Unchanged
 run_main_graph took 0.028482 seconds
 prediction[0] = 31.543524
 prediction[1] = -19.310675
@@ -205,6 +207,7 @@ prediction[7] = -1.341520
 prediction[8] = -1.788554
 prediction[9] = 11.343985
 The digit is 0
+```
 
 ```bash
 posit config: (8, 0):
