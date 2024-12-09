@@ -115,6 +115,7 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 					- linkage, propagate, c wrapper
 				- create llvm.func
 				- inline function body
+		- However, there does exist target spec
 	- `affine`
 		- It would lower to `scf` then `cf` dialect, we only care about `cf`.
 		- SCF to CF, what's the difference?
