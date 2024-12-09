@@ -6,7 +6,7 @@
 
 - Rewrite the pass
 	- Put our pass after the `affineToStd`
-	- Should we just lower the pass to llvm directly?
+	- Should we just lower the pass to `llvm` directly?
 		- `FuncToLLVM` difference
 - Design a experiment
 	- Load data set, data transformation.
@@ -15,6 +15,11 @@
 		- So far using c++, maybe i need to come up serialize output scheme.
 			- json to serialize from python and load json in to c++??
 		- How to handle different model input?
+- Recent big goal
+	- posit dialect
+		- add, mul, const
+		- exp, sqrt, 
+		- load, store, alloc, alloca
 
 Typically, `scf` is lowered to `cf` and then lowered to some final target like LLVM or SPIR-V.
 
