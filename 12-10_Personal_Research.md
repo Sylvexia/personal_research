@@ -428,7 +428,8 @@ class CNN(nn.Module):
 - Our pass should not deal with affine. We should just deal with control flow type.
 	- Like what we did for the function.
 	- `populateBranchOpInterfaceTypeConversionPattern`
-- The input value distribution does not fit in current (currently data not normalized)
+- The input value distribution does not fit in current model
+	- currently data not normalized
 
 # Test Pipeline
 
