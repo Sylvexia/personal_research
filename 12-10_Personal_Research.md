@@ -119,13 +119,18 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 		- It would lower to `scf` then `cf` dialect, we only care about `cf`.
 		- SCF to CF, what's the difference?
 			- SCF use MLIR region to contain block of operations.
-				- if, for, while, parallel
+				- if, for, while, parallel...
 			- CF just use SSA blocks, think of it as labels.
+				- `assert`, `br`, `cond_br`, `switch`
+		- https://github.com/j2kun/mlir-tutorial/pull/20/commits/25b284b48cbc18860aac6edff59f5eb6b9466268
 	- `memref`
 		- `AllocaOp`, `AllocOp`, `LoadOp`, `ReinterpretCastOp`
 		- `StoreOp` is done in affine.
 
-- Before the following listing, the convertkrnltollvm pass does the following
+- Before the following listing, the `ConvertKrnlToLLVM` pass does the following
+	- Deal with entry point lowering
+	- Extract Constants to File if enabled
+	- Request C wrapper emission via attribute.
 	1. **Append Postfix to Entry Points**: Adds a unique string from the module's attribute `onnx-mlir.symbol-postfix` to each entry point function name.
 	2. **Initialize Entry Point ID**: Sets `KRNL_ENTRY_POINT_ID` to 0.
 	3. **Prepare Global Ops**: Initializes vectors to store global operations for entry point names and their input/output JSON signatures.
@@ -166,8 +171,23 @@ listing:
 ```
 # Experiment result
 
-```bash
-(base) sylvex@sylvex-Aspire-A715-51G:~/mlir_posit$ time ./mnist
+| posit config | runtime  | match label |
+| ------------ | -------- | ----------- |
+| F32          | 0.028482 | Yes         |
+| Posit(32, 0) | 11.464   | Yes         |
+| Posit(32, 1) | 11.182   | Yes         |
+| Posit(32, 2) | 10.546   | Yes         |
+| Posit(32, 3) | 10.713   | Yes         |
+| Posit(16, 0) | 2.570    | No (Nan)    |
+| Posit(16, 1) | 2.538    | Yes         |
+| Posit(16, 2) | 2.476    | Yes         |
+| Posit(16, 3) | 2.379    | Yes         |
+| Posit(8, 0)  | 0.379    | No (Nan)    |
+| Posit(8, 1)  | 0.532    | No (Nan)    |
+| Posit(8, 2)  | 0.500    | Yes         |
+| Posit(8, 3)  | 0.420    | Yes         |
+
+run_main_graph took 0.028482 seconds
 prediction[0] = 31.543524
 prediction[1] = -19.310675
 prediction[2] = -2.363821
@@ -180,11 +200,126 @@ prediction[8] = -1.788554
 prediction[9] = 11.343985
 The digit is 0
 
-real    0m0.025s
-user    0m0.024s
-sys     0m0.001s
-
-(base) sylvex@sylvex-Aspire-A715-51G:~/mlir_posit$ time ./mnist_posit
+```bash
+posit config: (8, 0):
+run_main_graph took 0.378976 seconds
+prediction[0] = nan
+prediction[1] = nan
+prediction[2] = nan
+prediction[3] = nan
+prediction[4] = nan
+prediction[5] = nan
+prediction[6] = nan
+prediction[7] = nan
+prediction[8] = nan
+prediction[9] = nan
+The digit is -1
+posit config: (8, 1):
+run_main_graph took 0.531552 seconds
+prediction[0] = 0.019531
+prediction[1] = 0.101562
+prediction[2] = -0.046875
+prediction[3] = 0.015625
+prediction[4] = -0.109375
+prediction[5] = 0.046875
+prediction[6] = -0.109375
+prediction[7] = -0.062500
+prediction[8] = 0.062500
+prediction[9] = -0.027344
+The digit is 1
+posit config: (8, 2):
+run_main_graph took 0.499995 seconds
+prediction[0] = 15.000000
+prediction[1] = -13.000000
+prediction[2] = -0.687500
+prediction[3] = -3.500000
+prediction[4] = -3.500000
+prediction[5] = -1.625000
+prediction[6] = 2.500000
+prediction[7] = -2.500000
+prediction[8] = 1.750000
+prediction[9] = 6.500000
+The digit is 0
+posit config: (8, 3):
+run_main_graph took 0.420289 seconds
+prediction[0] = 8.000000
+prediction[1] = -4.000000
+prediction[2] = -0.375000
+prediction[3] = -4.000000
+prediction[4] = -0.500000
+prediction[5] = -0.312500
+prediction[6] = 0.625000
+prediction[7] = -0.750000
+prediction[8] = 0.156250
+prediction[9] = 3.000000
+The digit is 0
+posit config: (16, 0):
+run_main_graph took 2.570433 seconds
+prediction[0] = -0.164795
+prediction[1] = -0.271057
+prediction[2] = -0.061523
+prediction[3] = -1.299438
+prediction[4] = 1.395264
+prediction[5] = 0.595581
+prediction[6] = nan
+prediction[7] = -0.316284
+prediction[8] = nan
+prediction[9] = 1.254883
+The digit is 4
+posit config: (16, 1):
+run_main_graph took 2.538182 seconds
+prediction[0] = 31.515625
+prediction[1] = -19.312500
+prediction[2] = -2.394043
+prediction[3] = -11.925781
+prediction[4] = -0.419312
+prediction[5] = -1.130859
+prediction[6] = 3.031738
+prediction[7] = -1.309570
+prediction[8] = -1.804932
+prediction[9] = 11.335938
+The digit is 0
+posit config: (16, 2):
+run_main_graph took 2.476076 seconds
+prediction[0] = 31.484375
+prediction[1] = -19.296875
+prediction[2] = -2.394531
+prediction[3] = -11.917969
+prediction[4] = -0.423340
+prediction[5] = -1.119629
+prediction[6] = 3.041016
+prediction[7] = -1.311035
+prediction[8] = -1.816406
+prediction[9] = 11.351562
+The digit is 0
+posit config: (16, 3):
+run_main_graph took 2.379381 seconds
+prediction[0] = 31.484375
+prediction[1] = -19.312500
+prediction[2] = -2.423828
+prediction[3] = -11.882812
+prediction[4] = -0.400635
+prediction[5] = -1.104492
+prediction[6] = 2.978516
+prediction[7] = -1.324219
+prediction[8] = -1.806641
+prediction[9] = 11.421875
+The digit is 0
+posit config: (32, 0):
+run_main_graph took 11.464221 seconds
+prediction[0] = 31.543522
+prediction[1] = -19.310673
+prediction[2] = -2.363822
+prediction[3] = -11.919169
+prediction[4] = -0.440003
+prediction[5] = -1.079404
+prediction[6] = 3.012450
+prediction[7] = -1.341515
+prediction[8] = -1.788554
+prediction[9] = 11.343983
+The digit is 0
+posit config: (32, 1):
+run_main_graph took 11.181827 seconds
 prediction[0] = 31.543522
 prediction[1] = -19.310673
 prediction[2] = -2.363823
@@ -196,13 +331,33 @@ prediction[7] = -1.341515
 prediction[8] = -1.788554
 prediction[9] = 11.343984
 The digit is 0
-
-real    0m10.290s
-user    0m10.289s
-sys     0m0.000s
+posit config: (32, 2):
+run_main_graph took 10.545715 seconds
+prediction[0] = 31.543522
+prediction[1] = -19.310673
+prediction[2] = -2.363823
+prediction[3] = -11.919170
+prediction[4] = -0.440003
+prediction[5] = -1.079404
+prediction[6] = 3.012451
+prediction[7] = -1.341515
+prediction[8] = -1.788554
+prediction[9] = 11.343984
+The digit is 0
+posit config: (32, 3):
+run_main_graph took 10.713363 seconds
+prediction[0] = 31.543522
+prediction[1] = -19.310673
+prediction[2] = -2.363821
+prediction[3] = -11.919169
+prediction[4] = -0.440004
+prediction[5] = -1.079404
+prediction[6] = 3.012450
+prediction[7] = -1.341516
+prediction[8] = -1.788554
+prediction[9] = 11.343983
+The digit is 0
 ```
-411.6x slow down
-
 # Model to lower
 
 - Mnist input: [1 , 1 , 28 , 28]
