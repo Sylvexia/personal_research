@@ -266,6 +266,7 @@ class CNN(nn.Module):
 - Our pass should not deal with affine. We should just deal with control flow type.
 	- Like what we does for the function.
 	- `populateBranchOpInterfaceTypeConversionPattern`
+- The input value distribution does not fit in current (currently data not normalized)
 
 # Test Pipeline
 
@@ -274,5 +275,3 @@ class CNN(nn.Module):
 The test is run through RunONNXModel.py
 
 which is called by RunONNXModelZoo.py
-
-# 
