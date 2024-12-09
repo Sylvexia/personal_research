@@ -166,8 +166,6 @@ listing:
 ```
 # Experiment result
 
-@TODO: benchmark
-
 ```bash
 (base) sylvex@sylvex-Aspire-A715-51G:~/mlir_posit$ time ./mnist
 prediction[0] = 31.543524
