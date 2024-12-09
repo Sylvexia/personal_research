@@ -5,7 +5,7 @@
 # TODO:
 
 - Rewrite the pass
-	- Put our pass after the affineToStd
+	- Put our pass after the `affineToStd`
 	- Should we just lower the pass to llvm directly?
 		- `FuncToLLVM` difference
 - Design a experiment
@@ -115,12 +115,14 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 					- linkage, propagate, c wrapper
 				- create llvm.func
 				- inline function body
-	- affine
-		- it would lower to `scf` then `cf` dialect, we only care about `cf`.
+	- `affine`
+		- It would lower to `scf` then `cf` dialect, we only care about `cf`.
 		- SCF to CF, what's the difference?
 			- SCF use MLIR region to contain block of operations.
 				- if, for, while, parallel
 			- CF just use SSA blocks, think of it as labels.
+	- `memref`
+		- 
 
 - Before the following listing, the convertkrnltollvm pass does the following
 	1. **Append Postfix to Entry Points**: Adds a unique string from the module's attribute `onnx-mlir.symbol-postfix` to each entry point function name.
