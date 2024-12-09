@@ -103,7 +103,7 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 @TODO: list the target dialect
 
 - What did we lower?
-	- arith.const and `krnlGlobalOp`
+	- `arith.const` and `krnlGlobalOp`
 		- Numerical conversion should not be done by pass.
 		- Ultimate goal: lowering should not involve project's custom operation like `krnlGlobalOp`
 	- `arith` to `func`
