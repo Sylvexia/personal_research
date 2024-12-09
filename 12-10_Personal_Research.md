@@ -1,8 +1,7 @@
 
 # Summary
 
-- Posit prove of concept work.
-
+- Posit proof of concept works.
 # TODO:
 
 - Rewrite the pass
@@ -12,12 +11,12 @@
 - Design a experiment
 	- Load data set, data transformation
 	- Metric of measuring posit precision with different config
-	- So far using c++, maybe i need to come up serialize output scheme.
-		- json to serialize from python and load json in to c++??
-	- How does different model input.
+	- See the how the `onnx-mlir` test doing?
+		- So far using c++, maybe i need to come up serialize output scheme.
+			- json to serialize from python and load json in to c++??
+		- How to handle different model input?
 - Write about how do I make experiment work.
 
-# Model
 
 Typically, `scf` is lowered to `cf` and then lowered to some final target like LLVM or SPIR-V.
 
@@ -104,9 +103,25 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 @TODO: list the target dialect
 
 - What did we lower?
-	- const
-	- arith to func
+	- arith.const and `krnlGlobalOp`
+		- Numerical conversion should not be done by pass.
+		- Ultimate goal: lowering should not involve project's custom operation like `krnlGlobalOp`
+	- `arith` to `func`
+		- We still need to rethink should we lower to `llvm.func` directly
+		- We mostly don't need `Func` dialect specific feature
+			- func.func to llvm
+				- convert type
+				- handle based on attribute, 
+					- linkage, propagate, c wrapper
+				- create llvm.func
+				- inline function body
 	- affine
+		- it would lower to `scf` then `cf` dialect, we only care about `cf`.
+		- SCF to CF, what's the difference?
+			- SCF use MLIR region to contain block of operations.
+				- if, for, while, parallel
+			- CF just use SSA blocks, think of it as labels.
+
 - Before the following listing, the convertkrnltollvm pass does the following
 	1. **Append Postfix to Entry Points**: Adds a unique string from the module's attribute `onnx-mlir.symbol-postfix` to each entry point function name.
 	2. **Initialize Entry Point ID**: Sets `KRNL_ENTRY_POINT_ID` to 0.
@@ -115,8 +130,7 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 	5. **Check Single Entry Point**: Determines if the module has exactly one entry point.
 	6. **Determine OMTensor Ownership**: Determines whether each output `OMTensor` should own its underlying buffer.
 	7. **Extract Constants to File**: If enabled, extracts constants from the module and writes them to a binary file if they meet size thresholds.
-- after SCF to CF
-	- what's the difference
+	8. Request C wrapper emission via attribute.
 
 listing:
 ```cpp
@@ -148,6 +162,8 @@ listing:
 
 ```
 # Experiment result
+
+@TODO: benchmark
 
 ```bash
 (base) sylvex@sylvex-Aspire-A715-51G:~/mlir_posit$ time ./mnist
