@@ -109,7 +109,7 @@ rewriter.modifyOpInPlace(op, [&] { op->setOperands(adaptor.getOperands()); });
 	- `arith` to `func`
 		- We still need to rethink should we lower to `llvm.func` directly
 		- We mostly don't need `Func` dialect specific feature
-			- func.func to llvm
+			- `func.func` to `llvm.func`
 				- convert type
 				- handle based on attribute, 
 					- linkage, propagate, c wrapper
@@ -242,7 +242,6 @@ class CNN(nn.Module):
 ```
 - `whisper`
 	- arith
-		- add/sub/mul/div/const/cmp
 		- sitofp
 			- Cast from a value interpreted as a signed integer to the corresponding floating-point value
 	- Math
@@ -251,14 +250,13 @@ class CNN(nn.Module):
 			- $\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2}  dt$
 - `gpt-2`
 	- arith
-		- add/sub/mul/div/const/cmp
 		- sitofp
 	- Math
 		- exp, sqrt, tanh
 
 # What we've done to make it work
 
-- MNIST Example in project  would not work!
+- MNIST Example in the project  would not work!
 	- Our version does not have `softmax` operator, which would not have exp operation.
 - Comment out the c interface injection to function declaration in original pass.
 	- Still waiting for response in git issue.
