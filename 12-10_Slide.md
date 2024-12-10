@@ -14,7 +14,6 @@ style: "h1, h2, h3 {\r  text-align: center;\r}
 
   {\r  display: block;\r  margin: 0 auto;\r}"
 ---
-
 # 12-10 Personal Research
 ## Presenter: Yu Chun Hung
 ## Advisor: Peng-Sheng Cheng
