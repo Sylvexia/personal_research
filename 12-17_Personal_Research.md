@@ -18,3 +18,5 @@ which is called by RunONNXModelZoo.py
 ## RunONNXModelZoo.py
 
 `ok, msg = execute_commands(RUN_ONNX_MODEL_CMD + options, tmout=1800)`
+
+options = compile_args + data_set + model
