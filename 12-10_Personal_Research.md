@@ -2,6 +2,7 @@
 # Summary
 
 - Posit proof of concept works.
+
 # TODO:
 
 - Rewrite the pass
@@ -174,6 +175,36 @@ listing:
       constantOutputs, singleEntryPoint, entryGlobalOps, inSigGlobalOps,
       outSigGlobalOps, inputMemRefTypes, outputMemRefTypes, verifyInputTensors);
 
+```
+# How does it works?
+
+- Singular project for experiment, just need to know the library path.
+- Copy and paste my posit-uint code.
+- Include the universal header only library.
+- Many macros in driver code and environment variable in shell script , so you can
+	- `-DN_BIT_VAR=$N_BITS -DES_VAR=$ES_VAL` as compiler directive to feed the variable to user driver code and compile.
+	- Use environment variable to config `n_bit`, `es_val`, linking directory location...
+
+# User driver code modification:
+
+Wrap to tensor:
+```cpp
+std::vector<RAW_DATA_TYPE> posit_data;
+for (float val : img_data) {
+	sw::universal::posit<N_BIT, ES> posit(val);
+	auto posit_bit = get_uType<N_BIT, ES, RAW_DATA_TYPE>(posit);
+	posit_data.push_back(posit_bit);
+}
+OMTensor *tensor =
+	omTensorCreate(posit_data.data(), shape, rank, ONNX_MAP_TYPE);
+```
+
+Unwrap from tensor
+```cpp
+RAW_DATA_TYPE *prediction = (RAW_DATA_TYPE *)omTensorGetDataPtr(y);
+// ...
+auto pa = get_posit<N_BIT, ES>(prediction[i]);
+float floatVal = static_cast<float>(pa);
 ```
 # Experiment result
 
@@ -429,7 +460,7 @@ class CNN(nn.Module):
 	- Like what we did for the function.
 	- `populateBranchOpInterfaceTypeConversionPattern`
 - The input value distribution does not fit in current model
-	- currently data not normalized
+	- Currently data not normalized
 
 # Test Pipeline
 
