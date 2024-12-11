@@ -33,3 +33,18 @@ clone github and download dataset and model.
 	- Measures the similarity between the generated text and reference text, often used in machine translation
 - ROUGE Score
 	- Evaluates the overlap between the generated text and reference summaries, useful for summarization tasks
+
+# Multiple apply?
+
+```cpp
+vector::populateVectorToVectorCanonicalizationPatterns(patterns);
+vector::populateVectorBroadcastLoweringPatterns(patterns);
+vector::populateVectorContractLoweringPatterns(
+  patterns, vector::VectorTransformsOptions());
+vector::populateVectorTransposeLoweringPatterns(
+  patterns, vector::VectorTransformsOptions());
+
+populateAffineToStdConversionPatterns(patterns);
+populateSCFToControlFlowConversionPatterns(patterns);
+
+```
