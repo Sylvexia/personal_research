@@ -8,6 +8,22 @@
 # Summary
 
 
+# Lowering
+
+```cpp
+  RewritePatternSet prePatterns(&getContext());
+
+  populateAffineToStdConversionPatterns(prePatterns);
+  populateSCFToControlFlowConversionPatterns(prePatterns);
+
+  ConversionTarget preTarget(getContext());
+  preTarget.addIllegalDialect<affine::AffineDialect, scf::SCFDialect>();
+  preTarget.markUnknownOpDynamicallyLegal([](Operation *) { return true; });
+  if (failed(applyPartialConversion(module, preTarget, std::move(prePatterns))))
+    signalPassFailure();
+
+```
+TODO: write about the full and partial
 # Runtime
 
 [pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
