@@ -24,6 +24,17 @@
 
 ```
 TODO: write about the full and partial
+
+```cpp
+/home/sylvex/onnx-mlir/build/Debug/bin/log.txt.onnx.mlir:16:12: error: failed to materialize conversion for result #0 of operation 'arith.constant' that remained live after conversion
+    %cst = arith.constant 0xFF800000 : f32
+           ^
+/home/sylvex/onnx-mlir/build/Debug/bin/log.txt.onnx.mlir:16:12: note: see current operation: %1 = "arith.constant"() <{value = 0xFF800000 : f32}> : () -> f32
+/home/sylvex/onnx-mlir/build/Debug/bin/log.txt.onnx.mlir:151:13: note: see existing live user here: "memref.store"(%1, %364) <{nontemporal = false}> : (f32, memref<f32>) -> ()
+            affine.store %cst, %alloca_6[] : memref<f32>
+            ^
+```
+
 # Runtime
 
 [pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
