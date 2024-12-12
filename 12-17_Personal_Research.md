@@ -5,7 +5,17 @@
 - How does runtime work?
 	- Test pipeline.
 - Posit Dialect.
-- Test memref store
+- Test `memref` store
+- How to log out the module
+- What does vector Dialect do
+```cpp
+  // vector::populateVectorToVectorCanonicalizationPatterns(patterns);
+  // vector::populateVectorBroadcastLoweringPatterns(patterns);
+  // vector::populateVectorContractLoweringPatterns(
+  //     patterns, vector::VectorTransformsOptions());
+  // vector::populateVectorTransposeLoweringPatterns(
+  //     patterns, vector::VectorTransformsOptions());
+```
 # Summary
 
 
@@ -28,7 +38,7 @@ TODO: write about the full and partial
 
 ## WTF
 
-Doing standard with two applyPartialConversion seemed to mixed up.
+Doing standard with two `applyPartialConversion` seemed to mixed up.
 
 `./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=3' /home/sylvex/onnx-mlir/build/Debug/bin/log.txt.onnx.mlir --mlir-elide-elementsattrs-if-larger=16 > lowered.mlir`
 
