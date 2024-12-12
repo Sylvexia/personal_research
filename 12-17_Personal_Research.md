@@ -25,6 +25,8 @@
 ```
 TODO: write about the full and partial
 
+`./onnx-mlir-opt --convert-arith-to-posit-func='n-bits=8 es-val=3' /home/sylvex/onnx-mlir/build/Debug/bin/log.txt.onnx.mlir --mlir-elide-elementsattrs-if-larger=16 > lowered.mlir`
+
 ```cpp
 /home/sylvex/onnx-mlir/build/Debug/bin/log.txt.onnx.mlir:16:12: error: failed to materialize conversion for result #0 of operation 'arith.constant' that remained live after conversion
     %cst = arith.constant 0xFF800000 : f32
