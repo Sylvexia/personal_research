@@ -61,7 +61,14 @@ before cf, there's bufferDeallocation pass:
 
 # Solution
 
-`scf::populateSCFStructuralTypeConversionsAndLegality(typeConverter, patterns, target);`
+```cpp
+populateAffineToStdConversionPatterns(patterns);
+target.addIllegalDialect<mlir::affine::AffineDialect>();
+target.markUnknownOpDynamicallyLegal([](Operation *) 
+									 { return true; });
+if (failed(applyPartialConversion(module, target, std::move(patterns))))
+      signalPassFailure();
+```
 
 - Meaning: We do not need to lower control flow related operation 1 by 1.
 # Runtime
