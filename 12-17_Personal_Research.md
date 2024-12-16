@@ -71,7 +71,7 @@ if (failed(applyPartialConversion(module, target, std::move(patterns))))
 ```
 
 - Meaning: We do not need to lower control flow related operation 1 by 1.
-# Runtime
+# Testing Pipeline
 
 [pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
 
@@ -83,11 +83,16 @@ which is called by RunONNXModelZoo.py
 
 `ok, msg = execute_commands(RUN_ONNX_MODEL_CMD + options, tmout=1800)`
 
-options = compile_args + data_set + model
+options = `compile_args` + dataset + model
 
 ## RunONNXModel.py
 
-clone github and download dataset and model.
+clone `Github` and download dataset and model.
+
+compile with `onnx-mlir`
+
+using python runtime to load the share object and
+
 # Metric of GPT-2
 
 - Perplexity
