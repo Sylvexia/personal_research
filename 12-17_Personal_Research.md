@@ -1,9 +1,6 @@
 # TODO
 
-- Move pass after `cf` dialect.
 - Math Dialect lowering.
-- How does runtime work?
-	- Test pipeline.
 - Posit Dialect.
 - What does vector Dialect do
 ```cpp
@@ -16,8 +13,12 @@
 ```
 # Summary
 
-
-# Lowering
+- Move pass after `scf` pass.
+	- Cannot move after `cf` pass because 
+- See how the test pipeline doing?
+	- We need to implement input dataset separately.
+	- Import dataset to train is mostly done by python, we need to code in python?
+# Can I just put pattern before out pass?
 
 ```cpp
   RewritePatternSet prePatterns(&getContext());
@@ -31,11 +32,10 @@
   if (failed(applyPartialConversion(module, preTarget, std::move(prePatterns))))
     signalPassFailure();
 
+ // our original pass...
 ```
 
-TODO: write about the full and partial
-
-## WTF
+# Error after remove all custom affine OP pattern
 
 Doing standard with two `applyPartialConversion` seemed to mixed up.
 
@@ -51,15 +51,21 @@ Doing standard with two `applyPartialConversion` seemed to mixed up.
             ^
 ```
 
-# Cannot lower to cf
+# Separate to independent pass.
 
 error: `Only structured control-flow loops are supported.`
 
-before cf, there's bufferDeallocation pass:
-
-
+- Before `cf`, there's `bufferDeallocation` pass
+- Support `std` and `scf` dialect, for preventing memory leak.
+	- Match `alloc` with `dealloc`, but consider the control flow.
+- In `addKrnlToLLVMPasses`
+	- `LowerAffinePass`
+	- `BufferDeallocationPass`
+	- `ConvertKrnlToLLVMPass`
 
 # Solution
+
+Create a separate pass.
 
 ```cpp
 populateAffineToStdConversionPatterns(patterns);
@@ -75,23 +81,20 @@ if (failed(applyPartialConversion(module, target, std::move(patterns))))
 
 [pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
 
-The output from the link is run through RunONNXModel.py
+## RunONNXModel.py
 
-which is called by RunONNXModelZoo.py
+- load onnx model.
+- compile with `onnx-mlir`
+- using python runtime to load the share object and run with `OMExecutionSession`
+- verify the output
 
 ## RunONNXModelZoo.py
+
+clone `Github` and download dataset and model.
 
 `ok, msg = execute_commands(RUN_ONNX_MODEL_CMD + options, tmout=1800)`
 
 options = `compile_args` + dataset + model
-
-## RunONNXModel.py
-
-clone `Github` and download dataset and model.
-
-compile with `onnx-mlir`
-
-using python runtime to load the share object and
 
 # Metric of GPT-2
 
