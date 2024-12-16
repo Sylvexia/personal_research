@@ -90,5 +90,8 @@ vector::populateVectorTransposeLoweringPatterns(
 
 populateAffineToStdConversionPatterns(patterns);
 populateSCFToControlFlowConversionPatterns(patterns);
-
 ```
+
+# preserve
+
+`--preserveLLVMIR`
