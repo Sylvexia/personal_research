@@ -56,7 +56,7 @@ Doing standard with two `applyPartialConversion` seemed to mixed up.
 
 error:`Only structured control-flow loops are supported.`
 
-before cf, there's bufferDeallocation
+before cf, there's bufferDeallocation pass
 
 # Solution
 
