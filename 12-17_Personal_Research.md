@@ -58,8 +58,11 @@ error:`Only structured control-flow loops are supported.`
 
 before cf, there's bufferDeallocation
 
+# Solution
 
+scf::populateSCFStructuralTypeConversionsAndLegality(typeConverter, patterns, target);
 
+- Meaning:
 # Runtime
 
 [pipeline link](https://www.onnxmlir.xyz/jenkinx/job/ONNX-MLIR-Pipeline-Docker-Build/Model_20Zoo_20Report/)
