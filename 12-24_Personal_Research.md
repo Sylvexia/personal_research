@@ -30,3 +30,15 @@ parser.add_argument(
 	" checks all models in the model zoo.",
 )
 ```
+
+
+```bash
+cd build/
+source env/bin/activate
+pip install joblib
+pip install -e third_party/onnx
+export ONNX_MLIR_HOME=/home/sylvex/onnx-mlir/build/Debug/****
+pip uninstall numpy
+pip install numpy~=1.22.2
+python ./utils/RunONNXModelZooPosit.py -c='-O0' -m='gpt2-10' -l='debug'
+```
