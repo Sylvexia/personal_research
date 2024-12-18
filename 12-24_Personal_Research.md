@@ -18,3 +18,15 @@
 ```
 
 # Runtime
+
+```python
+parser.add_argument(
+	"-m",
+	"--model",
+	metavar="model_name",
+	help="Only process a list of models in the ONNX model zoo."
+	" Passing the name of the models, e.g. 'mnist-8 yolov4'."
+	" Use -p to know model names. Without -m, the script "
+	" checks all models in the model zoo.",
+)
+```
