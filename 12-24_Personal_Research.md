@@ -1,7 +1,7 @@
 
 # TODO
 
-- Posit conversion
+- between float and uint in posit in python version
 - Runtime
 - Making a flow chart of end-to-end
 - Custom attribute.
@@ -19,7 +19,8 @@
 
 
 # Done
-- Separated
+
+- Separated universal wrapper
 
 # Runtime
 
@@ -85,4 +86,18 @@ Verifying value of Plus214_Output_0:[1, 10] using atol=0.01, rtol=0.05 ...
 1 models passed: mnist-7
 
 0 models failed:
+```
+
+# Universal Pybind
+
+use python 3.10
+
+```bash
+cd build
+python3.10 -m venv env
+source env/bin/activate
+cmake ..
+make
+cd ..
+ln -s build/libpositWrapperPy.so
 ```
