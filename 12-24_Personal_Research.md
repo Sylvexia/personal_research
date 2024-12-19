@@ -1,7 +1,7 @@
 
 # TODO
 
-- between float and uint in posit in python version
+- currently it only support float but not double in python api
 - Runtime
 - Making a flow chart of end-to-end
 - Custom attribute.
@@ -21,6 +21,7 @@
 # Done
 
 - Separated universal wrapper
+- between float and uint in posit in python version
 
 # Runtime
 
@@ -100,4 +101,13 @@ cmake ..
 make
 cd ..
 ln -s build/libpositWrapperPy.so
+```
+
+```bash
+nm libpositWrapperPy.so | grep "getRawBit"
+
+000000000006301f W _Z9getRawBitILm16ELm1EtET1_d
+0000000000063509 W _Z9getRawBitILm32ELm2EjET1_d
+00000000000639f7 W _Z9getRawBitILm64ELm3EmET1_d
+0000000000062b31 W _Z9getRawBitILm8ELm0EhET1_d
 ```
