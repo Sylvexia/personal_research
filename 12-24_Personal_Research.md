@@ -42,7 +42,7 @@ cd build/
 source env/bin/activate
 pip install joblib
 pip install -e third_party/onnx
-export ONNX_MLIR_HOME=/home/sylvex/onnx-mlir/build/Debug/****
+export ONNX_MLIR_HOME=/home/sylvex/onnx-mlir/build/Debug
 pip uninstall numpy
 pip install numpy~=1.22.2
 python ./utils/RunONNXModelZooPosit.py -c='-O0' -m='mnist-7' -l='debug'
