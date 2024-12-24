@@ -3,7 +3,6 @@
 
 - universal to third party
 - Runtime
-- Making a flow chart of end-to-end
 - Custom attribute.
 - Math Dialect lowering.
 - Posit Dialect.
@@ -23,6 +22,30 @@
 - Separated universal wrapper
 - between float and uint in posit in python version
 
+# Flow Chart
+
+![](note_image/Pasted%20image%2020241225013150.png)
+
+# Answer to Posit Library
+
+1. What library should have
+	1. Currently it only support various config of posit
+	2. Should we full support of posit config?
+		1. Most advanced posit arithmetic has numpy derived from softposit
+			1. (8, 0), (16, 1), (32, 2)
+2. Unified test to verify the correctness.
+3. Auto compile and install
+4. Documentation
+
+2, 3, 4 currently has prototype.
+
+# Where does the code come from??
+# Issue of the code
+
+- The code basically copy of the implementation `fdlibm` in `netlib`
+	- License of the `netlib`
+- Only support 64-bit es 2, 3, 4
+- Some operation does not work e.g. 
 # Runtime
 
 ```python
@@ -110,4 +133,32 @@ nm libpositWrapperPy.so | grep "getRawBit"
 0000000000063509 W _Z9getRawBitILm32ELm2EjET1_d
 00000000000639f7 W _Z9getRawBitILm64ELm3EmET1_d
 0000000000062b31 W _Z9getRawBitILm8ELm0EhET1_d
+```
+
+```cpp
+// libpositWrapperPy matches the name of the .so file
+PYBIND11_MODULE(libpositWrapperPy, m) {
+    bind_posit_functions<8, 0, uint8_t>(m, "8_0");
+    bind_posit_functions<8, 1, uint8_t>(m, "8_1");
+    bind_posit_functions<8, 2, uint8_t>(m, "8_2");
+    bind_posit_functions<8, 3, uint8_t>(m, "8_3");
+```
+
+```bash
+tree -I 'PositWrapper.egg-info|build|3rd_party'
+.
+├── CMakeLists.txt
+├── include
+│   └── positWrapperC.h
+├── README.md
+├── setup.py
+├── setup.sh
+├── src
+│   ├── CMakeLists.txt
+│   ├── positWrapperC.cpp
+│   └── positWrapperPybind.cpp
+└── test
+    ├── CMakeLists.txt
+    ├── test.cpp
+    └── test.py
 ```
