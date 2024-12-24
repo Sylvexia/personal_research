@@ -1,7 +1,7 @@
 
 # TODO
 
-- currently it only support float but not double in python api
+- universal to third party
 - Runtime
 - Making a flow chart of end-to-end
 - Custom attribute.
