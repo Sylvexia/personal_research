@@ -1,7 +1,6 @@
 
 # TODO
 
-- universal to third party
 - Runtime
 - Custom attribute.
 - Math Dialect lowering.
@@ -15,12 +14,12 @@
   // vector::populateVectorTransposeLoweringPatterns(
   //     patterns, vector::VectorTransformsOptions());
 ```
-
-
 # Done
 
-- Separated universal wrapper
-- between float and uint in posit in python version
+- C and Python Wrapper proof of concept
+	- Separated universal wrapper. No longer inside universal library
+	- Universal as 3rd party be cloned by submodule
+	- `f32` and `uint` conversions in posit in python version for testing pipeline
 
 # Flow Chart
 
@@ -31,22 +30,53 @@
 1. What library should have
 	1. Currently it only support various config of posit
 	2. Should we full support of posit config?
-		1. Most advanced posit arithmetic has numpy derived from softposit
+		1. Most advanced posit arithmetic has `numpy` derived from `softposit`
 			1. (8, 0), (16, 1), (32, 2)
+		2. Heard universal has python wrapper but can't found one
 2. Unified test to verify the correctness.
 3. Auto compile and install
 4. Documentation
 
 2, 3, 4 currently has prototype.
-
 # Where does the code come from??
 # Issue of the code
 
 - The code basically copy of the implementation `fdlibm` in `netlib`
 	- License of the `netlib`
 - Only support 64-bit es 2, 3, 4
-- Some operation does not work e.g. 
-# Runtime
+- Lower bit of operation have high chance not work with current implementation.
+	- What approximation scheme is universal? Horner's approximation?
+- Some operation does not work e.g. exp
+
+```cpp
+Posit64 y, hi, lo, c, t;
+__int32_t k = 0,xsb;
+__uint32_t hx;
+
+if(x>1) return exp(x-1) * exp(1);
+else if(x<-1) return exp(x+1) / exp(1);
+
+GET_HIGH_WORD(hx,x);
+```
+
+# Contribution
+
+- An MLIR-based compilation flow to support the evaluation of posit numbers in neural network model inference.
+- Experiment: evaluate at least 2 or 3 NN models.
+	- Numerical Error and E2E
+	- If we can some operation in math, we might be the first team run gpt-2 with posit.
+- A detail description related to the solutions for using posit numbers in MLIR, including their advantages and disadvantages.
+# Test Pipeline Current Status
+
+- What we had (not done by us):
+	- Specifying the model and automatically pull from `github`
+		- Both model and dataset.
+	- Automatically compile and run with python runtime.
+	- Able to feed the compile flag.
+- Currently ongoing
+	- Python Wrapper (just completed)
+	- Bring the custom wrapper to compile command line.
+
 
 ```python
 parser.add_argument(
@@ -162,3 +192,36 @@ tree -I 'PositWrapper.egg-info|build|3rd_party'
     ├── test.cpp
     └── test.py
 ```
+
+```python
+import libpositWrapperPy as posit
+
+print("posit(64, 0)")
+rawBit = posit.getRawBit_64_0(1e+307)
+print(bin(rawBit))
+doubleVal = posit.getDouble_64_0(rawBit)
+print(doubleVal)
+```
+
+```bash
+posit(64, 0)
+0b111111111111111111111111111111111111111111111111111111111111111
+4.611686018427388e+18
+posit(64, 1)
+0b111111111111111111111111111111111111111111111111111111111111111
+2.1267647932558654e+37
+posit(64, 2)
+0b111111111111111111111111111111111111111111111111111111111111111
+4.523128485832664e+74
+posit(64, 3)
+0b111111111111111111111111111111111111111111111111111111111111111
+2.0458691299350887e+149
+```
+
+# Future Works
+
+- Make the test pipeline work
+- Math lowering at `onnx-mlir` end
+- Implement the math operation with different posit configuration
+	- sitofp, exp, sqrt, tanh, erf
+	- if we can't we can treat it double operation first
