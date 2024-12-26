@@ -6,6 +6,7 @@
 	- sitofp, exp, sqrt, tanh, erf
 		- wrapper
 		- mlir lowering
+	- sitofp is arith
 - Runtime
 - Custom attribute.
 - Posit Dialect.
@@ -51,4 +52,4 @@ template<unsigned nbits, unsigned es, unsigned fbits>
 	}
 ```
 
-Example: `exp(x)` is computed using x=nln⁡(2)+rx = n \ln(2) + rx=nln(2)+r, where rrr is small.
+Example: `exp(x)` is computed using `x=nln⁡(2)+rx = n \ln(2) + rx=nln(2)+r`, where rrr is small.
