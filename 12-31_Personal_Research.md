@@ -56,6 +56,9 @@ Example: `exp(x)` is computed using `x=nln⁡(2)+rx = n \ln(2) + rx=nln(2)+r`, w
 
 # issue
 
+Testing posit8es2
+`FAIL: testInput = 11110101 positResultRaw = 00000001 doubleResultRaw = 00000000 doubleValue = -1536 doubleResult = 0`
+
 posit16es2 
 FAIL: a = 62264 ra = 1 ra_ref = 0
 Passed: 62173 Failed: 3363
