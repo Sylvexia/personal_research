@@ -79,3 +79,4 @@ posit<nbits,es> exp(posit<nbits,es> x) {
 posit16es2 
 FAIL: a = 62264 ra = 1 ra_ref = 0
 Passed: 62173 Failed: 3363
+
