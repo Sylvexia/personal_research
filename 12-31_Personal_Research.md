@@ -102,5 +102,7 @@ print(arr)
 
 print("Converted array (uint8):")
 print(arr_uint8)
-
 ```
+
+works
+`python ./utils/RunONNXModelZooPosit.py -c='-O0' -m='mnist-7' -l='debug' --n-bit="16" --es='1'`
