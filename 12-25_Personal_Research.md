@@ -1,6 +1,7 @@
 
 # TODO
 
+- add wrapper to bashscript
 - Runtime
 - Custom attribute.
 - Math Dialect lowering.
