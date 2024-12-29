@@ -80,3 +80,27 @@ posit16es2
 FAIL: a = 62264 ra = 1 ra_ref = 0
 Passed: 62173 Failed: 3363
 
+```python
+import numpy as np
+
+def float32_to_uint8(val):
+    """Convert a single float32 value to uint8."""
+    return np.uint8(val)
+
+# Create a sample ndarray with float32 type
+arr = np.array([[1.5, 2.3, 3.9], [4.2, 5.8, 6.1]], dtype=np.float32)
+
+# Vectorize the conversion function
+vectorized_conversion = np.vectorize(float32_to_uint8)
+
+# Apply the vectorized function to the ndarray
+arr_uint8 = vectorized_conversion(arr)
+
+# Print the original and converted arrays
+print("Original array (float32):")
+print(arr)
+
+print("Converted array (uint8):")
+print(arr_uint8)
+
+```
