@@ -119,3 +119,5 @@ posit_inputs = getRawBitArray[func_suffix](inputs)
 mnist-7 works
 
 gpt-2 reinterpret_cast lower issue
+
+resnet101-v2-7 cannot because has unknown dimension
