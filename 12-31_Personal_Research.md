@@ -121,3 +121,9 @@ mnist-7 works
 gpt-2 reinterpret_cast lower issue
 
 resnet101-v2-7 cannot because has unknown dimension
+
+yolov4
+loc("StatefulPartitionedCall/model/lambda_71/Tanh"): error: failed to legalize unresolved materialization from 'f32' to 'i32' that remained live after conversion
+
+ssd-10
+loc("onnx.NonMaxSuppression"("NonMaxSuppression_683")): error: failed to legalize unresolved materialization from 'f32' to 'i32' that remained live after conversion
