@@ -127,3 +127,6 @@ loc("StatefulPartitionedCall/model/lambda_71/Tanh"): error: failed to legalize u
 
 ssd-10
 loc("onnx.NonMaxSuppression"("NonMaxSuppression_683")): error: failed to legalize unresolved materialization from 'f32' to 'i32' that remained live after conversion
+
+https://github.com/minhhn2910/QPyTorch
+they had gpt-2 demo, f
