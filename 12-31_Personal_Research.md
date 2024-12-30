@@ -110,3 +110,11 @@ works
 add cmake install
 
 the issue might related to reinterpret cast
+```
+posit_inputs = getRawBitArray[func_suffix](inputs)
+# posit_conversion = np.vectorize(getRawBit[func_suffix])
+# posit_inputs = posit_conversion(inputs)
+```
+
+mnist-7 works
+
