@@ -118,3 +118,4 @@ posit_inputs = getRawBitArray[func_suffix](inputs)
 
 mnist-7 works
 
+gpt-2 reinterpret_cast lower issue
