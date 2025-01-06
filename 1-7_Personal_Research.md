@@ -13,7 +13,7 @@
 - Simplify and find what should we do next.
 ```bash
 git diff --shortstat
- 5 files changed, 24 insertions(+), 349 deletions(-)
+6 files changed, 26 insertions(+), 351 deletions(-)
 ```
 
 ---
@@ -23,4 +23,5 @@ git diff --shortstat
 1. Run and execute at least one more model. e.g. gpt-2
 2. posit math operation support. e.g. `exp`, `sqrt`, `tanh`, `erf`
 3. Migrate the logic such that orthogonal to the original project
-	- For future implementation like Posit Dialect.
+	- For future implementation like posit Dialect.
+4. Good numerical metric for posit operation.
