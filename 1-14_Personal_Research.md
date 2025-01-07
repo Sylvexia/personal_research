@@ -4,6 +4,8 @@
 
 - Come up with better scheme to keep the download file
 	- `def check_model(model_path, model_name, compile_args, report_dir):`
+- Get this work
+	`/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir --EmitLib --enable-posit --n-bits=32 --es-val=2 /home/sylvex/GPT2/model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lpositWrapperC -v`
 # Summary
 
 - Now the config can run at project folder
