@@ -2,4 +2,5 @@
 
 # Summary
 
-- Now
+- Now the config can run at project folder
+
