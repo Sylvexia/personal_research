@@ -2,6 +2,7 @@
 
 # TODO
 
+- lower krnl.memcpy
 - Come up with better scheme to keep the download file
 	- `def check_model(model_path, model_name, compile_args, report_dir):`
 - Get this work
