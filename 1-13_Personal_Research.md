@@ -20,7 +20,7 @@
 
 - How to debug a pass?
 	- List all the captured operations:
-	- loc("onnx.NonMaxSuppression"("NonMaxSuppression_683")): error: failed to legalize unresolved materialization from 'f32' to 'i32' that remained live after conversion.)
+	- `loc("onnx.NonMaxSuppression"("NonMaxSuppression_683")): error: failed to legalize unresolved materialization from 'f32' to 'i32' that remained live after conversion.)`
 
 ```cpp
 auto module = getOperation();
