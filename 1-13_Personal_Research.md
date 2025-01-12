@@ -35,5 +35,4 @@ for (const auto &name : operationNames) {
 ```
 
 ---
-
 # 
