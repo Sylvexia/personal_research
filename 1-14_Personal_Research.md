@@ -16,10 +16,6 @@
 sylvex@sylvex-Aspire-A715-51G:~/onnx-mlir/build$ cat onnxDump.tmp | rg "krnl."
 "krnl.memcpy"(%alloc_137, %reinterpret_cast_136, %c64_i64, %7934, %7932) : (memref<?x12x?x64xf32>, memref<?x?x12x64xf32>, i64, index, index) -> ()          "krnl.memcpy"(%alloc_177, %reinterpret_cast_176, %c64_i64, %7934, %7932) : (memref<?x12x?x64xf32>, memref<?x?x12x64xf32>, i64, index, index) -> ()          "krnl.memcpy"(
 
-Saw operation: arith.addf
-Saw operation: arith.cmpf
-Saw operation: arith.constant
-Saw operation: arith.divf
 Saw operation: arith.floordivsi
 Saw operation: arith.index_cast
 Saw operation: arith.maxsi
