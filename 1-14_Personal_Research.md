@@ -14,3 +14,6 @@
 
 - Now the config can run at project folder
 - gmp-6.2.1
+
+sylvex@sylvex-Aspire-A715-51G:~/onnx-mlir/build$ cat onnxDump.tmp | rg "krnl."
+"krnl.memcpy"(%alloc_137, %reinterpret_cast_136, %c64_i64, %7934, %7932) : (memref<?x12x?x64xf32>, memref<?x?x12x64xf32>, i64, index, index) -> ()          "krnl.memcpy"(%alloc_177, %reinterpret_cast_176, %c64_i64, %7934, %7932) : (memref<?x12x?x64xf32>, memref<?x?x12x64xf32>, i64, index, index) -> ()          "krnl.memcpy"(
