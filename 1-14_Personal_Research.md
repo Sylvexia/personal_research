@@ -2,7 +2,6 @@
 
 # TODO
 
-- lower krnl.memcpy
 - Come up with better scheme to keep the download file
 	- `def check_model(model_path, model_name, compile_args, report_dir):`
 - Get this work
@@ -10,6 +9,7 @@
 - loc("onnx.Gather"("Gather_26")): error: 'memref.alloc' op dimension operand count does not equal memref dynamic dimension count
 # Summary
 
+- Can lower to gpt-2
 - Now the config can run at project folder
 - gmp-6.2.1
 
