@@ -7,6 +7,7 @@
 - Get this work
 	`/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir --EmitLib --enable-posit --n-bits=32 --es-val=2 /home/sylvex/GPT2/model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lpositWrapperC -v`
 - loc("onnx.Gather"("Gather_26")): error: 'memref.alloc' op dimension operand count does not equal memref dynamic dimension count
+- yolov4 fptosi, math,floor, math.log
 # Summary
 
 - Can lower to gpt-2
