@@ -1,16 +1,27 @@
-洪祐鈞
+---
+marp: true
+theme: default
+paginate: true
+header: 
+footer: 
+style: "h1, h2, h3 {\r  text-align: center;\r}
 
-# TODO
+  pre, code {\r  background-color: #ffffff;\r    \r  color: #2d2d2d; \r  \r  font-size: auto;\r }\r
 
-- Come up with better scheme to keep the download file
-	- `def check_model(model_path, model_name, compile_args, report_dir):`
-- Get this work
-	`/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir --EmitLib --enable-posit --n-bits=32 --es-val=2 /home/sylvex/GPT2/model.onnx -o model.so -L/home/sylvex/custom_posit/lib/ -lpositWrapperC -v`
-- loc("onnx.Gather"("Gather_26")): error: 'memref.alloc' op dimension operand count does not equal memref dynamic dimension count
-- yolov4 fptosi, math.floor, math.log
-- ssd-10 failed: arith.maxnumf, arith.minnumf
-- gmp-6.2.1
-- Now the config can run at project folder
+  section {\r  font-size: auto;\r}\r
+
+  img[alt~=\"center\"]\ 
+
+  {\r  display: block;\r  margin: 0 auto;\r}"
+
+---
+
+# 1-13 Personal Research
+## Presenter: Yu Chun Hung
+## Advisor: Peng-Sheng Cheng
+
+---
+
 # Summary
 
 - Can lower to gpt-2, segfault at runtime
@@ -83,6 +94,7 @@ Running inference ...
 - ssd-10: `arith.maxnumf`, `arith.minnumf`
 
 ---
+
 # Future Works
 
 - Make more model running
