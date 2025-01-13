@@ -23,3 +23,18 @@
 
 - version-RFB-320
 	- multiple output would failed
+
+# Operation need to lower
+
+- arith
+	- fptosi
+	- maximumf
+	- maxnumf
+	- minimumf
+	- minnumf
+	- negf
+	- remf
+	- uiofp
+- math
+	- floor
+
