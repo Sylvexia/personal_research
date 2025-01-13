@@ -78,14 +78,11 @@ Saw operation: memref.reinterpret_cast
 ---
 # Can run model
 
-- `resnet18-v1-7` 
+- model: `resnet18-v1-7` 
 - `posit<32, 2>`
 - `input: [1x3x224x224xfloat32]`
 - `output: [1x1000xfloat32]`
-```cpp
-Running inference ...
-1st iteration, 4973.498892343603, seconds
-```
+- runtime: 9.938s v.s. 4973.498s
 
 ---
 # Model cannot run:
