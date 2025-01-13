@@ -6,6 +6,7 @@
 	- `def check_model(model_path, model_name, compile_args, report_dir):`
 - yolov4 fptosi, math.floor, math.log
 - ssd-10 failed: arith.maxnumf, arith.minnumf
+- multiple output would failed
 
 # Operations need to support
 
@@ -37,4 +38,5 @@
 	- uiofp
 - math
 	- floor
+	- log
 
