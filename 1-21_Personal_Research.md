@@ -35,8 +35,6 @@ skip remf uitofp
 	- minimumf
 	- minnumf
 	- negf
-	- remf
-	- uitofp
 - math
 	- floor
 	- log
@@ -45,3 +43,6 @@ skip remf uitofp
 1. 2 seconds periods, wait for response, 5 minutes per conversation
 2. Respond other people respond, no other conversation
 3. remember to take the notes
+
+advice
+- 
