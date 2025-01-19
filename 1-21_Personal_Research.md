@@ -41,3 +41,7 @@ skip remf uitofp
 	- floor
 	- log
 
+3 
+1. 2 seconds periods, wait for response, 5 minutes per conversation
+2. Respond other people respond, no other conversation
+3. remember to take the notes
