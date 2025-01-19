@@ -35,7 +35,7 @@
 	- minnumf
 	- negf
 	- remf
-	- uiofp
+	- uitofp
 - math
 	- floor
 	- log
