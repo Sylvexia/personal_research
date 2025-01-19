@@ -25,24 +25,11 @@
 - version-RFB-320
 	- multiple output would failed
 
+# Supported operation at positwrapper
+
+basic, compare, select, fptosi, sitofp, maxnum, minnum
+abs, sqrt, rsqrt, exp, sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, erf, log, floor, ceil, trunc, round, max, min, neg
+
 # Operation need to lower
 
 skip remf uitofp
-- arith
-	- fptosi
-	- maximumf
-	- maxnumf
-	- minimumf
-	- minnumf
-	- negf
-- math
-	- floor
-	- log
-
-3 
-1. 2 seconds periods, wait for response, 5 minutes per conversation
-2. Respond other people respond, no other conversation
-3. remember to take the notes
-
-advice
-- 
