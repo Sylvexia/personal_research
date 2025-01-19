@@ -27,6 +27,7 @@
 
 # Operation need to lower
 
+skip remf uitofp
 - arith
 	- fptosi
 	- maximumf
