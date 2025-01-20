@@ -27,7 +27,7 @@
 
 # Supported operation at positwrapper
 
-basic, compare, select, fptosi, sitofp, maxnum, minnum
+add, sub, mul, div, compare, select, fptosi, sitofp, maxnum, minnum
 abs, sqrt, rsqrt, exp, sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, erf, log, floor, ceil, trunc, round, max, min, neg
 
   populateReturnPositOpPatterns(arith::AddFOp{}, "add");
