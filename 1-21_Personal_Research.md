@@ -29,38 +29,4 @@
 
 add, sub, mul, div, compare, select, fptosi, sitofp, maxnum, minnum
 abs, sqrt, rsqrt, exp, sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, erf, log, floor, ceil, trunc, round, max, min, neg
-
-  populateReturnPositOpPatterns(arith::AddFOp{}, "add");
-  populateReturnPositOpPatterns(arith::SubFOp{}, "sub");
-  populateReturnPositOpPatterns(arith::MulFOp{}, "mul");
-  populateReturnPositOpPatterns(arith::DivFOp{}, "div");
-  populateReturnPositOpPatterns(arith::NegFOp{}, "neg");
-  populateReturnPositOpPatterns(arith::MaxNumFOp{}, "maxnum");
-  populateReturnPositOpPatterns(arith::MinNumFOp{}, "minnum");
-  populateReturnPositOpPatterns(arith::SelectOp{}, "select");
-  populateReturnPositOpPatterns(arith::MaximumFOp{}, "max");
-  populateReturnPositOpPatterns(arith::MinimumFOp{}, "min");
-  populateReturnPositOpPatterns(math::AbsFOp{}, "abs");
-  populateReturnPositOpPatterns(math::SqrtOp{}, "sqrt");
-  populateReturnPositOpPatterns(math::RsqrtOp{}, "rsqrt");
-  populateReturnPositOpPatterns(math::ExpOp{}, "exp");
-  populateReturnPositOpPatterns(math::SinOp{}, "sin");
-  populateReturnPositOpPatterns(math::CosOp{}, "cos");
-  populateReturnPositOpPatterns(math::TanOp{}, "tan");
-  populateReturnPositOpPatterns(math::AsinOp{}, "asin");
-  populateReturnPositOpPatterns(math::AcosOp{}, "acos");
-  populateReturnPositOpPatterns(math::AtanOp{}, "atan");
-  populateReturnPositOpPatterns(math::SinhOp{}, "sinh");
-  populateReturnPositOpPatterns(math::CoshOp{}, "cosh");
-  populateReturnPositOpPatterns(math::TanhOp{}, "tanh");
-  populateReturnPositOpPatterns(math::ErfOp{}, "erf");
-  populateReturnPositOpPatterns(math::LogOp{}, "log");
-  populateReturnPositOpPatterns(math::FloorOp{}, "floor");
-  populateReturnPositOpPatterns(math::CeilOp{}, "ceil");
-  populateReturnPositOpPatterns(math::TruncOp{}, "trunc");
-  populateReturnPositOpPatterns(math::RoundOp{}, "round");
-
 # Operation need to lower
-
-skip remf uitofp
-a{tan}2
