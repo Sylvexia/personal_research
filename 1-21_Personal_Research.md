@@ -10,9 +10,11 @@
 
 # Summary
 
+- Lowering 20+ operations in wrapper and mlir.
 - Still investigating what model can be run... 
-	- (Sorry, recently been pretty busy...)
-# LMs
+- (Sorry, recently been pretty busy for private stuff...)
+---
+# Language Models
 
 - Models:
 	- BERT-Squad: This model answers questions based on the context of the given input paragraph.
@@ -23,13 +25,21 @@
 	- RoBERTa: Transformer-based language model for text generation.
 	- T5: provide great flexibility and provide better semantic understanding through the training of multiple tasks at once.
 - Summary: It's unlikely to be able to run any language models, since other models is quite large.
+---
 # Visions
 
-- version-RFB-320
-	- The result can output from model, but the conversion from raw posit bit failed 
-- yolov4
-	- Lowering issue, currently investigating...
-
+- Category:
+	- body analysis: age/gender classification, face recognition, emotion recognition
+		- face detection: RFB-320
+			- The result can output from model, but the conversion from raw posit bit failed.
+	- classification: output the label of the image
+		- we can run resnet-18 (last week report)
+	- object detection: get the bounding box and label of objects in image. 
+		- yolov4
+			- Lowering issue, currently investigating...
+	- style transfer: mix 2 images together.
+	- super resolution: upscale image.
+---
 # Supported operation
 
 - 22+ arith and math lowering on both wrapper and mlir side
@@ -37,3 +47,8 @@
 - Supported listing: 
 	- arith: add, sub, mul, div, cmp, select, fptosi, sitofp, maxnum, minnum, max, min, neg
 	- math: abs, sqrt, rsqrt, exp, sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, erf, log, floor, ceil, trunc, round
+---
+# Future Works
+
+- Validate lowered operations and models output.
+- Design experiment that should be put into the master thesis.
