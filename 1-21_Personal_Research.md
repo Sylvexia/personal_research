@@ -33,3 +33,4 @@ abs, sqrt, rsqrt, exp, sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, erf, l
 # Operation need to lower
 
 skip remf uitofp
+a{tan}2
