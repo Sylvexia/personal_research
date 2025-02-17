@@ -9,6 +9,18 @@ curl --insecure --retry 50 --location --silent https://github.com/onnx/models/ra
 
 /home/sylvex/onnx-mlir/utils/RunONNXModelPosit.py --compile-args=-O0 --verify=ref --verify-every-value --load-ref=/home/sylvex/models/mnist-7/model/test_data_set_0 --load-so=/home/sylvex/models/mnist-7/model/model.so --print-output --n-bit=16 --es=2
 
+# Summary
+
+- Bug fixes:
+	- Fixed environment variable does not feed to the runtime.
+	- Fixed multiple model runtime output error issue.
+		- Important for object detection
+- Model currently supported
+	- Style Transfer
+	- Super Resolution
+	- Object Detection
+	- Object Classification
+
 # Exp
 
 candy-8
@@ -22,7 +34,9 @@ inference: 7055.291416308988, seconds
 posit 32, 2 correct
 
 version-RFB-640
-
+inference: 1086.9763493991923, seconds
+Done   1 tasks      | elapsed: 18.2min
+posit 32, 2 correct
 
 yolov4
 
