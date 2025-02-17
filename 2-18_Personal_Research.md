@@ -15,11 +15,41 @@ curl --insecure --retry 50 --location --silent https://github.com/onnx/models/ra
 	- Fixed environment variable does not feed to the runtime.
 	- Fixed multiple model runtime output error issue.
 		- Important for object detection
-- Model currently supported
+- Model Usage Currently supported
 	- Style Transfer
 	- Super Resolution
 	- Object Detection
 	- Object Classification
+	- Facial Recognition
+
+# Style Transfer
+
+![](note_image/amber.jpg)
+![](note_image/candy.jpg)
+![](note_image/amber-candy.jpg)
+
+# New Model Result
+
+- All result are posit (32, 2), all model are passed in  `atol=0.01`, `rtol=0.05`
+- candy-8: 388.4min
+	- Style Transfer
+- super-resolution-10: 117.6min
+	- Super Resolution
+- version-RFB-640: 18.2min
+	- Ultra Light Weight Face Detection.
+# Working Model Listing
+
+- Style Transfer:
+	- candy-8
+- Super Resolution:
+	- super-resolution-10
+- Object Classification:
+	- resnet-18
+- Object Detection:
+	- yolov4: posit 32 not finished
+	- version-RFB-640
+
+# Future Works
 
 # Exp
 
