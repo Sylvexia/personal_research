@@ -23,7 +23,8 @@ posit 32, 2 correct
 
 yolov4
 
- File "/home/sylvex/onnx-mlir/utils/RunONNXModelPosit.py", line 982, in <module>                                                                           main()                                                                    File "/home/sylvex/onnx-mlir/utils/RunONNXModelPosit.py", line 875, in main                                                                               outs = getDoubleArray[func_suffix](posit_outs)                          TypeError: getDoubleArray_8_2(): incompatible function arguments. The following argument types are supported:                                               1. (rawBits: numpy.ndarray[numpy.uint8]) -> numpy.ndarray
+ File "/home/sylvex/onnx-mlir/utils/RunONNXModelPosit.py", line 982, in <module>main()File "/home/sylvex/onnx-mlir/utils/RunONNXModelPosit.py", line 875, in main outs = getDoubleArray[func_suffix](posit_outs) 
+ TypeError: getDoubleArray_8_2(): incompatible function arguments. The following argument types are supported: 1. (rawBits: numpy.ndarray[numpy.uint8]) -> numpy.ndarray
 
 ---
 
