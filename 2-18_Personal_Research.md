@@ -20,7 +20,7 @@ curl --insecure --retry 50 --location --silent https://github.com/onnx/models/ra
 	- Super Resolution
 	- Object Detection
 	- Object Classification
-	- Facial Recognition
+	- Emotional Recognition
 
 # Style Transfer
 
@@ -48,10 +48,24 @@ curl --insecure --retry 50 --location --silent https://github.com/onnx/models/ra
 - Object Detection:
 	- yolov4: posit 32 not finished
 	- version-RFB-640
+- Emotional Recognition
+	- emotion-ferplus-8: posit 32 not finished
 
 # Future Works
 
+- What experiment should we do?
+	- What operators does a model have?
+		- Numerical Analysis of supported operator.
+			- We only have `+-*/` supported in posit
+	- Lower bit and higher bit precision loss
+		- Remember the ground truth precision is FP32
+	- Model benchmark
+		- Numerically fluctuation but argmax() works.
+- Should I spend some time on get gpt-2 running?
+
 # Exp
+
+all posit32
 
 candy-8
 inference: 23298.175301510026, seconds
@@ -67,6 +81,10 @@ version-RFB-640
 inference: 1086.9763493991923, seconds
 Done   1 tasks      | elapsed: 18.2min
 posit 32, 2 correct
+
+emotion-ferplus-8
+inference: 1934.4427465500776, seconds
+Done   1 tasks      | elapsed: 32.3min
 
 yolov4
 
