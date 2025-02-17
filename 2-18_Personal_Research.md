@@ -49,7 +49,7 @@ curl --insecure --retry 50 --location --silent https://github.com/onnx/models/ra
 	- yolov4: posit 32 not finished
 	- version-RFB-640
 - Emotional Recognition
-	- emotion-ferplus-8: posit 32 not finished
+	- emotion-ferplus-8: posit 32, 16 passed
 
 # Future Works
 
@@ -85,6 +85,11 @@ posit 32, 2 correct
 emotion-ferplus-8
 inference: 1934.4427465500776, seconds
 Done   1 tasks      | elapsed: 32.3min
+posit 32, 2 correct
+
+inference: 411.68988883588463, seconds
+Done   1 tasks      | elapsed:  7.0min
+posit 16, 2 correct
 
 yolov4
 
