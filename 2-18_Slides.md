@@ -16,6 +16,12 @@ style: "h1, h2, h3 {\r  text-align: center;\r}
 
 ---
 
+# 2-18 Personal Research
+## Presenter: Yu-Chun Hung
+## Advisor: Peng-Sheng Cheng
+
+---
+
 # Summary
 
 - Bug fixes:
@@ -54,6 +60,11 @@ style: "h1, h2, h3 {\r  text-align: center;\r}
 	- super-resolution-10
 - Object Classification:
 	- resnet-18
+
+---
+
+# Working Model Listing
+
 - Object Detection:
 	- version-RFB-640
 	- tinyyolov2-8
