@@ -37,6 +37,8 @@ curl --insecure --retry 50 --location --silent https://github.com/onnx/models/ra
 	- Super Resolution
 - version-RFB-640: 18.2min
 	- Ultra Light Weight Face Detection.
+- tinyyolov2-8: 246.3min
+	- Object Detection
 # Working Model Listing
 
 - Style Transfer:
@@ -46,8 +48,8 @@ curl --insecure --retry 50 --location --silent https://github.com/onnx/models/ra
 - Object Classification:
 	- resnet-18
 - Object Detection:
-	- yolov4: posit 32 not finished
 	- version-RFB-640
+	- tinyyolov2-8
 - Emotional Recognition
 	- emotion-ferplus-8: posit 32, 16 passed
 
@@ -91,5 +93,10 @@ inference: 411.68988883588463, seconds
 Done   1 tasks      | elapsed:  7.0min
 posit 16, 2 correct
 
-yolov4
+yolov4: posit 32 all nan
+Done   1 tasks      | elapsed: 334.6min
+posit32 tbd
 
+tinyyolov2-8
+inference: 14767.52318693418, seconds
+Done   1 tasks      | elapsed: 246.3min
