@@ -95,7 +95,7 @@ posit 16, 2 correct
 
 yolov4: posit 32 all nan
 Done   1 tasks      | elapsed: 334.6min
-posit32 tbd
+posit32 failed
 
 tinyyolov2-8
 inference: 14767.52318693418, seconds
