@@ -21,17 +21,25 @@ Robin Hung
 	- Classification: Accuracy, Precision, Recall, F1 Score
 	- Detection: 
 
+---
 # Debugging
 
 - There is a runtime program `run-onnx-lib` specific for GDB debugging
-- Document states that
+- Document states that it could log out the `mlir` file, however, I cannot get this to work.
+- Other techniques such as rebuild pipeline, direct GDB, list conversion, still cannot find a way to solve this.
 
 ```bash
 Debug/bin/onnx-mlir --preserveMLIR test_add.onnx
 . ../utils/build-run-onnx-lib.sh
 gdb Debug/bin/run-onnx-lib
 (gdb) b run_main_graph
+(gdb) run ./test_add.so
+(gdb) list
+1	builtin.module  {
+2	  builtin.func @main_graph(%arg0: tensor<3x4x5xf32>, %arg1: tensor<3x4x5xf32>) 
 ```
+
+---
 
 # Experiment:
 
