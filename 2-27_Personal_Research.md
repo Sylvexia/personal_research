@@ -16,7 +16,8 @@ Robin Hung
 	- Dataset might be big and specific to model, e.g. ImageNet
 	- We might only able to run few tests since a single test require minutes to hours to run.
 - FP32 result as ground truth and compare them, Metrics we need:
-	- Value Distribution:
+	- Value Distribution: (latter works)
+		- e.g. mobilenetv2-7 v.s. efficientnet-lite4-11
 	- Classification: Accuracy, Precision, Recall, F1 Score
 	- Detection: 
 
@@ -36,10 +37,8 @@ gdb Debug/bin/run-onnx-lib
 
 mobilenetv2-7 (32, 2)
 elapsed: 26.6min
-
 (16, 2) failed
 
 efficientnet-lite4-11 (32, 2)
 65.35 mins
-
 (16,2) 14.6 mins
