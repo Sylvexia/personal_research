@@ -42,3 +42,7 @@ elapsed: 26.6min
 efficientnet-lite4-11 (32, 2)
 65.35 mins
 (16,2) 14.6 mins
+
+`/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir --enable-posit --EmitONNXIR /home/sylvex/models/ssd-10/model.onnx -o meow`
+
+`/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir-opt --shape-inference --convert-onnx-to-krnl --convert-krnl-to-affine --convert-arith-to-posit-func meow.onnx.mlir -o log`
