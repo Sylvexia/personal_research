@@ -23,8 +23,8 @@ Robin Hung
 
 # Debugging
 
-- There is a runtime specific for GDB debugging
-- 
+- There is a runtime program `run-onnx-lib` specific for GDB debugging
+- Document states that
 
 ```bash
 Debug/bin/onnx-mlir --preserveMLIR test_add.onnx
