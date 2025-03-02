@@ -1,4 +1,26 @@
-Robin Hung
+---
+marp: true
+theme: default
+paginate: true
+header: 
+footer: 
+style: "h1, h2, h3 {\r  text-align: center;\r}
+
+  pre, code {\r  background-color: #ffffff;\r    \r  color: #2d2d2d; \r  \r  font-size: auto;\r }\r
+
+  section {\r  font-size: auto;\r}\r
+
+  img[alt~=\"center\"]\ 
+
+  {\r  display: block;\r  margin: 0 auto;\r}"
+
+---
+
+# 2-27 Personal Research
+## Presenter: Yu-Chun Hung
+## Advisor: Peng-Sheng Cheng
+
+---
 
 # Summary
 
@@ -17,6 +39,11 @@ Robin Hung
 - Grabbing the dataset, apply preprocess and postprocess on input and output respectively.
 	- Dataset might be big and specific to model, e.g. ImageNet
 	- We might only able to run few tests since a single test require minutes to hours to run.
+
+---
+
+# What do we want?
+
 - FP32 result as ground truth and compare them, Metrics we need:
 	- Value Distribution: (latter works)
 		- e.g. mobilenetv2-7 v.s. efficientnet-lite4-11
@@ -48,16 +75,12 @@ gdb Debug/bin/run-onnx-lib
 
 # Experiment:
 
-mobilenetv2-7 (32, 2)
-elapsed: 26.6min
+posit(32, 2)
+- mobilenetv2-7
+  - elapsed: 26.6min
+- efficientnet-lite4-11
+  - elapsed: 65.35 mins
 
-(16, 2) failed
+---
 
-efficientnet-lite4-11 (32, 2)
-elapsed: 65.35 mins
-
-(16,2) 14.6 mins
-
-`/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir --enable-posit --EmitONNXIR /home/sylvex/models/ssd-10/model.onnx -o meow`
-
-`/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir-opt --shape-inference --convert-onnx-to-krnl --convert-krnl-to-affine --convert-arith-to-posit-func meow.onnx.mlir -o log`
+# Thnak you
