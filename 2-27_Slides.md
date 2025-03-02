@@ -83,4 +83,4 @@ posit(32, 2)
 
 ---
 
-# Thnak you
+# Thank you
