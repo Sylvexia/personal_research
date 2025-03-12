@@ -1,10 +1,31 @@
 # Summary
 
-- Experiment on 
+- Bug Fix: Input does not load properly.
+- Feature added: 
+	- JSON file storage
+	- Graph
+- Experiment on `mobilenetv2`, sample = 10, es = 0, 1, 2
+	- posit8 and posit(16, 0) failed
+	- posit32 numerical result is almost the same as fp32
+	- posit16 other than es=0, has acceptable output
+
+---
+# Experiment Result
+
+
+---
+
+# Future Works
+
+- MNIST model
+	- Operation is more simple may show more of posit.
 
 python run.py --n-bit=16 --es=0 --n-sample=10 > log16_0 2>&1
 
 python numerical.py --n-bit=16 --es=0 --n-sample=10 > log16_0_result 2>&1
+
+n bit 8 16 32
+es 0 1 2
 
 Average MAE: nan
 Average RMSE: nan
