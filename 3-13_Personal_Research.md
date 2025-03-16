@@ -8,12 +8,22 @@
 	- posit8 and posit(16, 0) failed
 	- posit32 numerical result is almost the same as fp32
 	- posit16 other than es=0, has acceptable output
-
 ---
 # Experiment Result
 
+![](note_image/mobilenet-imagenet1000_mae.png)
 
 ---
+
+![](note_image/mobilenet-imagenet1000_rmse.png)
+
+---
+
+![](note_image/mobilenet-imagenet1000_top1_accuracy.png)
+
+---
+
+![](note_image/mobilenet-imagenet1000_top5_accuracy.png)
 
 # Future Works
 
