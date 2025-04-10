@@ -40,26 +40,26 @@ style: "h1, h2, h3 {\r  text-align: center;\r}
 
 # MNIST Average Top-1-Accuracy (N = 250)
 
-![center h:480](mnist_top1_accuracy_v2.png)
+![center h:480](note_image/mnist_top1_accuracy_v2.png)
 
 ---
 
 # MNIST Average Top-5-Accuracy (N = 250)
 
-![center h:480](mnist_top5_accuracy_v2.png)
+![center h:480](note_image/mnist_top5_accuracy_v2.png)
 
 ---
 
 # MNIST Average MAE (N = 250)
 
 
-![center h:480](mnist_mae_v2.png)
+![center h:480](note_image/mnist_mae_v2.png)
 
 ---
 
 # MNIST Average RMSE (N = 250)
 
-![center h:480](mnist_rmse_v2.png)
+![center h:480](note_image/mnist_rmse_v2.png)
 
 ---
 
