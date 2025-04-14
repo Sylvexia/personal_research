@@ -1,7 +1,18 @@
 
+# ONNX Model Inference Using Quantized Posit Format in MLIR Framework
+
 ## What is Posit Arithmetic?
 
-- Invented by
+- A **floating-point alternative** proposed by John L. Gustafson in 2017.
+- Designed to **improve precision, dynamic range, and efficiency** over IEEE 754 floating-point.
+
+## Features
+
+- **Tapered precision**: Higher precision near values close to 1.
+- **Wider dynamic range** than same-bit-width IEEE floats.
+- **No special cases** like NaN, ±Inf (except a single NaR: “Not a Real”).
+- **Compact representation** with better accuracy per bit.
+
 
 ---
 
