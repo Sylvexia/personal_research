@@ -1,1 +1,3 @@
 
+What is Posit Arithmetic?
+
