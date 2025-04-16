@@ -15,7 +15,39 @@
 
 ---
 
-## Posit Arithmetic Format
+## Posit Arithmetic Format, with posit(8, 2) as example:
+
+- **Total bits (n)**: 8
+- **Exponent size (es)**: 2 bits
+- $useed  = 2^{2^{es}} = 2^{4} = 16$
+#### Sign Bit
+- `0` means positive, `1` means negative
+- Negative in this case
+#### Regime Bit
+- Encoded in unary: a run of 0s or 1s followed by the opposite bit
+- Encodes a scale factor exponent `k`
+	- 10 -> k = 0, 110 -> k = 1, so on
+	- 01 -> k = -1, 001 -> k = -2
+- Overall scaling factor is $\text{useed}^k$, where it is $16^{1} = 16$
+#### Exponent
+- `es` bits after regime
+- Refines the scale factor with an additional multiplier
+#### Fraction (Significand
+- Remaining bits
+- Represents precision as a binary fraction with implicit leading 1
+- Interpreted as $1 + f_0 + f_1 + {...}$
+
+## Final Value:
+
+$$
+\begin{align}
+\text{Posit value} = (-1)^s \times \text{useed}^k \times 2^{\text{exponent}} \times \text{significand}
+\\ = (-1)^1 \times 16^1 \times 2^3 \times 1.25 \\ = -1 \times 16 \times 8 \times 1.25 \\ = -160.0
+\end{align}
+$$
+
+
+![](Pasted%20image%2020250417011347.png)
 
 ---
 
@@ -94,6 +126,7 @@ We run our experiment with Python runtime and bash script.
 - Numerical analysis:
 	- Numerical Error:
 	- Model specific benchmarks
+
 ---
 
 ## Future works
