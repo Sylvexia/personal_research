@@ -72,7 +72,7 @@
 5. Krnl dialect to Affine dialect for existing optimization.
 6. Before lower to LLVM dialect, we mapped all our operation and data type:
 	- Operation: Mapping Math/Arith operation to function call.
-	- Data type: Mapping FP32 to UINT8, including all the dialect operation that touch FP32.
+	- Data type: Mapping FP32 to UINT8, 16, 32, including all the dialect operation that touch FP32.
 7. LLVM dialect to shared object library.
 8. Link shared object library to our Posit Numerical Library.
 9. With provided runtime support and compiled library, user write driver code to handle input, data preprocess, output, and etc. 
