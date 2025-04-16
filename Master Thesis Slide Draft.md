@@ -10,7 +10,6 @@
 - **Tapered precision**: Higher precision near exponent values close to 0.
 - **Wider dynamic range** than same-bit-width IEEE floats.
 - **No special cases** like NaN, ±Inf (except a single NaR: “Not a Real”).
-- **Compact representation** with better accuracy per bit.
 
 (Insert dynamic range image)
 
@@ -30,7 +29,7 @@
 ## What is MLIR
 
 - **MLIR (Multi-Level Intermediate Representation)** is a compiler infrastructure project under the LLVM umbrella.
-- Designed to **unify and optimize** code across **multiple abstraction levels**, even good for hardware specific abstraction. (ASIC)
+- Designed to **unify and optimize** code across **multiple abstraction levels**, even good for hardware specific abstraction.
 ## Features:
 
 - **Extensibility**: Easy to build custom dialects and passes.
