@@ -34,7 +34,7 @@ cite : https://spectrum.ieee.org/floating-point-numbers-posits-processor
 #### Exponent
 - `es` bits after regime
 - Refines the scale factor with an additional multiplier
-#### Fraction (Significand
+#### Fraction (Significand) bit
 - Remaining bits
 - Represents precision as a binary fraction with implicit leading 1
 - Interpreted as $1 + f_0 + f_1 + {...}$
