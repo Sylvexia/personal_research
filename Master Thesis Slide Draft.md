@@ -17,7 +17,7 @@ cite : https://spectrum.ieee.org/floating-point-numbers-posits-processor
 
 ---
 
-## Posit Arithmetic Format, with posit(8, 2) as example:
+## Posit(8, 2) as example:
 
 - **Total bits (n)**: 8
 - **Exponent size (es)**: 2 bits
