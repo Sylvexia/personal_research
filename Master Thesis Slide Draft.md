@@ -86,7 +86,7 @@ $$
 ---
 ## Motivation:
 
-- Quantize model is good for model efficiency, we can sacrifice little accuracy for faster inference and reduced model size.
+- Model quantization is good for model efficiency, we can sacrifice little accuracy for faster inference and reduced model size.
 - Posit have better precision compares with equivalent IEEE floating point. Expecting better prediction with low-bit quantization.
 - ONNX for cross framework interop for model representation.
 - MLIR for temporary software simulation experiment and future posit arithmetic hardware.
