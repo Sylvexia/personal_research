@@ -96,7 +96,8 @@ $$
 
 ## Overview of the project
 
-
+- onnx-mlir compiler: Compiles .onnx model to fp32 and posit format to library.
+- runtime: Execute model
 
 ---
 ## Approach
