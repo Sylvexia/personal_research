@@ -11,7 +11,9 @@
 - **Wider dynamic range** than same-bit-width IEEE floats.
 - **No special cases** like NaN, ±Inf (except a single NaR: “Not a Real”).
 
-(Insert dynamic range image)
+![](floating-point-number-representation-sign-exponent-and-fraction-bits-posit-number-representation-sign-regime-exponent-an.webp)
+
+cite : https://spectrum.ieee.org/floating-point-numbers-posits-processor
 
 ---
 
@@ -55,18 +57,16 @@ $$
 
 - ONNX is an open format for representing machine learning models.
 - Developed by **Microsoft and Facebook**
-- Enabling **interoperability** across different deep learning frameworks like PyTorch, TensorFlow, and tools like OpenVINO, TensorRT.
+- Enabling **interoperability** across different deep learning frameworks like PyTorch, TensorFlow.
 
 ---
 ## What is MLIR
 
 - **MLIR (Multi-Level Intermediate Representation)** is a compiler infrastructure project under the LLVM umbrella.
-- Designed to **unify and optimize** code across **multiple abstraction levels**, even good for hardware specific abstraction.
+- It enables defining and transforming programs at **multiple abstraction levels**, from tensor algebra down to machine code.
 ## Features:
 
-- **Extensibility**: Easy to build custom dialects and passes.
-- **Unification**: Bridges the gap between different levels of IR (high-level → hardware).
-- **Optimization-friendly**: Reuses LLVM’s robust infrastructure with added tensor semantics.
+- **Extensibility and Reusablilty**: Dialects allow us to **represent, optimize, and transform** programs across different layers of abstraction
 - **Framework Integration**: Backbone of modern compilers like TensorFlow XLA, Torch-MLIR, IREE.
 
 ---
@@ -79,7 +79,7 @@ $$
 
 - **ONNX Dialect**: Provides a representation of ONNX models within the MLIR framework.
 - **Hardware Flexibility**: Supports deployment on diverse architectures, including CPUs, and [IBM's Telum integrated AI accelerator](https://github.com/onnx/onnx-mlir/blob/main/docs/SupportedONNXOps-NNPA.md).
-- **Modular Design**: Leverages MLIR's extensible infrastructure for tailored optimization pipelines.
+- **Modular Design**: Leverages MLIR's extensible infrastructure for tailored optimization pipelines, support ONNX to other dialect transformation like TOSA and Stablehlo.
 - **Interoperability**: ONNX ensures compatibility of deep learning frameworks like PyTorch and TensorFlow.
 - Runtime support: Support C++ and Python runtime.
 
@@ -94,6 +94,11 @@ $$
 
 ---
 
+## Overview of the project
+
+
+
+---
 ## Approach
 
 1. Getting an ONNX model, which most deep learning framework like PyTorch or TensorFlow would support.
