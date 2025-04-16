@@ -97,7 +97,8 @@ $$
 ## Overview of the project
 
 - onnx-mlir compiler: Compiles .onnx model to fp32 and posit format to library.
-- runtime: Execute model
+- runtime: Provides user's API to write a program for model inference.
+- Posit-Library: A wrapper of Universal Numbers Library that handles the encoding and arithmetic operations of Posit.
 
 ---
 ## Approach
