@@ -8,12 +8,15 @@
 	- MobileNetV2 posit(16,3) has no degradation in top 1 accuracy.
 	- ResNet18 16-bit posit has no degradation in top 1 accuracy.
 
+---
 # tinyyolov2 Failed
 
 The following is posit(32, 2) log
-- When preprocess is `[0, 1]`, the numerical error is low
+- When input value is between `[0, 1]`, the numerical error is low
 - Numerically, the 16-bit and 32-bit posit output is similar.
-- If I didn't load the wrong model
+- If I didn't load the wrong model, possible reason
+	- Posit simply cannot handle larger number, the error does not convergent.
+	- Posit-Library has error.
 
 ```
 mAP: 0.0
@@ -31,6 +34,7 @@ MAE: 1.883219511691525
 RMSE: 2.7022513646256234
 ```
 
+---
 # Test case from onnx/model passed
 
 The test case does not reflect real world data.
@@ -52,9 +56,11 @@ Element 8: -19.43507957458496
 Element 9: -13.389769554138184
 ```
 
-
+---
 # Future works
 
 - Numerical tolerance of model.
-- Would
-- Master thesis
+	- (Iterate different scale of input data and compare with fp32 ground truth)
+- Would it degrade the accuracy when model has more layer?
+	- Resnet18, 34, 51...
+- Master thesis.
