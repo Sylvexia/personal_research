@@ -8,7 +8,6 @@
 	- MobileNetV2 posit(16,3) has no degradation in top 1 accuracy.
 	- ResNet18 16-bit posit has no degradation in top 1 accuracy.
 
-
 # tinyyolov2 Failed
 
 The following is posit(32, 2) log
@@ -56,3 +55,6 @@ Element 9: -13.389769554138184
 
 # Future works
 
+- Numerical tolerance of model.
+- Would
+- Master thesis
