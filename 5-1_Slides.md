@@ -1,3 +1,26 @@
+---
+marp: true
+theme: default
+paginate: true
+header: 
+footer: 
+style: "h1, h2, h3 {\r  text-align: center;\r}
+
+  pre, code {\r  background-color: #ffffff;\r    \r  color: #2d2d2d; \r  \r  font-size: auto;\r }\r
+
+  section {\r  font-size: auto;\r}\r
+
+  img[alt~=\"center\"]\ 
+
+  {\r  display: block;\r  margin: 0 auto;\r}"
+
+---
+
+# 5-1 Personal Research
+## Presenter: Yu-Chun Hung
+## Advisor: Peng-Sheng Cheng
+
+---
 
 # Summary
 
@@ -17,6 +40,10 @@ The following is posit(32, 2) log
 - If I didn't load the wrong model, possible reason
 	- Posit simply cannot handle larger number, the error does not convergent.
 	- Posit-Library has error.
+
+---
+
+# tinyyolov2 Failed
 
 ```
 mAP: 0.0
@@ -79,7 +106,7 @@ Element 9: -13.389769554138184
 ```
 
 ---
-# Image Classification (n = 50)
+# Image Classification Top1 Average Accuracy (n = 50)
 
 | model / posit | (8, 0) | (8, 1) | (8, 2) | (8, 3) | (16, 0) | (16, 1) | (16, 2) | (16, 3) |
 | ------------- | ------ | ------ | ------ | ------ | ------- | ------- | ------- | ------- |
@@ -90,7 +117,7 @@ Element 9: -13.389769554138184
 # Future works
 
 - Numerical tolerance of model.
-	- (Iterate different scale of input data and compare with fp32 ground truth)
+	- Iterate different scale of input data and compare with fp32 ground truth
 - Would it degrade the accuracy when model has more layer?
 	- Resnet18, 34, 51...
-- Master thesis.
+- Master Thesis.
