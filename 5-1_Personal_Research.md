@@ -35,6 +35,28 @@ RMSE: 2.7022513646256234
 ```
 
 ---
+
+# If we were to divide the input by 255 
+
+posit(16, 2):
+
+```
+mAP: 0.0
+ground truth: -0.08560007065534592
+posit: -0.088134765625
+ground truth: 0.18535974621772766
+posit: 0.19952392578125
+ground truth: 0.11390076577663422
+posit: 0.11651611328125
+ground truth: 0.10883799940347672
+posit: 0.11077880859375
+ground truth: 0.07641303539276123
+posit: 0.0718994140625
+MAE: 0.04311612083025266
+RMSE: 0.05930581531672468
+```
+
+---
 # Test case from onnx/model passed
 
 The test case does not reflect real world data.
