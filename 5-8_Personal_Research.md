@@ -3,7 +3,8 @@
 
 - Currently running numerical tolerance experiment
 	- tinyyolo still running.
-	- 
+- Do we really need this experiment? Is it meaningful?
+
 
 # TinyYolo architecture
 
