@@ -1,4 +1,10 @@
 
+# Summary:
+
+- Currently running numerical tolerance experiment
+	- tinyyolo still running.
+	- 
+
 # TinyYolo architecture
 
 1. Multiply by 1/255
