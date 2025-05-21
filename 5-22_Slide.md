@@ -1,8 +1,31 @@
+---
+marp: true
+theme: default
+paginate: true
+header: 
+footer: 
+style: "h1, h2, h3 {\r  text-align: center;\r}
+
+  pre, code {\r  background-color: #ffffff;\r    \r  color: #2d2d2d; \r  \r  font-size: auto;\r }\r
+
+  section {\r  font-size: auto;\r}\r
+
+  img[alt~=\"center\"]\ 
+
+  {\r  display: block;\r  margin: 0 auto;\r}"
+
+---
+
+# 5-22 Personal Research
+## Presenter: Yu-Chun Hung
+## Advisor: Peng-Sheng Cheng
+
+---
 
 # Summary
 
 - Try to delete the ONNX model node to get each node output to debug tinyyolov2
-	- Half way through?
+  - Half way through?
 - Possibility of fp16 accuracy.
 
 ---
@@ -12,13 +35,14 @@
 2. Build a consumer map for traversal and locate the target deletion node
 3. Find all downstream nodes (BFS) and remove them
 4. Append last remaining node’s output as graph output
-	1. The shape is odd, thinking a way how to get the dimension.
+  1. The shape is odd, thinking a way how to get the dimension.
 5. Save the ONNX Model
 
 ---
 # Not deleted
 
 ![center h:480](note_image/Pasted%20image%2020250522053448.png)
+
 ---
 # Deleted
 
