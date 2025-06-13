@@ -12,3 +12,8 @@
 
 - 要怎麼最大化社群影響力
 - 以數學建模來解釋
+
+
+演講主題: CT/MRI Image Super Resolution
+
+- Image Super Resolution的架構演變
