@@ -1,7 +1,6 @@
 參照口試時，審查委員的建議，以下離校前，論文應該修正的地方:  
   - slide, page 37 = runtime指的是什麼? 論文中若有使用到這張圖，應該說明清  
 楚。  
-  - 各個實驗中，與FP16的比較要說明。  
   - model inference execution time需量測與列出來，以便讓使用者了解可能的  
 system resources consumption.  
   - thesis, section 2.6描述太少，應該再清楚一點，論文多一點。  
