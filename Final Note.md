@@ -7,8 +7,3 @@ weights range，並描述於實驗中，同時說明這些資訊可幫助使用�
 configuration。
   - 於Future work中描述model quantization與posit format 可能的合作與應用方  
 式。
-  - 請將下面這段加入英文謝誌最後: (中文謝誌，請同步更新)  
-    "Additionally, artificial intelligence (AI) systems were used during the  
-preparation of this thesis to assist with English editing and grammar  
-improvement. Their use was limited to enhancing clarity and readability, and  
-all content remains my own work and responsibility."
